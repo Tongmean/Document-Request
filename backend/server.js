@@ -1,0 +1,42 @@
+//Call Express app
+const express = require('express');
+//Create app
+const app = express();
+const compression = require('compression');
+//Call Cors
+const cors = require('cors');
+//Body Parser
+const bodyParser = require('body-parser');
+const http = require('http');
+
+const fs = require('fs');
+const { Server } = require('socket.io');
+const socketIo = require('socket.io');
+const server = http.createServer(app);
+// Socket.IO setup
+const io = new Server(server, {
+    cors: {
+        origin: '*', // allow frontend connection
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    },
+    transports: ['websocket'], // force websocket only if needed
+});
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
+// Socket.IO connection event
+io.on('connection', (socket) => {
+    console.log('Socket.IO connected:', socket.id);
+});
+//Check DB Connection
+const dbconnect = require('./Middleware/Dbconnect');
+
+require('dotenv').config();
+const port = process.env.PORT || 3040;
+const host = "0.0.0.0";
+
+server.listen(port, host, () => {
+    console.log(`Backend running at http://${host}:${port}`);
+    console.log("Server run on port:", port);
+});
+  
+
