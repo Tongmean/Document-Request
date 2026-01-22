@@ -7,8 +7,8 @@ export default function HomePage() {
   const [systems] = useState([
     {
       id: 1,
-      name: 'Customer Management System',
-      description: 'Manage customer data, interactions, and relationships efficiently.',
+      name: 'ใบขอ Drawing เพื่อใช้งาน',
+      description: 'การขอใช้ File Drawing ต่าง ๆ ที่มีอยู่แล้ว เพื่อใช้งาน.',
       icon: '👥',
       status: 'Active',
       path: '/exist/drawingrequest'

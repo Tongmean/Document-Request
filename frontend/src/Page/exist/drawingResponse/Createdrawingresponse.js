@@ -1,12 +1,13 @@
-import React, { useState, useEffect, useRef, useContext  } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchDrawingrequestbyid } from '../../../๊Ultility/exist/drawingRequest';
 import {fetchDrawingrequestitem} from '../../../๊Ultility/exist/drawingRequestitem';
-import { fetchDrawingresponsebyid } from '../../../๊Ultility/exist/drawingResponse';
+import { fetchDrawingresponsebyid, createDrawingresponse } from '../../../๊Ultility/exist/drawingResponse';
 import { fetchDocumentitems } from '../../../๊Ultility/exist/documentItems';
 import { useNavigate  } from 'react-router-dom';
 import { Spin } from 'antd';
 import { convertToUTCPlus7 } from '../../../๊Ultility/Moment-timezone';
+import Notification from '../../../component/Notification';
 
 const CreatedrawingResponse = () => {
   const { request_id } = useParams();
@@ -16,8 +17,10 @@ const CreatedrawingResponse = () => {
   const [responseData, setResponseData] = useState(null);
   const [requestItems, setRequestItem] = useState([]);
   const [requestItemOptions, setRequestItemOptions] = useState([]);
-  const [status, setStatus] = useState('Approved'); // New state for status
+  const [status, setStatus] = useState('2'); // New state for status
   const [urls, setUrls] = useState(['']); // New state for URLs
+  const [notification, setNotification] = useState(null);
+
   const navigate = useNavigate();
 
   const load = async () => {
@@ -93,15 +96,51 @@ const CreatedrawingResponse = () => {
     }
   };
 
-  const handleSubmit = async () => {
-    const url = urls.filter(url => url.trim() !== '')
-    // Add your submit logic here
-    console.log('Submitting status:', status);
-    console.log('Submitting URLs:', url);
-    console.log('Submitting :', { request_id, status, urls });
-    // Example: await updateDrawingResponseStatus({ request_id, status, urls });
-  };
 
+    const handleSubmit = async () => {
+        // Filter out empty URL strings
+        const filteredUrls = urls.filter(url => url.trim() !== '');
+          // // console.log('Submitting status:', status);
+        // console.log('Submitting URLs:', url);
+        // // console.log('requestData:', requestData.request_no);
+        // const request_no = requestData.request_no;
+        // console.log('Submitting :', {request_id, status, urls, request_no });
+        // Validation: Check if status exists and at least one URL is provided
+        if (!status || filteredUrls.length === 0) {
+          showNotification('กรุณากรอกข้อมูลให้ครบถ้วน (อย่างน้อย 1 URL)', 'warning');
+          return;
+        }
+        setLoading(true);
+        try {
+          const request_no = requestData.request_no;
+          const result = await createDrawingresponse({ 
+            request_id, 
+            status, 
+            urls: filteredUrls, 
+            request_no 
+          });
+    
+          showNotification(result.msg || 'บันทึกสำเร็จ', 'success');
+          console.log('Create Drawing Response Result:', result);
+          // Refresh data and reset form
+          await load(); 
+          handleReset();
+          setTimeout(() => navigate('/exist/drawingresponse', 3000));
+        } catch (error) {
+          showNotification(error.message || 'เกิดข้อผิดพลาดในการบันทึก', 'warning');
+        } finally {
+          setLoading(false);
+        }
+      };
+      const handleReset = () => {
+        setStatus('2');
+        setUrls(['']);
+      };
+
+    const showNotification = (message, type) => {
+        setNotification({ message, type });
+        setTimeout(() => setNotification(null), 3000);
+    };
   if (loading) {
     return (
         <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
@@ -229,7 +268,7 @@ const CreatedrawingResponse = () => {
             <div className="grid grid-cols-3 gap-2">
               {[
                 ["ใบขอเลขที่", `${requestData ? requestData.request_no : ''}`],
-                ["วันที่ขอ", `${requestData ? new Date(requestData.request_at).toLocaleDateString('th-TH') : ''}`],
+                ["วันที่ขอ", `${requestData ? new Date(requestData.request_at).toLocaleDateString('en-UK') : ''}`],
                 ["ฝ่าย / แผนก / หน่วยงาน", `${requestData ? requestData.department : ''}`],
               ].map(([label, value], i) => (
                 <div key={i}>
@@ -296,7 +335,7 @@ const CreatedrawingResponse = () => {
                 <div className="border-b h-5 mb-1"></div>
                 <div>ลงชื่อ: {requestData ? requestData.username : ''}</div>
                 <div>ตำแหน่ง: {requestData ? requestData.position : ''}</div>
-                <div>วันที่: {requestData ? convertToUTCPlus7(requestData.request_at) : ''}</div>
+                <div>วันที่: {requestData ? new Date(requestData.request_at).toLocaleDateString('en-UK') : ''}</div>
               </div>
 
               {/* ผู้พิจารณาคำขอ */}
@@ -305,7 +344,7 @@ const CreatedrawingResponse = () => {
                 <div className="border-b h-5 mb-1"></div>
                 <div>ลงชื่อ: {responseData ? responseData.username : ''}</div>
                 <div>ตำแหน่ง: {responseData ? responseData.position : ''}</div>
-                <div>วันที่: {responseData ? convertToUTCPlus7(responseData.created_at_sender_person) : ''}</div>
+                <div>วันที่: {responseData ? new Date(responseData.created_at_sender_person).toLocaleDateString('en-UK') : ''}</div>
               </div>
             </div>
           </div>
@@ -319,8 +358,8 @@ const CreatedrawingResponse = () => {
                 onChange={handleStatusChange}
                 className="border rounded px-3 py-2 text-[13px] min-w-[200px]"
               >
-                <option value="Approved">อนุมัติ / Approved</option>
-                <option value="Reject">ไม่อนุมัติ / Reject</option>
+                <option value="2">อนุมัติ / Approved</option>
+                <option value="3">ไม่อนุมัติ / Reject</option>
               </select>
             </div>
 
@@ -367,7 +406,15 @@ const CreatedrawingResponse = () => {
           </div>
 
         </main>
+       
       </div>
+        {notification && (
+            <Notification
+                message={notification.message}
+                type={notification.type}
+                onClose={() => setNotification(null)}
+            />
+        )}
     </>
   );
 };

@@ -113,9 +113,26 @@ const createdrawingrequest_existing = async (payload, user_id) => {
     return result.rows;
 };
 
+const changeStatusrequest_existing = async (payload) => {
+    const sql = `
+        UPDATE "Request_Utility_Existing_Drawing_Form"
+        SET
+            status = $1
+        WHERE request_no = $2
+        RETURNING *
+    `;
+
+    const result = await dbconnect.query(sql, [
+        payload.status,
+        payload.request_no
+    ]);
+
+    return result.rows;
+};
 module.exports = {
     getalldrawingrequest_existing,
     getalldrawingrequest_existingbyid,
     createdrawingrequest_existing,
-    getrquestno_existing
+    getrquestno_existing,
+    changeStatusrequest_existing
 };

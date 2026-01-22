@@ -16,7 +16,24 @@ const Drawingrequestexist = () => {
       const columnDefs = [
         { headerName: 'No', field: 'request_id', checkboxSelection: true, headerCheckboxSelection: true, cellDataType: 'number'},
         { headerName: 'Request No', field: 'request_no'},
-        { headerName: 'Request Date', field: 'request_at'},
+        // { headerName: 'Request Date', field: 'request_at'},
+        {
+          headerName: 'Request Date',
+          field: 'request_at',
+          valueFormatter: (params) => {
+            if (!params.value) return '';
+        
+            const date = new Date(params.value);
+        
+            return date.toLocaleString('en-GB', {
+              timeZone: 'Asia/Bangkok', // UTC+7
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit',
+            });
+          }
+        },
+        
         { headerName: 'Department', field: 'department'},
         { headerName: 'Detail', field: 'detail'},
         { headerName: 'Remark', field: 'reason'},
@@ -28,13 +45,13 @@ const Drawingrequestexist = () => {
           pinned: 'right',
           cellRenderer: (params) => (
               <div>
-                  <Button
+                  {/* <Button
                       className='btn btn-sm'
                       onClick={() => handleShowDetails(params.data)}
                       style={{ marginRight: '5px' }}
                   >
                       D 
-                  </Button>
+                  </Button> */}
                   <Button
                       className='btn btn-secondary btn-sm'
                       onClick={() => handleShowprint(params.data)}
@@ -42,13 +59,16 @@ const Drawingrequestexist = () => {
                   >
                       Print
                   </Button>
-                  <Button
-                      className='btn btn-success btn-sm'
+                  {params.data.status_name === 'Submitted' && (
+                    <Button
+                      className="btn btn-success btn-sm"
                       onClick={() => handleCheck(params.data)}
                       style={{ marginRight: '5px' }}
-                  >
+                    >
                       ตรวจสอบ
-                  </Button>
+                    </Button>
+                  )}
+
 
               </div>
           ),

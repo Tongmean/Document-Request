@@ -1,7 +1,7 @@
 const drawingService = require('../Service/Drawing_Request_Service');
 const drawingitemService = require('../Service/Drawing_Rquest_Item_Service');
 const dbconnect = require('../../../Middleware/Dbconnect');
-
+const emailService = require('../Service/emailService');
 const getalldrawingrequest_existing = async (req, res) => {
     try {
         const result = await drawingService.getalldrawingrequest_existing();
@@ -22,7 +22,7 @@ const getalldrawingrequest_existing = async (req, res) => {
 };
 const getalldrawingrequest_existingbyid = async (req, res) => {
     const {request_id} = req.body;
-    console.log('Received request_id:', req.body);
+    // console.log('Received request_id:', req.body);
     try {
         const result = await drawingService.getalldrawingrequest_existingbyid({request_id});
         res.status(200).json({
@@ -60,7 +60,8 @@ const getrquestno_existing = async (req, res) => {
 }
 
 const createdrawingrequest_existing = async (req, res) => {
-    const user_id = req.user[0].user_id;
+    const {user_id, email, position, username} = req.user[0];
+    // console.log('user_id, email, position, username', user_id, email, position, username)
     const payload = req.body;
 
     try {
@@ -86,12 +87,17 @@ const createdrawingrequest_existing = async (req, res) => {
         }
 
         await dbconnect.query('COMMIT');
-
+        //Email Notifiction
+        const emailNotification = await emailService.sendRequesterNotification(email, 'ใบขอ Drawing เพื่อใช้งาน', payload, insertedRequest, email, position, username);
+        // console.log('Email notification sent:', emailNotification);
         res.status(200).json({
             success: true,
-            msg: 'สร้างคำขอใหม่สำเร็จ',
-            request: insertedRequest,
-            requestItems: insertedItems
+            msg: 'สร้างคำขอใหม่สำเร็จ + ส่งอีเมลแจ้งเตือนไปยังผู้ขอเรียบร้อยแล้ว',
+            data :{
+                request: insertedRequest,
+                requestItems: insertedItems
+            }
+            
         });
 
     } catch (error) {

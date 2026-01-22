@@ -195,7 +195,7 @@ const DrawingRequestPrint = () => {
             <div className="grid grid-cols-3 gap-2">
               {[
                 ["ใบขอเลขที่", `${requestData ? requestData.request_no : ''}`],
-                ["วันที่ขอ", `${requestData ? new Date(requestData.request_at).toLocaleDateString('th-TH') : ''}`],
+                ["วันที่ขอ", `${requestData ? new Date(requestData.request_at).toLocaleDateString('en-UK') : ''}`],
                 ["ฝ่าย / แผนก / หน่วยงาน", `${requestData ? requestData.department : ''}`],
               ].map(([label, value], i) => (
                 <div key={i}>
@@ -281,7 +281,7 @@ const DrawingRequestPrint = () => {
                 <div className="border-b h-5 mb-1"></div>
                 <div>ลงชื่อ: {requestData ? requestData.username : ''}</div>
                 <div>ตำแหน่ง: {requestData ? requestData.position : ''}</div>
-                <div>วันที่: {requestData ? convertToUTCPlus7(requestData.request_at) : ''}</div>
+                <div>วันที่: {requestData ? new Date(requestData.request_at).toLocaleDateString('en-UK') : ''}</div>
               </div>
 
               {/* ผู้พิจารณาคำขอ */}
@@ -290,7 +290,7 @@ const DrawingRequestPrint = () => {
                 <div className="border-b h-5 mb-1" ></div>
                 <div>ลงชื่อ: {responseData ? responseData.username : ''}</div>
                 <div>ตำแหน่ง: {responseData ? responseData.position : ''}</div>
-                <div>วันที่: {responseData ? convertToUTCPlus7(responseData.created_at_sender_person) : ''}</div>
+                <div>วันที่: {responseData ? new Date(responseData.created_at_sender_person).toLocaleDateString('en-UK') : ''}</div>
               </div>
 
             </div>

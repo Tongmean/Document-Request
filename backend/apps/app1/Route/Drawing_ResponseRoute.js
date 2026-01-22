@@ -5,5 +5,7 @@ const router = express.Router();
 
 router.get('/drawingResponseexisting', controller.getalldrawingresponse_existing);
 router.post('/drawingResponseexistingbyid', controller.getalldrawingresponse_existingbyid);
+router.post('/drawingResponseexisting/create', controller.createDrawingresponse);
+router.post('/drawingResponseexistingurlbyid', controller.getUrlbyid);
 
 module.exports = router;

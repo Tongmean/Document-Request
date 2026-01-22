@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { useAuthContext } from './hook/useAuthContext'
-
+import ProtectedRoleRouteExit from './protect/ProtectroleExit'
 import Loginpage from './component/loginPage'
 import Homepage from './component/homePage'
 import MainLayout from './layout/MainLayout'
@@ -21,7 +21,11 @@ function App() {
       <Routes>
         {/* Public routes (NO layout) */}
         <Route path="/login" element={<Loginpage />} />
-        <Route path="/homePage" element={<Homepage />} />
+        <Route element={<ProtectedRoleRouteExit allowedRoles={['Requestor', 'Responsor']} />}>
+          <Route path="/homePage" element={<Homepage />} />
+        </Route>
+
+        
 
         {/* Protected routes (WITH layout) */}
         {isAuthenticated && (
@@ -32,13 +36,17 @@ function App() {
             <Route path="/exist/home" element={<Exithome/>} />
 
             <Route path="/exist/drawingrequest" element={<Drawingrequestexisting/>} />
-            <Route path="/exist/createdrawingrequest" element={<CreatedrawingRequest/>} />
+            <Route element={<ProtectedRoleRouteExit allowedRoles={['Requestor']} />}>
+              <Route path="/exist/createdrawingrequest" element={<CreatedrawingRequest/>} />
+            </Route>
 
             <Route path="/exist/drawingrequest/:request_id" element={<DrawingRequestPrint/>} />
             {/* Reponse */}
-            
-            <Route path="/exist/createdrawingresponse/:request_id" element={<CreatedrawingResponse/>} />
+            <Route element={<ProtectedRoleRouteExit allowedRoles={['Responsor']} />}>
+              <Route path="/exist/createdrawingresponse/:request_id" element={<CreatedrawingResponse/>} />
+            </Route>
             <Route path="/exist/drawingresponse" element={<Drawingresponse/>} />
+
 
             {/* New*/}
             <Route path="/new/drawingrequest" element={<Drawingrequestnew/>} />

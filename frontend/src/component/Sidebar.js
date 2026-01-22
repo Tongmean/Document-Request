@@ -28,6 +28,11 @@ const Sidebar = ({ collapsed, onCollapse }) => {
         icon: <HomeOutlined />,
         label: <Link to="/user">User Management</Link>,
       },
+      {
+        key: 'Other-System',
+        icon: <HomeOutlined />,
+        label: <Link to="/homePage">Other System</Link>,
+      },
     ];
   
     const existItems =
