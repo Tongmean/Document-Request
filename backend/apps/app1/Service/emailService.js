@@ -16,7 +16,7 @@ const transporter = nodemailer.createTransport({
     }
  
 });
-const sendRequesterNotification = async (requesterEmail, postTitle, payload, position, username) => {
+const sendRequesterNotification = async (requesterEmail, postTitle, payload, insertedRequest, position, username) => {
     // console.log('Preparing to send email to requester:', requesterEmail);
     // console.log('postTitle', postTitle);
     // console.log('payload', payload);

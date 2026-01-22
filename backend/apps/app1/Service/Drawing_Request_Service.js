@@ -84,7 +84,7 @@ const getrquestno_existing = async () => {
     const result = await dbconnect.query(mysql);
     return result.rows
 }
-const createdrawingrequest_existing = async (payload, user_id) => {
+const createdrawingrequest_existing = async (payload, user_id, resultRequestno) => {
     const sql = `
         INSERT INTO "Request_Utility_Existing_Drawing_Form"
         (
@@ -101,7 +101,7 @@ const createdrawingrequest_existing = async (payload, user_id) => {
     `;
 
     const result = await dbconnect.query(sql, [
-        payload.request_no,
+        resultRequestno,
         payload.department,
         payload.detail,
         payload.reason,
