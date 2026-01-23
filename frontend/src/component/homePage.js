@@ -15,11 +15,11 @@ export default function HomePage() {
     },
     {
       id: 2,
-      name: 'Inventory Management',
-      description: 'Track products, stock levels, and warehouse operations in real-time.',
+      name: 'ขอจัดทำ Drawing',
+      description: 'การขอใช้ File Drawing ใหม่ที่ยังไม่มี.',
       icon: '📦',
       status: 'Active',
-      path: '/inventory'
+      path: '/new/drawingrequest'
     },
     {
       id: 3,

@@ -4,8 +4,11 @@ const nodemailer = require('nodemailer');
  * CONFIGURATION FOR OUTLOOK 365
  * Outlook uses port 587 with STARTTLS encryption.
  */
+
 //Loptop
 const baseUrl  = 'http://192.168.5.92:4001/exist/drawingrequest/';
+//vm
+// const baseUrl  = 'http://192.168.4.239:4001/exist/drawingrequest/';
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -13,7 +16,7 @@ const transporter = nodemailer.createTransport({
         // pass: 'piin cfrp bvih ucxu', 
         // user: 'drp021@compact-brake.com',
         // pass: 't l p h e o i j z j f b x f k s', 
-        user: 'drp05@compact-brake.com',
+        user: 'drp005@compact-brake.com',
         pass: 'k x f f c q j x s w p e w d s w', 
     }
  
@@ -23,7 +26,8 @@ const sendRequesterNotification = async (requesterEmail, postTitle, payload, ins
     // console.log('postTitle', postTitle);
     // console.log('payload', payload);
     const toReciver = [requesterEmail];
-    // toReciver.push("tongmeanfc@gmail.com")
+    // Reponser
+    // toReciver.push("Warawan@compact-brake.com")
     const mailOptions = {
       from: `"Drawing System Notification" <noreply@yourdomain.com>`,
       to: [toReciver],
@@ -106,7 +110,8 @@ const sendRequesterNotification = async (requesterEmail, postTitle, payload, ins
 // Function for Approver
 const sendApproverNotification = async (requesterEmail, postTitle, payload, position, username) => {
     const toReciver = [requesterEmail];
-    // toReciver.push("tongmeanfc@gmail.com")
+    // Reponser
+    // toReciver.push("Warawan@compact-brake.com")
     const mailOptions = {
       from: `"Drawing System Notification" <noreply@yourdomain.com>`,
       to: [toReciver],

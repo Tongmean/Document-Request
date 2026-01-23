@@ -11,6 +11,9 @@ import CreatedrawingRequest from './Page/exist/drawingRequestexisting/Createdraw
 import DrawingRequestPrint from './Page/exist/Printdrawingrequest'
 import Drawingresponse from './Page/exist/drawingResponse/Drawingresponse'
 import CreatedrawingResponse from './Page/exist/drawingResponse/Createdrawingresponse'
+
+///new
+import DrawingNewRequestForm from './Page/new/PrintNewdrawingRequest'
 function App() {
   const { user } = useAuthContext()
   const isAuthenticated = Boolean(user?.token)
@@ -50,6 +53,7 @@ function App() {
 
             {/* New*/}
             <Route path="/new/drawingrequest" element={<Drawingrequestnew/>} />
+            <Route path="/new/drawingrequest/:request_id" element={<DrawingNewRequestForm/>} />
           </Route>
         )}
 
