@@ -14,7 +14,7 @@ const Drawingrequestexist = () => {
       const [error, setError] = useState('');
       const [rowData, setRowData] = useState([]);
       const columnDefs = [
-        { headerName: 'No', field: 'request_id', checkboxSelection: true, headerCheckboxSelection: true, cellDataType: 'number'},
+        { headerName: 'No', field: 'request_id', checkboxSelection: true, headerCheckboxSelection: true, cellDataType: 'number', width: 50 },
         { headerName: 'Request No', field: 'request_no'},
         // { headerName: 'Request Date', field: 'request_at'},
         {

@@ -1,12 +1,12 @@
 import axios from 'axios';
-export const baseURLclient = 'http://localhost:4001';
-export const baseURL = 'http://localhost:3040';
+// export const baseURLclient = 'http://localhost:4001';
+// export const baseURL = 'http://localhost:3040';
 // //VM
 // export const baseURLclient = 'http://192.168.4.242:3001';
 // export const baseURL = 'http://192.168.4.242:3031';
 // // //Laptop
-// export const baseURLclient = 'http://192.168.5.92:4001';
-// export const baseURL = 'http://192.168.5.92:3040';
+export const baseURLclient = 'http://192.168.5.92:4001';
+export const baseURL = 'http://192.168.5.92:3040';
 // Create a base Axios instance with default configurations
 const apiClient = axios.create({
   baseURL: `${baseURL}/`, // Replace with your API's base URL

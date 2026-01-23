@@ -11,8 +11,10 @@ const transporter = nodemailer.createTransport({
     auth: {
         // user: 'tongmeanlove15@gmail.com',
         // pass: 'piin cfrp bvih ucxu', 
-        user: 'drp021@compact-brake.com',
-        pass: 't l p h e o i j z j f b x f k s', 
+        // user: 'drp021@compact-brake.com',
+        // pass: 't l p h e o i j z j f b x f k s', 
+        user: 'drp05@compact-brake.com',
+        pass: 'k x f f c q j x s w p e w d s w', 
     }
  
 });
@@ -140,7 +142,7 @@ const sendApproverNotification = async (requesterEmail, postTitle, payload, posi
 
               <p style="margin: 5px 0;"><strong>ตำแหน่ง:</strong> <span style="color: #28a745;">${position}</span></p>
               <p style="margin: 5px 0;"><strong>ชื่อ:</strong> <span style="color: #28a745;">${username}</span></p>
-              <p style="margin: 5px 0;"><strong>สถานะ:</strong> <span style="color: #28a745;">Submmited</span></p>
+              <p style="margin: 5px 0;"><strong>สถานะ:</strong> <span style="color: #28a745;">Approved</span></p>
             </div>
             
             <p>คำขอของคุณได้ถูกส่งไปยังผู้อนุมัติเรียบร้อยแล้ว</p>
