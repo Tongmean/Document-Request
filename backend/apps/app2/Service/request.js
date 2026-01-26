@@ -1,6 +1,20 @@
 //call database connection
 const dbconnect = require('../../../Middleware/Dbconnect');
 
+const getNextRequest_no = async () =>{
+    const mysql =
+    `
+        SELECT 
+            EXTRACT(YEAR FROM request_at) AS request_year,
+        COUNT(*) + 1 AS nextRequest
+        FROM "newDrawingrequest"."Request_Form"
+        GROUP BY EXTRACT(YEAR FROM request_at)
+        ORDER BY request_year;
+    `;
+    const result = await dbconnect.query(mysql);
+    return result.rows
+}
+
 const getAllrequest = async () => {
     const mysql =`
         SELECT 
@@ -33,5 +47,6 @@ const getSinglerequest = async (payload) => {
 
 module.exports = {
     getAllrequest,
-    getSinglerequest
+    getSinglerequest,
+    getNextRequest_no
 }

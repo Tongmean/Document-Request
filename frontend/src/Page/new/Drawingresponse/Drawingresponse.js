@@ -77,7 +77,7 @@ const DrawingresponseNew = () => {
                   disabled={!(params.data.status_name === 'Accepted' && processor && UseUserPermission(params.data.assign_processor_email))}
                   style={{ marginRight: '5px' }}
                 >
-                  ดำเนินการแล้วเสร็จ
+                  ดำเนินการ
                 </Button>
 
 
@@ -106,6 +106,7 @@ const DrawingresponseNew = () => {
   const handleShowprint = (data) => {
     navigate(`/new/drawingrequest/${data.id}`);
   };
+  
   return (
     <div>
       <h1>Drawing Request Existing Page</h1>

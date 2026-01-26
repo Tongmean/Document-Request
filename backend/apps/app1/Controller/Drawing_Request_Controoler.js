@@ -68,8 +68,8 @@ const createdrawingrequest_existing = async (req, res) => {
         await dbconnect.query('BEGIN');
         // 0 get request no
         const result = await drawingService.getrquestno_existing();
-        
         const resultRequestno = result[0].next_request_no
+        
         // console.log('result[0].row.next_request_no', resultRequestno)
         // 1️⃣ Create request
         const requestResult = await drawingService.createdrawingrequest_existing(payload, user_id, resultRequestno);
