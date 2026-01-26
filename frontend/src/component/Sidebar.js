@@ -70,7 +70,31 @@ const Sidebar = ({ collapsed, onCollapse }) => {
             {
               key: 'request-form',
               icon: <ExceptionOutlined />,
-              label: 'Request Form',
+            //   label: 'Request Form',
+              label: <Link to="/new/drawingrequest">Request Form</Link>,
+            },
+            {
+              key: 'resopnse-form',
+              icon: <ExceptionOutlined />,
+            //   label: 'Response Form',
+              label: <Link to="/new/drawingresponse">Response Form</Link>,
+            },
+            {
+              key: 'process-form',
+              icon: <ExceptionOutlined />,
+              label: 'Process Form',
+            },
+            {
+              key: 'Approve-form',
+              icon: <ExceptionOutlined />,
+              label: <Link to="/new/drawingapprove">Approve Form</Link>,
+
+            //   label: 'Approve Form',
+            },
+            {
+              key: 'Sender-form',
+              icon: <ExceptionOutlined />,
+              label: <Link to="/new/drawingsender">Sender Form</Link>,
             },
           ]
         : [];

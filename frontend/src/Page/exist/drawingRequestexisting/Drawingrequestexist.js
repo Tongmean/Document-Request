@@ -3,7 +3,7 @@ import { Spin , message} from 'antd';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from "react-bootstrap/Button";
 import Tablecomponent from './../../../component/Talecomponent';
-import Modaldrawingrequest from './Modaldrawingrequest';
+// import Modaldrawingrequest from './Modaldrawingrequest';
 import { fetchDrawingrequest } from '../../../๊Ultility/exist/drawingRequest';
 import { fetchDrawingrequestitem } from '../../../๊Ultility/exist/drawingRequestitem';
 import { useNavigate  } from 'react-router-dom';

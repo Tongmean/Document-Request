@@ -15,6 +15,7 @@ const { Server } = require('socket.io');
 const socketIo = require('socket.io');
 const server = http.createServer(app);
 const app1 = require('./apps/app1/index');
+const app2 = require('./apps/app2/index');
 const UserRouter = require('./Route/useRoute')
 
 // Socket.IO setup
@@ -39,6 +40,7 @@ const requireAuth = require('./Middleware/requireAuth');
 
 
 app.use('/exiting', requireAuth, app1);
+app.use('/new', app2);
 
 require('dotenv').config();
 const port = process.env.PORT || 3040;

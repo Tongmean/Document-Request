@@ -5,7 +5,6 @@ import Loginpage from './component/loginPage'
 import Homepage from './component/homePage'
 import MainLayout from './layout/MainLayout'
 import Drawingrequestexisting from './Page/exist/drawingRequestexisting/Drawingrequestexist'
-import Drawingrequestnew from './Page/new/Drawingrequest'
 import Exithome from './Page/exist/Existhome'
 import CreatedrawingRequest from './Page/exist/drawingRequestexisting/CreatedrawingRequest'
 import DrawingRequestPrint from './Page/exist/Printdrawingrequest'
@@ -14,6 +13,10 @@ import CreatedrawingResponse from './Page/exist/drawingResponse/Createdrawingres
 
 ///new
 import DrawingNewRequestForm from './Page/new/PrintNewdrawingRequest'
+import Drawingrequestnew from './Page/new/Drawingrequest/Drawingrequest'
+import DrawingresponseNew from './Page/new//Drawingresponse/Drawingresponse'
+import DrawingapproveNew from './Page/new/Drawingapprove.js/Drawingapprove'
+import DrawingsenderNew from './Page/new/sender/Drawingsender'
 function App() {
   const { user } = useAuthContext()
   const isAuthenticated = Boolean(user?.token)
@@ -24,10 +27,10 @@ function App() {
       <Routes>
         {/* Public routes (NO layout) */}
         <Route path="/login" element={<Loginpage />} />
-        <Route element={<ProtectedRoleRouteExit allowedRoles={['Requestor', 'Responsor']} />}>
+        {/* <Route element={<ProtectedRoleRouteExit/>}>
           <Route path="/homePage" element={<Homepage />} />
-        </Route>
-
+        </Route> */}
+        <Route path="/homePage" element={<Homepage />} />
         
 
         {/* Protected routes (WITH layout) */}
@@ -54,6 +57,16 @@ function App() {
             {/* New*/}
             <Route path="/new/drawingrequest" element={<Drawingrequestnew/>} />
             <Route path="/new/drawingrequest/:request_id" element={<DrawingNewRequestForm/>} />
+            {/* New*/}
+            <Route path="/new/drawingresponse" element={<DrawingresponseNew/>} />
+            {/* <Route path="/new/drawingrequest/:request_id" element={<DrawingNewRequestForm/>} /> */}
+            {/* New*/}
+            <Route path="/new/drawingapprove" element={<DrawingapproveNew/>} />
+            {/* <Route path="/new/drawingrequest/:request_id" element={<DrawingNewRequestForm/>} /> */}
+            <Route path="/new/drawingsender" element={<DrawingsenderNew/>} />
+            {/* <Route path="/new/drawingrequest/:request_id" element={<DrawingNewRequestForm/>} /> */}
+
+
           </Route>
         )}
 
