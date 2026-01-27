@@ -242,14 +242,13 @@ const Drawingresponse = () => {
     setSelectedData(data);
     setShowModal(true);
     setLoadingItems(true);
-    
     try {
       const response = await fetchDrawingrequestitem({ request_no: data.request_no });
       setRequestitem(response.data || []);
-      console.log("requestItem", response.data);
+    //   console.log("requestItem", response.data);
       const url = await fetchDrawingresponseurlbyid({ request_id: data.request_id });
       setUrlData(url.data || []);
-      console.log("url", url.data);
+    //   console.log("url", url.data);
     } catch (err) {
       console.error('Failed to fetch request items:', err.message);
       setRequestitem([]);

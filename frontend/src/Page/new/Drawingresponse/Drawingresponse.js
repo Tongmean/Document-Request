@@ -5,9 +5,11 @@ import { fetchdrawingResponse } from '../../../๊Ultility/new/responseApi';
 import { useNavigate  } from 'react-router-dom';
 import { useAuthContext } from '../../../hook/useAuthContext';
 import { UsePermission, UseUserPermission } from '../hookUserpermission';
+import DrawingRequestModal from '../DrawingRequestModal';
 const DrawingresponseNew = () => {
-
-    
+    //Modal
+    const [open, setOpen] = useState(false);
+    const [selectedId, setSelectedId] = useState(null);
     const { user } = useAuthContext();
     const approver = UsePermission('Approver');
     const processor = UsePermission('Processor');
@@ -51,7 +53,8 @@ const DrawingresponseNew = () => {
             <div>
                 <Button
                     className='btn btn-warning btn-sm'
-                    // onClick={() => handleShowDetails(params.data)}
+                    onClick={() => handleOpen(params.data.id)}
+
                     style={{ marginRight: '5px' }}
                 >
                     D 
@@ -106,7 +109,15 @@ const DrawingresponseNew = () => {
   const handleShowprint = (data) => {
     navigate(`/new/drawingrequest/${data.id}`);
   };
-  
+  const handleOpen = (id) => {
+    setSelectedId(id);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setSelectedId(null);
+  }
   return (
     <div>
       <h1>Drawing Request Existing Page</h1>
@@ -127,6 +138,11 @@ const DrawingresponseNew = () => {
             // getRowId={(params) => params.data.No.toString()} // 👈 important
         />
       )}
+      <DrawingRequestModal
+        open={open}
+        requestId={selectedId}
+        onClose={handleClose}
+        />
     </div>
     
   );

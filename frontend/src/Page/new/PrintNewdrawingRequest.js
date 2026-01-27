@@ -476,8 +476,6 @@ export default function DrawingRequestForm() {
             </div>
           </div>
         </div>
-
-        
       </div>
     </>
   );

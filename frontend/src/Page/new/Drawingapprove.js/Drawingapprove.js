@@ -5,6 +5,8 @@ import { fetchdrawingApprove } from '../../../๊Ultility/new/approveApi';
 import { useNavigate  } from 'react-router-dom';
 import { checkSixMonths } from '../isOverSixMonths';
 import { UsePermission } from '../hookUserpermission';
+import DrawingRequestModal from '../DrawingRequestModal';
+
 const DrawingapproveNew = () => {
     
     const canRequest = UsePermission('Responsor');
@@ -12,6 +14,9 @@ const DrawingapproveNew = () => {
     const [loading, setLoading] = useState(true); 
     const [error, setError] = useState('');
     const [rowData, setRowData] = useState([]);
+    //Modal
+    const [open, setOpen] = useState(false);
+    const [selectedId, setSelectedId] = useState(null);
     const columnDefs = [
       { headerName: 'No', field: 'id', checkboxSelection: true, headerCheckboxSelection: true, cellDataType: 'number', width: 50 },
       { headerName: 'Request No', field: 'request_no'},
@@ -48,7 +53,7 @@ const DrawingapproveNew = () => {
             <div>
                 <Button
                     className='btn btn-warning btn-sm'
-                    // onClick={() => handleShowDetails(params.data)}
+                    onClick={() => handleOpen(params.data.id)}
                     style={{ marginRight: '5px' }}
                 >
                     D 
@@ -103,6 +108,16 @@ const DrawingapproveNew = () => {
   const handleShowprint = (data) => {
     navigate(`/new/drawingrequest/${data.id}`);
   };
+  //Modal functions
+  const handleOpen = (id) => {
+    setSelectedId(id);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setSelectedId(null);
+  }
   return (
     <div>
       <h1>Drawing Request Existing Page</h1>
@@ -123,6 +138,11 @@ const DrawingapproveNew = () => {
             // getRowId={(params) => params.data.No.toString()} // 👈 important
         />
       )}
+      <DrawingRequestModal
+        open={open}
+        requestId={selectedId}
+        onClose={handleClose}
+      />
     </div>
     
   );

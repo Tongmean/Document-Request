@@ -3,9 +3,11 @@ import { Spin, Button } from 'antd';
 import Tablecomponent from './../../../component/Talecomponent';
 import { fetchdrawingRequest } from '../../../๊Ultility/new/requestApi';
 import { useNavigate  } from 'react-router-dom';
-import { useAuthContext } from '../../../hook/useAuthContext';
 import { checkSixMonths } from '../isOverSixMonths';
 import { UsePermission } from '../hookUserpermission';
+import DrawingRequestModal from '../DrawingRequestModal';
+import ResponseFormModal from './ResponseFormModal';
+
 const Drawingrequestnew = () => {
     // const {
     //   isOverSixMonths,
@@ -13,12 +15,14 @@ const Drawingrequestnew = () => {
     //   overdueDays
     // } = checkSixMonths(params.data.request_at);
     
-    // const { user } = useAuthContext();
     const canRequest = UsePermission('Responsor');
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true); 
     const [error, setError] = useState('');
     const [rowData, setRowData] = useState([]);
+    //Modal
+    const [open, setOpen] = useState(false);
+    const [selectedId, setSelectedId] = useState(null);
     const columnDefs = [
       { headerName: 'No', field: 'id', checkboxSelection: true, headerCheckboxSelection: true, cellDataType: 'number', width: 50 },
       { headerName: 'Request No', field: 'request_no'},
@@ -55,7 +59,7 @@ const Drawingrequestnew = () => {
             <div>
                 <Button
                     className='btn btn-warning btn-sm'
-                    // onClick={() => handleShowDetails(params.data)}
+                    onClick={() => handleOpen(params.data.id)}
                     style={{ marginRight: '5px' }}
                 >
                     D 
@@ -69,7 +73,7 @@ const Drawingrequestnew = () => {
                 </Button>
                 <Button
                   className="btn btn-primary btn-sm"
-                  // onClick={() => handleCheck(params.data)}
+                  onClick={() => handleOpen(params.data.id)}
                   disabled={!(params.data.status_name === 'Submitted' && canRequest)}
                   style={{ marginRight: '5px' }}
                 >
@@ -110,10 +114,25 @@ const Drawingrequestnew = () => {
   const handleShowprint = (data) => {
     navigate(`/new/drawingrequest/${data.id}`);
   };
+  const handleOpen = (id) => {
+    setSelectedId(id);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setSelectedId(null);
+  }
+  const handleOnClick = () => {
+    navigate('/new/createdrawingrequest');
+  };
   return (
     <div>
       <h1>Drawing Request Existing Page</h1>
       <p>This is the Drawing Request Existing page content.</p>
+      <div>
+          <button className='btn btn-success btn-sm' style={{ marginBottom: '10px' }} onClick={handleOnClick}>เพิ่มรายการ</button>
+      </div>
       {loading ? (
       <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
           <Spin size="large" />
@@ -130,6 +149,16 @@ const Drawingrequestnew = () => {
             // getRowId={(params) => params.data.No.toString()} // 👈 important
         />
       )}
+      <DrawingRequestModal
+        open={open}
+        requestId={selectedId}
+        onClose={handleClose}
+      />
+      {/* <ResponseFormModal
+        open={open}
+        requestId={selectedId}
+        onClose={handleClose} 
+      /> */}
     </div>
     
   );

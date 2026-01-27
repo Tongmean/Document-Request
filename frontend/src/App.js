@@ -17,10 +17,12 @@ import Drawingrequestnew from './Page/new/Drawingrequest/Drawingrequest'
 import DrawingresponseNew from './Page/new//Drawingresponse/Drawingresponse'
 import DrawingapproveNew from './Page/new/Drawingapprove.js/Drawingapprove'
 import DrawingsenderNew from './Page/new/sender/Drawingsender'
+
+import CreateDrawingRequest from './Page/new/Drawingrequest/CreatedrawingRequest'
 function App() {
   const { user } = useAuthContext()
   const isAuthenticated = Boolean(user?.token)
-  // console.log("User in App.js:", user);
+  console.log("User in App.js:", user?.token);
 
   return (
     <Router>
@@ -56,6 +58,8 @@ function App() {
 
             {/* New*/}
             <Route path="/new/drawingrequest" element={<Drawingrequestnew/>} />
+            <Route path="/new/createdrawingrequest" element={<CreateDrawingRequest/>} />
+            
             <Route path="/new/drawingrequest/:request_id" element={<DrawingNewRequestForm/>} />
             {/* New*/}
             <Route path="/new/drawingresponse" element={<DrawingresponseNew/>} />

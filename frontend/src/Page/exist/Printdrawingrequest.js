@@ -215,24 +215,6 @@ const DrawingRequestPrint = () => {
             <div className="font-semibold text-[12px] mb-1">
               ประเภทที่ขอ
             </div>
-
-            {/* <div className="grid grid-cols-4 text-[14px] gap-x-2">
-              {organizedColumns.map((column, colIndex) => (
-                <div key={colIndex} className="flex flex-col gap-1">
-                  {column.map((doc) => (
-                    <label key={doc.document_no} className="flex items-center gap-1">
-                      <input
-                        type="checkbox"
-                        checked={checkedMap.has(doc.document_name)}
-                        readOnly
-                      />
-                      {doc.document_name}
-                    </label>
-                  ))}
-                </div>
-              ))}
-            </div> */}
-
             <div className="grid grid-cols-4 gap-x-2 gap-y-1 text-[14px]">
               {documents.map((doc) => (
                 <label

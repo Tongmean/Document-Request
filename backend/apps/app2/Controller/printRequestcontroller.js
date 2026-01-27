@@ -27,6 +27,7 @@ const printRequestController = async (req, res) => {
         const drawingDocumenttypeitemData = await drawingDocumenttypeItemService.getsingledrawingDocumenttypeitem(payload);
         const productTypeitemData = await productTypeitemService.getSingleproductTypeitem(payload);
         const requestDateitemData = await requestDateitemService.getSinglerequestDateitem(payload);
+        const historyLogData = await requestService.getHistorylog(payload);
         res.status(200).json({
             success: true,
             msg: 'Print request processed successfully',
@@ -41,7 +42,8 @@ const printRequestController = async (req, res) => {
                 drawingDocumenttypeitemData : drawingDocumenttypeitemData,
                 productTypeitemData : productTypeitemData,
                 requestDateitemData : requestDateitemData,
-                followData : followData
+                followData : followData,
+                historyLogData : historyLogData
 
             }
         });

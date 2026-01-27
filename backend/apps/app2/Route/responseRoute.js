@@ -3,6 +3,6 @@ const responseController = require('../Controller/responseController');
 const router = express.Router();
 
 router.get('/drawingResponse', responseController.getAllresponseController);
-// router.post('/printdrawingRequest', printRequestController.printRequestController);
+router.post('/printdrawingRequest/post', responseController.postResponsecontrroller);
 
 module.exports = router;

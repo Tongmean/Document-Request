@@ -4,9 +4,11 @@ import Tablecomponent from './../../../component/Talecomponent';
 import { fetchdrawingSender } from '../../../๊Ultility/new/senderApi';
 import { useNavigate  } from 'react-router-dom';
 import { UsePermission } from '../hookUserpermission';
+import DrawingRequestModal from '../DrawingRequestModal';
 const DrawingsenderNew = () => {
-
-    
+    //Modal
+    const [open, setOpen] = useState(false);
+    const [selectedId, setSelectedId] = useState(null);
     // const approver = UsePermission('Approver');
     // const processor = UsePermission('Processor');
     const responsor = UsePermission('Responsor');
@@ -49,15 +51,18 @@ const DrawingsenderNew = () => {
         cellRenderer: (params) => {
             const canSendFile =
               ['Completed', 'Overdue', 'Cancelled'].includes(params.data.status_name)
-            console.log("canSendFile", canSendFile);
-            console.log("responseor", responsor);
-            console.log("params.data.status_name", params.data.status_name);
+            // console.log("canSendFile", canSendFile);
+            // console.log("responseor", responsor);
+            // console.log("params.data.status_name", params.data.status_name);
             const finalCheck = !(canSendFile) && responsor
-            console.log("finalCheck", finalCheck);
+            // console.log("finalCheck", finalCheck);
 
             return (
               <div>
-                <Button className="btn btn-warning btn-sm" style={{ marginRight: 5 }}>
+                <Button className="btn btn-warning btn-sm" style={{ marginRight: 5 }}
+                    onClick={() => handleOpen(params.data.id)}
+                >
+                    
                   D
                 </Button>
           
@@ -86,7 +91,7 @@ const DrawingsenderNew = () => {
   const load = async () =>{
     try {
       const data = (await fetchdrawingSender()).data;
-      console.log(data, 'data print');
+    //   console.log(data, 'data print');
     //   console.log(data, 'data print requestData');
       setRowData(data);
     } catch (err) {
@@ -102,6 +107,15 @@ const DrawingsenderNew = () => {
   const handleShowprint = (data) => {
     navigate(`/new/drawingrequest/${data.id}`);
   };
+  const handleOpen = (id) => {
+    setSelectedId(id);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setSelectedId(null);
+  }
   return (
     <div>
       <h1>Drawing Request Existing Page</h1>
@@ -122,6 +136,11 @@ const DrawingsenderNew = () => {
             // getRowId={(params) => params.data.No.toString()} // 👈 important
         />
       )}
+        <DrawingRequestModal
+            open={open}
+            requestId={selectedId}
+            onClose={handleClose}
+        />
     </div>
     
   );

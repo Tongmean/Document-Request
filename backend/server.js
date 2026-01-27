@@ -40,7 +40,7 @@ const requireAuth = require('./Middleware/requireAuth');
 
 
 app.use('/exiting', requireAuth, app1);
-app.use('/new', app2);
+app.use('/new',requireAuth, app2);
 
 require('dotenv').config();
 const port = process.env.PORT || 3040;
@@ -51,4 +51,3 @@ server.listen(port, host, () => {
     console.log("Server run on port:", port);
 });
   
-

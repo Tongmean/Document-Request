@@ -10,7 +10,18 @@ const getsingledrawingtypeitem = async (payload) => {
         const result = await dbconnect.query(mysql, [payload.request_no]);
         return result.rows
 }
-
+const postDrawingtypeItem = async (payload) => {   
+    const mysql = `
+        INSERT INTO "newDrawingrequest"."Drawing_Type_Item" (
+            request_no,
+            drawing_type_item
+        )VALUES ($1, $2)
+        RETURNING *
+    `;
+    const result = await dbconnect.query(mysql, [payload.request_no, payload.drawing_type]);
+    return result.rows
+}
 module.exports = {
-    getsingledrawingtypeitem
+    getsingledrawingtypeitem,
+    postDrawingtypeItem
 };

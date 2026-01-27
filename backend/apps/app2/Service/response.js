@@ -73,7 +73,35 @@ const getSingleresponse = async (payload) => {
     return result.rows
 }
 
+
+const postResponse = async (payload) => {
+    const query = `
+    INSERT INTO "newDrawingrequest"."Response_Form" (
+      request_no,
+      assign_to_proccessor,
+      assign_to_approver,
+      response_status,
+      response_by,
+      response_at
+    )
+    VALUES ($1, $2, $3, $4, $5, $6)
+    RETURNING *;
+  `;
+    const values = [
+      payload.request_no,
+      payload.assign_to_proccessor,
+      payload.assign_to_approver,
+      payload.response_status,
+      payload.response_by,
+      payload.response_at
+    ];
+  
+    const result = await dbconnect.query(query, values);
+    return result.rows;
+  
+}
 module.exports = {  
     getAllresponse,
-    getSingleresponse
+    getSingleresponse,
+    postResponse
 }
