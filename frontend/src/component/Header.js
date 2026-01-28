@@ -4,7 +4,7 @@ import { LogoutOutlined, ReloadOutlined } from '@ant-design/icons'
 import { useAuthContext } from '../hook/useAuthContext'
 import { useLogout } from '../hook/useLogout'
 import { useNavigate, useLocation } from 'react-router-dom'
-
+import TokenTimer from './Timer'
 const { Header } = Layout
 
 const HeaderComponent = () => {
@@ -39,24 +39,30 @@ const HeaderComponent = () => {
         padding: '0 24px',
         background: '#fff',
         display: 'flex',
-        justifyContent: 'flex-end', // ✅ RIGHT ALIGN
+        justifyContent: 'space-between', // ✅ RIGHT ALIGN
         alignItems: 'center',
         boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
         zIndex: 10,
       }}
-    >
-      <Space>
-        <Button icon={<ReloadOutlined />} onClick={onRefresh}>
-          Refresh
-        </Button>
-        <Button
-          type="primary"
-          icon={<LogoutOutlined />}
-          onClick={onLogout}
-        >
-          Logout
-        </Button>
-      </Space>
+    >   
+        <div>
+            <h6><TokenTimer token={user?.token} /></h6>
+        </div>
+        <div>
+            <Space>
+                <Button icon={<ReloadOutlined />} onClick={onRefresh}>
+                Refresh
+                </Button>
+                <Button
+                type="primary"
+                icon={<LogoutOutlined />}
+                onClick={onLogout}
+                >
+                Logout
+                </Button>
+            </Space>
+        </div>
+        
     </Header>
   )
 }

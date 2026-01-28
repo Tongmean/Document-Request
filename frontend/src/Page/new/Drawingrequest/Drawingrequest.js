@@ -7,22 +7,25 @@ import { checkSixMonths } from '../isOverSixMonths';
 import { UsePermission } from '../hookUserpermission';
 import DrawingRequestModal from '../DrawingRequestModal';
 import ResponseFormModal from './ResponseFormModal';
-
+import ConfirmationPopup from './ConfirmationPopup';
+import OverdueFormModal from './OverdueFormModal';
 const Drawingrequestnew = () => {
-    // const {
-    //   isOverSixMonths,
-    //   remainingDays,
-    //   overdueDays
-    // } = checkSixMonths(params.data.request_at);
     
     const canRequest = UsePermission('Responsor');
+    const requestRole = UsePermission('Requestor');
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true); 
     const [error, setError] = useState('');
     const [rowData, setRowData] = useState([]);
     //Modal
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(false); // Modal print open state
+    const [responseOpen, setResponseOpen] = useState(false); //modal response open state
+    const [overdueOpen, setOverdueopen] = useState(false); //modal response open state
     const [selectedId, setSelectedId] = useState(null);
+    // Add these states with your other useState declarations
+    const [confirmOpen, setConfirmOpen] = useState(false);
+    // const [selectedRequestNo, setSelectedRequestNo] = useState(null);
+
     const columnDefs = [
       { headerName: 'No', field: 'id', checkboxSelection: true, headerCheckboxSelection: true, cellDataType: 'number', width: 50 },
       { headerName: 'Request No', field: 'request_no'},
@@ -54,7 +57,7 @@ const Drawingrequestnew = () => {
         headerName: 'Actions',
         field: 'actions',
         pinned: 'right',
-        width: 250,
+        width: 300,
         cellRenderer: (params) => (
             <div>
                 <Button
@@ -73,23 +76,28 @@ const Drawingrequestnew = () => {
                 </Button>
                 <Button
                   className="btn btn-primary btn-sm"
-                  onClick={() => handleOpen(params.data.id)}
-                  disabled={!(params.data.status_name === 'Submitted' && canRequest)}
+                  onClick={() => openResponseModal(params.data.request_no)}
+                  // disabled={!(params.data.status_name === 'Submitted' && canRequest)}
                   style={{ marginRight: '5px' }}
                 >
                   Assign To
                 </Button>
-
+                <Button
+                  className="btn btn-info btn-sm"
+                  onClick={() => openOverdueModal(params.data.request_no)}
+                  // disabled={!(params.data.status_name === 'Submitted' && requestRole)}
+                  style={{ marginRight: '5px' }}
+                >
+                  Feedback
+                </Button>
                 <Button
                   className="btn btn-success btn-sm"
-                  disabled={!(checkSixMonths(params.data.request_at).isOverSixMonths && canRequest)}
+                  onClick={() => openConfirmPopup(params.data.request_no)}
+                  // disabled={!(checkSixMonths(params.data.request_at).isOverSixMonths && canRequest)}
                   style={{ marginRight: '5px' }}
                 >
                   OverDue: {checkSixMonths(params.data.request_at).remainingDays} days left
                 </Button>
-
-
-
             </div>
         ),
     }
@@ -121,8 +129,28 @@ const Drawingrequestnew = () => {
 
   const handleClose = () => {
     setOpen(false);
+    setResponseOpen(false)
     setSelectedId(null);
   }
+  const openResponseModal = (request_no) => {
+    setSelectedId(request_no);;
+    setResponseOpen(true);
+  };
+  const openOverdueModal = (request_no) => {
+    setSelectedId(request_no);;
+    setOverdueopen(true);
+  };
+  // Add this handler function
+  const openConfirmPopup = (request_no) => {
+    setSelectedId(request_no);
+    setConfirmOpen(true);
+  };
+
+  const handleConfirmClose = () => {
+    setConfirmOpen(false);
+    setSelectedId(null);
+  };
+
   const handleOnClick = () => {
     navigate('/new/createdrawingrequest');
   };
@@ -154,11 +182,24 @@ const Drawingrequestnew = () => {
         requestId={selectedId}
         onClose={handleClose}
       />
-      {/* <ResponseFormModal
-        open={open}
-        requestId={selectedId}
-        onClose={handleClose} 
-      /> */}
+      <ResponseFormModal
+        responseOpen={responseOpen}
+        onClose={handleClose}
+        request_no={selectedId}
+        onSuccess={load}
+      />
+      <ConfirmationPopup
+        open={confirmOpen}
+        onClose={handleConfirmClose}
+        requestNo={selectedId}
+        onSubmitSuccess={load}
+      />
+      <OverdueFormModal
+        overdueOpen={overdueOpen}
+        request_no={selectedId}
+        onClose={() => setOverdueopen(false)}
+        onSuccess={load}
+      />
     </div>
     
   );

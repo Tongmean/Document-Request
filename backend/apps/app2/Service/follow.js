@@ -10,7 +10,27 @@ const getSinglefollowForm = async (payload) => {
         const result = await dbconnect.query(mysql, [payload.request_no]);
         return result.rows
 }
+const postFollowForm = async (payload, user_id) => {
+    const sql = `
+        INSERT INTO "newDrawingrequest"."Follow_Form"
+        (
+            request_no,
+            follow_by,
+            follow_at
+        )
+        VALUES ($1, $2, $3)
+        RETURNING *
+    `;
 
+    const result = await dbconnect.query(sql, [
+        payload.request_no,
+        user_id,
+        (new Date())
+    ]);
+
+    return result.rows;
+}
 module.exports = {
-    getSinglefollowForm
+    getSinglefollowForm,
+    postFollowForm
 };

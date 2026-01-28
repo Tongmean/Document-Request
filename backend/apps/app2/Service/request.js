@@ -70,6 +70,7 @@ const getAllrequest = async () => {
     const result = await dbconnect.query(mysql);
     return result.rows
 }
+
 const getSinglerequest = async (payload) => {
     const mysql =`
         SELECT 
@@ -86,13 +87,7 @@ const getSinglerequest = async (payload) => {
     return result.rows
 }
 
-// const getHistorylog = async (payload) => {
-//     console.log("payload in getHistorylog:", payload.request_no);
-//     // const table = `"newDrawingrequest"."Request_Form"`
-//     const mysql = `SELECT * FROM "newDrawingrequest".update_log WHERE record_id = $1 AND table_name = "newDrawingrequest"."Request_Form" `
-//     const result = await dbconnect.query(mysql, [payload.request_no]);
-//     result = result.rows 
-// }
+
 const getHistorylog = async (payload) => {
     const tableName = '"newDrawingrequest"."Request_Form"';
   
@@ -111,12 +106,28 @@ const getHistorylog = async (payload) => {
     ]);
   
     return rows;
-  };
+};
   
+const updateStatusrequest = async (request_no, request_status) => {   
+    const mysql = `
+        UPDATE "newDrawingrequest"."Request_Form"
+        SET request_status = $1
+        WHERE request_no = $2
+        RETURNING *;
+    `;
+    const values = [
+        request_status,
+        request_no
+    ];
+    const result = await dbconnect.query(mysql, values);
+    return result.rows;
+}
+
 module.exports = {
     getAllrequest,
     getSinglerequest,
     getNextRequest_no,
     postRequest,
-    getHistorylog
+    getHistorylog,
+    updateStatusrequest
 }

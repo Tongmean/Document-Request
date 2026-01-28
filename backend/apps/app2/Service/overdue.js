@@ -25,8 +25,34 @@ const getSingleoverdue = async (payload) => {
     const result = await dbconnect.query(mysql, [payload.request_no]);
     return result.rows
 }
+const postoverdueForm = async (payload, user_id) => {
+    const sql = `
+        INSERT INTO "newDrawingrequest"."OverDue_Form"
+        (
+            request_no,
+            expect_date,
+            isneed,
+            Overdue_remark,
+            follow_by,
+            follow_at
+        )
+        VALUES ($1, $2, $3 , $4, $5, $6)
+        RETURNING *
+    `;
 
+    const result = await dbconnect.query(sql, [
+        payload.request_no,
+        payload.expected_date,
+        payload.isneed,
+        payload.Overdue_remark,
+        user_id,
+        (new Date())
+    ]);
+
+    return result.rows;
+}
 module.exports = {  
     getAlloverdue,
-    getSingleoverdue
+    getSingleoverdue,
+    postoverdueForm
 }

@@ -1,7 +1,7 @@
-import apiClient from '../apiClient';
-export const fetchdrawingApprove = async () => {
+import apiClient from "../apiClient";
+export const postdrawingFollowup = async (payload) => {
     try {
-      const response = await apiClient.get(`new/drawingOverdue/followup/`); // Send the GET request to the server
+      const response = await apiClient.post(`new/drawingOverdue/followup`, payload); // Send the GET request to the server
   
       // Check the response's 'success' field to determine if the request was successful
       if (response.data.success) {
@@ -16,9 +16,9 @@ export const fetchdrawingApprove = async () => {
       throw new Error(error.response?.data?.msg);
     }
 };
-export const postdrawingApprove = async (payload) => {
+export const postdrawingOverdueform = async (payload) => {
     try {
-      const response = await apiClient.post(`new/drawingApprove/post`, payload); // Send the GET request to the server
+      const response = await apiClient.post(`new/drawingOverdue/overdueform`, payload); // Send the GET request to the server
   
       // Check the response's 'success' field to determine if the request was successful
       if (response.data.success) {

@@ -31,8 +31,30 @@ const getSingleprocess = async (payload) => {
     const result = await dbconnect.query(mysql, [payload.request_no]);
     return result.rows
 }
+const postprocessForm = async (payload, user_id, resques_status) => {
+    const sql = `
+        INSERT INTO "newDrawingrequest"."Process_Form"
+        (
+            request_no,
+            process_status,
+            process_by,
+            process_at
+        )
+        VALUES ($1, $2, $3 , $4)
+        RETURNING *
+    `;
 
+    const result = await dbconnect.query(sql, [
+        payload.request_no,
+        resques_status,
+        user_id,
+        (new Date())
+    ]);
+
+    return result.rows;
+}
 module.exports = {  
     getAllprocess,
-    getSingleprocess
+    getSingleprocess,
+    postprocessForm
 }

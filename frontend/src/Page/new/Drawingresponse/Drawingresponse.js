@@ -6,17 +6,22 @@ import { useNavigate  } from 'react-router-dom';
 import { useAuthContext } from '../../../hook/useAuthContext';
 import { UsePermission, UseUserPermission } from '../hookUserpermission';
 import DrawingRequestModal from '../DrawingRequestModal';
+import ConfirmationPopupapp from './ConfirmationPopupapp';
+import ConfirmationPopuppro from './ConfirmationPopuppro';
 const DrawingresponseNew = () => {
     //Modal
     const [open, setOpen] = useState(false);
     const [selectedId, setSelectedId] = useState(null);
-    const { user } = useAuthContext();
+    // const { user } = useAuthContext();
     const approver = UsePermission('Approver');
     const processor = UsePermission('Processor');
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true); 
     const [error, setError] = useState('');
     const [rowData, setRowData] = useState([]);
+    // Add these states with your other useState declarations
+    const [confirmOpen, setConfirmOpen] = useState(false);
+    // const [selectedRequestNo, setSelectedRequestNo] = useState(null);
     const columnDefs = [
       { headerName: 'No', field: 'id', checkboxSelection: true, headerCheckboxSelection: true, cellDataType: 'number', width: 50 },
       { headerName: 'Request No', field: 'request_no'},
@@ -69,7 +74,8 @@ const DrawingresponseNew = () => {
                 <Button
                   className="btn btn-primary btn-sm"
                   // onClick={() => handleCheck(params.data)}
-                  disabled={!(params.data.status_name === 'Accepted' && approver && UseUserPermission(params.data.assign_approver_email))}
+                  onClick={() => openConfirmPopup(params.data.request_no)}
+                  // disabled={!(params.data.status_name === 'Accepted' && approver && UseUserPermission(params.data.assign_approver_email))}
                   style={{ marginRight: '5px' }}
                 >
                   อนุมัติ
@@ -77,7 +83,8 @@ const DrawingresponseNew = () => {
 
                 <Button
                   className="btn btn-success btn-sm"
-                  disabled={!(params.data.status_name === 'Accepted' && processor && UseUserPermission(params.data.assign_processor_email))}
+                  onClick={() => openConfirmPopuppro(params.data.request_no)}
+                  // disabled={!(params.data.status_name === 'Accepted' && processor && UseUserPermission(params.data.assign_processor_email))}
                   style={{ marginRight: '5px' }}
                 >
                   ดำเนินการ
@@ -113,11 +120,26 @@ const DrawingresponseNew = () => {
     setSelectedId(id);
     setOpen(true);
   };
-
+  
   const handleClose = () => {
     setOpen(false);
     setSelectedId(null);
   }
+  // Add this handler function
+  const openConfirmPopup = (request_no) => {
+    setSelectedId(request_no);
+    setConfirmOpen(true);
+  };
+  // Add this handler function //proccess
+  const openConfirmPopuppro = (request_no) => {
+    setSelectedId(request_no);
+    setConfirmOpen(true);
+  };
+
+  const handleConfirmClose = () => {
+    setConfirmOpen(false);
+    setSelectedId(null);
+  };
   return (
     <div>
       <h1>Drawing Request Existing Page</h1>
@@ -142,7 +164,19 @@ const DrawingresponseNew = () => {
         open={open}
         requestId={selectedId}
         onClose={handleClose}
-        />
+      />
+      <ConfirmationPopupapp
+        open={confirmOpen}
+        onClose={handleConfirmClose}
+        requestNo={selectedId}
+        onSubmitSuccess={load}
+      />
+      <ConfirmationPopuppro
+        open={confirmOpen}
+        onClose={handleConfirmClose}
+        requestNo={selectedId}
+        onSubmitSuccess={load}
+      />
     </div>
     
   );

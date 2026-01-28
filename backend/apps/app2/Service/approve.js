@@ -39,8 +39,31 @@ const getSingleapprove = async (payload) => {
     const result = await dbconnect.query(mysql, [payload.request_no]);
     return result.rows
 }
+const postapproveForm = async (payload, user_id, resques_status) => {
+    const sql = `
+        INSERT INTO "newDrawingrequest"."Approve_Form"
+        (
+            request_no,
+            approve_status,
+            approve_by,
+            approve_at
+        )
+        VALUES ($1, $2, $3 , $4)
+        RETURNING *
+    `;
+
+    const result = await dbconnect.query(sql, [
+        payload.request_no,
+        resques_status,
+        user_id,
+        (new Date())
+    ]);
+
+    return result.rows;
+}
 
 module.exports = {  
     getAllapprove,
-    getSingleapprove
+    getSingleapprove,
+    postapproveForm
 }

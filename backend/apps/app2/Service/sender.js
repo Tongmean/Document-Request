@@ -26,7 +26,8 @@ const getAllsender = async () => {
     return result.rows
 }
 
+
 module.exports = {
     getAllsender,
-    
+
 }

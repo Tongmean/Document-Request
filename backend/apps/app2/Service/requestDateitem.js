@@ -36,22 +36,36 @@ const postDateitem = async (payload) => {
     const sql = `
       INSERT INTO "newDrawingrequest"."Request_Date_Item" (
         request_no,
-        request_date,
-        expected_date
+        request_date
       )
-      VALUES ($1, $2, $3)
+      VALUES ($1, $2)
       RETURNING *;
     `;
     const result = await dbconnect.query(sql, [
       payload.request_no,
-      requestDate,
-      expectDate
+      requestDate
     ]);
   
     return result.rows;
 };
+const updateDateitems = async (payload) => {
+    const sql = `
+      UPDATE "newDrawingrequest"."Request_Date_Item"
+      SET
+        expected_date = $1
+      WHERE id = $2
+      RETURNING *;
+    `;
   
+    const result = await dbconnect.query(sql, [
+      payload.expected_date,
+      payload.id
+    ]);
+  
+    return result.rows;
+}
 module.exports = {
     getSinglerequestDateitem,
-    postDateitem
+    postDateitem,
+    updateDateitems
 };

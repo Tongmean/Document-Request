@@ -115,7 +115,25 @@ const createdrawingrequest_existing = async (req, res) => {
         });
     }
 };
+const getRequestDateitems = async (request_no) => {
+    const dateitems = await drawingitemService.getDateitemsByRequestNo(request_no);
+    try {
+        const result = await drawingService.getalldrawingrequest_existing();
+        res.status(200).json({
+            success: true,
+            msg: 'ดึงข้อมูลทั้งหมดได้สำเร็จ',
+            data: result
+        });
+    } catch (error) {
+        console.error(error);
 
+        res.status(500).json({
+        success: false,
+        msg: 'มีปัญหาเกิดขึ้นระหว่างการดึงข้อมูล',
+        error: error.message
+        });
+    }
+}
 module.exports = {
     getalldrawingrequest_existing,
     getalldrawingrequest_existingbyid,

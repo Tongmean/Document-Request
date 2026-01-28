@@ -4,5 +4,6 @@ const approveController = require('../Controller/approveController');
 const router = express.Router();
 
 router.get('/drawingApprove', approveController.approveController);
+router.post('/drawingApprove/post', approveController.postApprovecontroller);
 
 module.exports = router;

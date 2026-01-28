@@ -6,6 +6,8 @@ const drawingDocumenttypeItem = require('../Service/drawingDocumenttypeItem');
 const drawingTypeitemService = require('../Service/drawingTypeitem');
 const productTypeitemService = require('../Service/productTypeitem');
 const dateItemService = require('../Service/requestDateitem');
+const requestDateitemService = require('../Service/requestDateitem');
+
 const getRequest_no = async (req, rees) => {
     try {
         const result = await requestService.getNextRequest_no();
@@ -45,7 +47,7 @@ const requestController = async (req, res) => {
 const postRequest = async (req, res) => {  
     const {user_id, email, position} = req.user[0];
     const payload = req.body;
-    console.log('Payload:', payload);
+    // console.log('Payload:', payload);
     const requestPayload = payload.requestItems[0]
     try {
         await dbconnect.query('BEGIN');
@@ -153,8 +155,28 @@ const postRequest = async (req, res) => {
     }
 } 
 
+const getRequestdateItems = async (req, res) => {
+    const payload = req.body;
+    try {
+        const result = await requestDateitemService.getSinglerequestDateitem(payload);
+        res.status(200).json({
+            success: true,
+            msg: 'Request date items fetched successfully',
+            data: result
+        });
+    } catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+        success: false,
+        msg: 'An error occurred while fetching the request date items',
+        error: error.message
+        });
+    }
+}
 module.exports = {
     requestController,
     postRequest,
-    getRequest_no
+    getRequest_no,
+    getRequestdateItems
 };

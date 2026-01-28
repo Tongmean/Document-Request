@@ -9,9 +9,10 @@ const drawingDocumenttypeItemService = require('../Service/drawingDocumenttypeIt
 const productTypeitemService = require('../Service/productTypeitem');
 const requestDateitemService = require('../Service/requestDateitem');
 const followService = require('../Service/follow');
+
 const printRequestController = async (req, res) => {
     // const payload = req.body;
-    console.log('Received payload:', req.body);
+    // console.log('Received payload:', req.body);
     try {
         const requestData = await requestService.getSinglerequest(req.body);
         // console.log('Request Data:', requestData[0]);
