@@ -7,7 +7,8 @@ const drawingTypeitemService = require('../Service/drawingTypeitem');
 const productTypeitemService = require('../Service/productTypeitem');
 const dateItemService = require('../Service/requestDateitem');
 const requestDateitemService = require('../Service/requestDateitem');
-
+// const {printRequestController} = require('./printRequestcontroller');
+const { sendRequestNotification } = require('../Ultility/requestEmailutility');
 const getRequest_no = async (req, rees) => {
     try {
         const result = await requestService.getNextRequest_no();
@@ -128,10 +129,21 @@ const postRequest = async (req, res) => {
         const oldValue = null;
         const newValue = "Submitted"
         const update_log_result =  await logUpdate(table_name, column, id, oldValue, newValue, "updated" , user_id)
+        //Query Detail for mail
+        const emailData = await requestService.getSinglerequest({id: insert_request_result[0].id});
+        const documenttypeitemData = await documentItemService.getsingledocumenttypeitem({request_no: next_request_no});
+        const drawingtypeitemData = await drawingTypeitemService.getsingledrawingtypeitem({request_no: next_request_no});
+        const drawingDocumenttypeitemData = await drawingDocumenttypeItem.getsingledrawingDocumenttypeitem({request_no: next_request_no});
+        const productTypeitemData = await productTypeitemService.getSingleproductTypeitem({request_no: next_request_no});
+
         await dbconnect.query('COMMIT');
+        // Email Notifiaction
+        // console.log('Preparing to send email notification...', emailData);
+        const postTitle = `คำขอจัดทำ Drawing: ${next_request_no}`;
+        const emailResult = await sendRequestNotification(payload, postTitle, emailData, documenttypeitemData, drawingtypeitemData, drawingDocumenttypeitemData, productTypeitemData, (req.user[0]));
         res.status(200).json({
             success: true,
-            msg: 'Request processed successfully',
+            msg: 'คำขอของคุณบันทึกสำเร็จแล้ว + ส่งอีเมลแจ้งเตือนไปยังผู้ขอเรียบร้อยแล้ว',
             data: {
                 next_request_no: next_request_no,
                 insert_request_result: insert_request_result,
@@ -140,7 +152,8 @@ const postRequest = async (req, res) => {
                 inserted_drawingtypeitems: inserted_drawingtypeitems,
                 inserted_producttypeitems: inserted_producttypeitems,
                 inserted_dateitems: inserted_dateitems,
-                update_log_result: update_log_result
+                update_log_result: update_log_result,
+                emailResult: emailResult
             }
         });
         

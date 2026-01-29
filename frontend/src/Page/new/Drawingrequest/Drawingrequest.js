@@ -77,7 +77,7 @@ const Drawingrequestnew = () => {
                 <Button
                   className="btn btn-primary btn-sm"
                   onClick={() => openResponseModal(params.data.request_no)}
-                  // disabled={!(params.data.status_name === 'Submitted' && canRequest)}
+                  disabled={!(params.data.status_name === 'Submitted' && canRequest)}
                   style={{ marginRight: '5px' }}
                 >
                   Assign To
@@ -85,7 +85,7 @@ const Drawingrequestnew = () => {
                 <Button
                   className="btn btn-info btn-sm"
                   onClick={() => openOverdueModal(params.data.request_no)}
-                  // disabled={!(params.data.status_name === 'Submitted' && requestRole)}
+                  disabled={!(params.data.status_name === 'Submitted' && requestRole)}
                   style={{ marginRight: '5px' }}
                 >
                   Feedback
@@ -93,7 +93,7 @@ const Drawingrequestnew = () => {
                 <Button
                   className="btn btn-success btn-sm"
                   onClick={() => openConfirmPopup(params.data.request_no)}
-                  // disabled={!(checkSixMonths(params.data.request_at).isOverSixMonths && canRequest)}
+                  disabled={!(checkSixMonths(params.data.request_at).isOverSixMonths && canRequest)}
                   style={{ marginRight: '5px' }}
                 >
                   OverDue: {checkSixMonths(params.data.request_at).remainingDays} days left
@@ -156,10 +156,34 @@ const Drawingrequestnew = () => {
   };
   return (
     <div>
-      <h1>Drawing Request Existing Page</h1>
-      <p>This is the Drawing Request Existing page content.</p>
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 16,
+        padding: '16px 20px',
+        background: '#fff',
+        borderRadius: 8,
+        boxShadow: '0 1px 3px rgba(0,0,0,0.08)'
+      }}>
+        <div>
+          <h1 style={{ margin: 0, fontSize: 22, fontWeight: 600 }}>
+            รายการคำขอจัดทำ Drawing
+          </h1>
+          <p style={{ margin: '4px 0 0', color: '#666', fontSize: 14 }}>
+            ติดตามสถานะคำขอ มอบหมายงาน และจัดการ Drawing
+          </p>
+        </div>
+
+        {/* Optional actions */}
+        <div>
+          {/* example */}
+          {/* <Button icon={<ReloadOutlined />} onClick={load}>Refresh</Button> */}
+        </div>
+      </div>
+
       <div>
-          <button className='btn btn-success btn-sm' style={{ marginBottom: '10px' }} onClick={handleOnClick}>เพิ่มรายการ</button>
+          <button className='btn btn-success btn-sm' style={{ marginBottom: '10px' }} disabled={!(requestRole)} onClick={handleOnClick}>เพิ่มรายการ</button>
       </div>
       {loading ? (
       <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>

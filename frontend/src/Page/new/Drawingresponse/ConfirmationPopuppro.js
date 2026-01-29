@@ -23,9 +23,10 @@ const ConfirmationPopupapp = ({
     
     try {
         const result  = await postdrawingProcess({request_no: requestNo});
-        console.log('Submitting request number:process', requestNo);
+
+        // console.log('result', result);
       
-        message.success(result.data.msg || 'Submitted successfully');
+        message.success(result.msg);
             //   onSubmitSuccess?.(data); // Call parent callback if provided
         onClose(); // Close modal
         onSubmitSuccess()
@@ -42,7 +43,7 @@ const ConfirmationPopupapp = ({
       title={
         <span>
           <ExclamationCircleOutlined style={{ color: '#faad14', marginRight: 8 }} />
-          Confirm Submission
+          Process Submission
         </span>
       }
       open={open}
@@ -63,7 +64,7 @@ const ConfirmationPopupapp = ({
       width={400}
     >
       <div style={{ padding: '20px 0' }}>
-        <p>Are you sure you want to submit this request?</p>
+        <p>Are you sure you want to Processed the Request?</p>
         <p><strong>Request No:</strong> {requestNo}</p>
       </div>
     </Modal>

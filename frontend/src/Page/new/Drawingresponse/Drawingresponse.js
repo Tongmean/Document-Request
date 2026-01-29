@@ -8,6 +8,7 @@ import { UsePermission, UseUserPermission } from '../hookUserpermission';
 import DrawingRequestModal from '../DrawingRequestModal';
 import ConfirmationPopupapp from './ConfirmationPopupapp';
 import ConfirmationPopuppro from './ConfirmationPopuppro';
+import ConfirmationPopupcheck from './ConfirmationPopupcheck';
 const DrawingresponseNew = () => {
     //Modal
     const [open, setOpen] = useState(false);
@@ -15,12 +16,14 @@ const DrawingresponseNew = () => {
     // const { user } = useAuthContext();
     const approver = UsePermission('Approver');
     const processor = UsePermission('Processor');
+    const responsor = UsePermission('Responsor');
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true); 
     const [error, setError] = useState('');
     const [rowData, setRowData] = useState([]);
     // Add these states with your other useState declarations
     const [confirmOpen, setConfirmOpen] = useState(false);
+    const [confirmType, setConfirmType] = useState(null);
     // const [selectedRequestNo, setSelectedRequestNo] = useState(null);
     const columnDefs = [
       { headerName: 'No', field: 'id', checkboxSelection: true, headerCheckboxSelection: true, cellDataType: 'number', width: 50 },
@@ -53,7 +56,7 @@ const DrawingresponseNew = () => {
         headerName: 'Actions',
         field: 'actions',
         pinned: 'right',
-        width: 250,
+        width: 300,
         cellRenderer: (params) => (
             <div>
                 <Button
@@ -72,22 +75,29 @@ const DrawingresponseNew = () => {
                     Print
                 </Button>
                 <Button
-                  className="btn btn-primary btn-sm"
-                  // onClick={() => handleCheck(params.data)}
-                  onClick={() => openConfirmPopup(params.data.request_no)}
-                  // disabled={!(params.data.status_name === 'Accepted' && approver && UseUserPermission(params.data.assign_approver_email))}
-                  style={{ marginRight: '5px' }}
-                >
-                  อนุมัติ
-                </Button>
-
-                <Button
                   className="btn btn-success btn-sm"
-                  onClick={() => openConfirmPopuppro(params.data.request_no)}
-                  // disabled={!(params.data.status_name === 'Accepted' && processor && UseUserPermission(params.data.assign_processor_email))}
+                  onClick={() => openConfirmPopup('pro',params.data.request_no)}
+                  disabled={!(params.data.status_name === 'Accepted' && processor && UseUserPermission(params.data.assign_processor_email))}
                   style={{ marginRight: '5px' }}
                 >
                   ดำเนินการ
+                </Button>
+                <Button
+                  className="btn btn-danger btn-sm"
+                  onClick={() => openConfirmPopup('check',params.data.request_no)}
+                  disabled={!(params.data.status_name === 'Processed' && responsor )}
+                  style={{ marginRight: '5px' }}
+                >
+                  check
+                </Button>
+                <Button
+                  className="btn btn-primary btn-sm"
+                  // onClick={() => handleCheck(params.data)}
+                  onClick={() => openConfirmPopup('app',params.data.request_no)}
+                  disabled={!(params.data.status_name === 'Checked' && approver && UseUserPermission(params.data.assign_approver_email))}
+                  style={{ marginRight: '5px' }}
+                >
+                  อนุมัติ
                 </Button>
 
 
@@ -125,25 +135,45 @@ const DrawingresponseNew = () => {
     setOpen(false);
     setSelectedId(null);
   }
-  // Add this handler function
-  const openConfirmPopup = (request_no) => {
+  const openConfirmPopup = (type, request_no) => {
+    setConfirmType(type);   // 'app' | 'pro' | 'check'
     setSelectedId(request_no);
     setConfirmOpen(true);
   };
-  // Add this handler function //proccess
-  const openConfirmPopuppro = (request_no) => {
-    setSelectedId(request_no);
-    setConfirmOpen(true);
-  };
-
+  
   const handleConfirmClose = () => {
     setConfirmOpen(false);
+    setConfirmType(null);
     setSelectedId(null);
   };
+  
   return (
     <div>
-      <h1>Drawing Request Existing Page</h1>
-      <p>This is the Drawing Request Existing page content.</p>
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 16,
+        padding: '16px 20px',
+        background: '#fff',
+        borderRadius: 8,
+        boxShadow: '0 1px 3px rgba(0,0,0,0.08)'
+      }}>
+        <div>
+          <h1 style={{ margin: 0, fontSize: 22, fontWeight: 600 }}>
+            รายการการมอบหมายงานคำขอจัดทำ Drawing
+          </h1>
+          <p style={{ margin: '4px 0 0', color: '#666', fontSize: 14 }}>
+            ติดตามสถานะคำขอ มอบหมายงาน และจัดการ Drawing
+          </p>
+        </div>
+
+        {/* Optional actions */}
+        <div>
+          {/* example */}
+          {/* <Button icon={<ReloadOutlined />} onClick={load}>Refresh</Button> */}
+        </div>
+      </div>
       {loading ? (
       <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
           <Spin size="large" />
@@ -165,7 +195,7 @@ const DrawingresponseNew = () => {
         requestId={selectedId}
         onClose={handleClose}
       />
-      <ConfirmationPopupapp
+      {/* <ConfirmationPopupapp
         open={confirmOpen}
         onClose={handleConfirmClose}
         requestNo={selectedId}
@@ -177,6 +207,39 @@ const DrawingresponseNew = () => {
         requestNo={selectedId}
         onSubmitSuccess={load}
       />
+      <ConfirmationPopupcheck
+        open={confirmOpen}
+        onClose={handleConfirmClose}
+        requestNo={selectedId}
+        onSubmitSuccess={load}
+      /> */}
+      {confirmType === 'app' && (
+        <ConfirmationPopupapp
+          open={confirmOpen}
+          onClose={handleConfirmClose}
+          requestNo={selectedId}
+          onSubmitSuccess={load}
+        />
+      )}
+
+      {confirmType === 'pro' && (
+        <ConfirmationPopuppro
+          open={confirmOpen}
+          onClose={handleConfirmClose}
+          requestNo={selectedId}
+          onSubmitSuccess={load}
+        />
+      )}
+
+      {confirmType === 'check' && (
+        <ConfirmationPopupcheck
+          open={confirmOpen}
+          onClose={handleConfirmClose}
+          requestNo={selectedId}
+          onSubmitSuccess={load}
+        />
+      )}
+
     </div>
     
   );

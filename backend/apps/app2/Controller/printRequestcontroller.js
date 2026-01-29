@@ -15,10 +15,10 @@ const printRequestController = async (req, res) => {
     // console.log('Received payload:', req.body);
     try {
         const requestData = await requestService.getSinglerequest(req.body);
-        // console.log('Request Data:', requestData[0]);
         const payload = requestData[0];
 
         const responseData = await responseService.getSingleresponse(payload);
+
         const approveData = await approveService.getSingleapprove(payload);
         const processData = await processService.getSingleprocess(payload);
         const overdueData = await overdueService.getSingleoverdue(payload);
@@ -29,6 +29,7 @@ const printRequestController = async (req, res) => {
         const productTypeitemData = await productTypeitemService.getSingleproductTypeitem(payload);
         const requestDateitemData = await requestDateitemService.getSinglerequestDateitem(payload);
         const historyLogData = await requestService.getHistorylog(payload);
+        console.log('Request Data:', requestData);
         res.status(200).json({
             success: true,
             msg: 'Print request processed successfully',

@@ -71,6 +71,21 @@ const getAllrequest = async () => {
     return result.rows
 }
 
+const getSinglerequestbyrequest_no = async (payload) => {
+    const mysql =`
+        SELECT 
+            id, request_no, department, customer_name, part_no, detail, request_remark, request_at, status_name, email, username,position
+        FROM "newDrawingrequest"."Request_Form" rf
+        LEFT JOIN public."User" u_request
+        ON u_request.user_id = rf.request_by
+        LEFT JOIN "newDrawingrequest"."Status" rf_status
+        ON rf.request_status = rf_status.status_id
+        WHERE rf.request_no = $1
+        ORDER BY -id
+    `
+    const result = await dbconnect.query(mysql, [payload.request_no]);
+    return result.rows
+}
 const getSinglerequest = async (payload) => {
     const mysql =`
         SELECT 
@@ -129,5 +144,6 @@ module.exports = {
     getNextRequest_no,
     postRequest,
     getHistorylog,
-    updateStatusrequest
+    updateStatusrequest,
+    getSinglerequestbyrequest_no
 }

@@ -139,7 +139,7 @@ const sendApproverNotification = async (requesterEmail, postTitle, payload, posi
             <div style="background-color: #ffffff; border-left: 4px solid #004a99; padding: 15px; margin: 20px 0;">
               <p style="margin: 5px 0;"><strong>หัวข้อ:</strong> ${postTitle}</p>
               <p style="margin: 5px 0;"><strong>เลขที่ขอ:</strong> ${payload.request_no}</p>
-              <p>
+                <p>
                     <strong>File Path:</strong><br />
                     ${payload.urls.join('<br />')}
                 </p>

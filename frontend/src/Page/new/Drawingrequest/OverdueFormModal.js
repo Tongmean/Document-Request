@@ -37,7 +37,7 @@ export default function OverdueFormModal({
       setLoading(true);
       console.log('Submitting payload:', payload);
       const result = await postdrawingOverdueform(payload);
-      message.success(result?.msg || 'Submitted successfully');
+      message.success(result?.msg);
       form.resetFields();
       onClose();
       onSuccess();

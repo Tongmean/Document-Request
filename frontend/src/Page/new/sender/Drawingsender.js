@@ -5,9 +5,11 @@ import { fetchdrawingSender } from '../../../๊Ultility/new/senderApi';
 import { useNavigate  } from 'react-router-dom';
 import { UsePermission } from '../hookUserpermission';
 import DrawingRequestModal from '../DrawingRequestModal';
+import SenderModal from '../sender/SenderModal';
 const DrawingsenderNew = () => {
     //Modal
     const [open, setOpen] = useState(false);
+    const [senderOpen, setSenderopen] = useState(false);
     const [selectedId, setSelectedId] = useState(null);
     // const approver = UsePermission('Approver');
     // const processor = UsePermission('Processor');
@@ -76,6 +78,8 @@ const DrawingsenderNew = () => {
           
                 <Button
                   className="btn btn-primary btn-sm"
+                  onClick={() => handleOpensender(params.data.request_no)}
+
                   disabled={!finalCheck}
                   style={{ marginRight: 5 }}
                 >
@@ -111,10 +115,15 @@ const DrawingsenderNew = () => {
     setSelectedId(id);
     setOpen(true);
   };
+  const handleOpensender = (request_no) => {
+    setSelectedId(request_no);
+    setSenderopen(true);
+  };
 
   const handleClose = () => {
     setOpen(false);
     setSelectedId(null);
+    setSenderopen(false);
   }
   return (
     <div>
@@ -141,6 +150,13 @@ const DrawingsenderNew = () => {
             requestId={selectedId}
             onClose={handleClose}
         />
+        <SenderModal
+          open={senderOpen}
+          request_no={selectedId}
+          onClose={handleClose}
+          onSuccess={load}
+        />
+
     </div>
     
   );

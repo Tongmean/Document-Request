@@ -27,7 +27,26 @@ const getAllsender = async () => {
 }
 
 
+const postSenderservice = async (payload, request_no) => {
+    const sql = `
+        INSERT INTO "newDrawingrequest"."Url_Form"
+        (
+            request_no,
+            path
+        )
+        VALUES ($1, $2)
+        RETURNING *
+    `;
+
+    const result = await dbconnect.query(sql, [
+        request_no,
+        payload.path,
+    ]);
+
+    return result.rows;
+}
 module.exports = {
     getAllsender,
+    postSenderservice
 
 }

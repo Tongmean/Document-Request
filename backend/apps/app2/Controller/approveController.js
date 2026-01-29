@@ -1,5 +1,11 @@
 const approveService = require('../Service/approve');
 const requestService = require('../Service/request');
+//
+const { logUpdate } = require('../../../utility/updateLog');
+const responseService = require('../Service/response');
+const { sendpopupNotification } = require('../Ultility/popupEmailultility');
+const requestDateitemService = require('../Service/requestDateitem');
+
 const approveController = async (req, res) => {
     try {
         const result = await approveService.getAllapprove();
@@ -26,12 +32,29 @@ const postApprovecontroller = async (req, res) => {
     try {
         const result = await approveService.postapproveForm(payload, user_id, request_status);
         const updateRequestStatus = await requestService.updateStatusrequest(payload.request_no, request_status);
+        // update log
+        const table_name = '"newDrawingrequest"."Request_Form"';
+        const column = 'request_status';
+        const id = payload.request_no
+        const oldValue = null;
+        const newValue = "Approved"
+        const update_log_result =  await logUpdate(table_name, column, id, oldValue, newValue, "updated" , user_id)
+        //email section
+        const postTitle = `คำขอจัดทำ Drawing: ${payload.request_no}`;
+        const requestData = await requestService.getSinglerequestbyrequest_no({request_no: payload.request_no});
+        const responseData = await responseService.getSingleresponse({request_no: payload.request_no});
+        const requestDateitemData = await requestDateitemService.getSinglerequestDateitem({request_no: payload.request_no});
+
+        const sendEmailResult = await sendpopupNotification(postTitle, requestData, responseData, (req.user[0]), payload, requestDateitemData);
+  
         res.status(200).json({
             success: true,
-            msg: 'Request Approve successfully',
+            msg: `คำขอของคุณ: ${payload.request_no} บันทึกสำเร็จแล้ว + ส่งอีเมลแจ้งเตือนไปยังผู้ขอเรียบร้อยแล้ว`,
             data: {
                 approveData: result,
-                updateRequestStatus: updateRequestStatus
+                updateRequestStatus: updateRequestStatus,
+                update_log_result: update_log_result,
+                sendEmailResult: sendEmailResult
             }
         });
     } catch (error) {

@@ -13,6 +13,7 @@ export default function DrawingRequestForm() {
       const data = await printdrawingRequest({id : request_id});
       // console.log(data.data.documenttypeitemData[0], 'data print');
       // console.log(data.data.requestData[0], 'data print requestData');
+      console.log('data', data)
       setRequestData(data);
     } catch (err) {
       setError('Failed to load request data.');

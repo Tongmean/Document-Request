@@ -99,7 +99,8 @@ const createdrawingrequest_existing = async (req, res) => {
             msg: 'สร้างคำขอใหม่สำเร็จ + ส่งอีเมลแจ้งเตือนไปยังผู้ขอเรียบร้อยแล้ว',
             data :{
                 request: insertedRequest,
-                requestItems: insertedItems
+                requestItems: insertedItems,
+                emailNotification: emailNotification
             }
             
         });

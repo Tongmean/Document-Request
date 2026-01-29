@@ -204,6 +204,7 @@ export default function DrawingRequestForm() {
       // ❌ Stop here if validation fails
         if (!validateForm()) return;
     try {
+      setLoading(true)
       // ===============================================
       // TRANSFORM CHECKBOX DATA TO API FORMAT
       // We now send IDs instead of labels
@@ -276,7 +277,7 @@ export default function DrawingRequestForm() {
 
       console.log('Form submission payload:', payload);
       const result = await postRequest(payload);
-      message.success(result.msg || 'Drawing request submitted successfully');
+      message.success(result.msg);
       resetForm()
       load()
       /* Example payload structure with IDs:
