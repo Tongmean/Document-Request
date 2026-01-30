@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { useAuthContext } from '../hook/useAuthContext';
 import Notification from '../component/Notification';
 
@@ -7,12 +7,20 @@ const ProtectedRoleRouteExit = ({ allowedRoles = [] }) => {
   const { user } = useAuthContext();
   const [notification, setNotification] = useState(null);
   const navigate = useNavigate();
-
+  const location = useLocation();
+  console.log('location', location)
+  console.log('allowedRoles', allowedRoles)
   useEffect(() => {
     // 1. No user → redirect to login
     if (!user) {
-      navigate('/login', { replace: true });
+      navigate('/login', { replace: true , state:{ from: location }});
       return;
+      // <Navigate
+      //   to="/login"
+      //   replace
+      //   // 🔴 THIS IS THE MOST IMPORTANT LINE
+      //   state={{ from: location }}
+      // />
     }
     // console.log('user in ProtectedRoleRouteExit',user.data)
     // 2. Normalize user roles (handle multiple roles safely)

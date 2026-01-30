@@ -12,12 +12,12 @@ const http = require('http');
 
 const fs = require('fs');
 const { Server } = require('socket.io');
-const socketIo = require('socket.io');
+// const socketIo = require('socket.io');
 const server = http.createServer(app);
 const app1 = require('./apps/app1/index');
 const app2 = require('./apps/app2/index');
 const UserRouter = require('./Route/useRoute')
-
+const createSocketBroadcaster = require('./Middleware/createSocketBroadcaster');
 // Socket.IO setup
 const io = new Server(server, {
     cors: {
@@ -35,6 +35,9 @@ io.on('connection', (socket) => {
 });
 //Check DB Connection
 // const dbconnect = require('./Middleware/Dbconnect');
+
+app.use(createSocketBroadcaster(io));
+
 app.use('/user', UserRouter);
 const requireAuth = require('./Middleware/requireAuth');
 

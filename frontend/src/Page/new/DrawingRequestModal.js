@@ -96,7 +96,8 @@ export default function DrawingRequestModal({ open, requestId, onClose }) {
   const overdueApi = requestData?.data?.overdueData?.[0];
   const followApi = requestData?.data?.followData?.[0];
   const historyLogapi = requestData?.data?.historyLogData || [];
-  console.log('historyLogapi', historyLogapi);
+  const urlapi = requestData?.data?.urlData || [];
+  // console.log('historyLogapi', historyLogapi);
 
   const isneed = overdueApi?.isneed;
 
@@ -468,6 +469,64 @@ export default function DrawingRequestModal({ open, requestId, onClose }) {
                     <div>
                         <strong>Total Items:</strong>
                         <span className="badge bg-info ms-2">{historyLogapi.length}</span>
+                    </div>
+                    </div>
+                </>
+                ) : (
+                <div className="text-center text-muted py-5 bg-light rounded">
+                    <div style={{ fontSize: '3rem' }}>📋</div>
+                    <p className="mt-3 mb-0">No items found for this request</p>
+                </div>
+            )}
+   
+              {loading ? (
+                <div className="text-center py-4">
+                    <Spin size="large" />
+                    <p className="mt-3 text-muted">Loading items...</p>
+                </div>
+                ) : urlapi && urlapi.length > 0 ? (
+                <>
+                    <h5 className="border-bottom pb-2 mb-3">
+                    <i className="bi bi-list-ul me-2"></i>
+                        File Path
+                  </h5>
+                    <div className="table-responsive">
+                    <table className="table table-striped table-bordered table-hover">
+                        <thead className="table-dark">
+                        <tr>
+                            <th style={{ width: '60px' }} className="text-center">No.</th>
+                            <th>Path</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {urlapi.map((item, index) => (
+                            <tr key={index}>
+                                <td className="text-center">
+                                    <span className="badge bg-secondary">{index + 1}</span>
+                                </td>
+                              
+                                <td>
+                                  {item.path ? (
+                                    <a href={item.path} target="_blank" rel="noopener noreferrer">
+                                      {item.path}
+                                    </a>
+                                  ) : (
+                                    'N/A'
+                                  )}
+                                </td>
+
+                                
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
+                    </div>
+                    
+                    {/* Summary */}
+                    <div className="d-flex justify-content-between align-items-center mt-3 p-3 bg-light rounded">
+                    <div>
+                        <strong>Total Items:</strong>
+                        <span className="badge bg-info ms-2">{urlapi.length}</span>
                     </div>
                     </div>
                 </>

@@ -127,8 +127,31 @@ const DrawingsenderNew = () => {
   }
   return (
     <div>
-      <h1>Drawing Request Existing Page</h1>
-      <p>This is the Drawing Request Existing page content.</p>
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 16,
+        padding: '16px 20px',
+        background: '#fff',
+        borderRadius: 8,
+        boxShadow: '0 1px 3px rgba(0,0,0,0.08)'
+      }}>
+        <div>
+          <h1 style={{ margin: 0, fontSize: 22, fontWeight: 600 }}>
+            รายการการจัดส่ง File
+          </h1>
+          <p style={{ margin: '4px 0 0', color: '#666', fontSize: 14 }}>
+            ติดตามสถานะคำขอ มอบหมายงาน และจัดการ Drawing
+          </p>
+        </div>
+
+        {/* Optional actions */}
+        <div>
+          {/* example */}
+          {/* <Button icon={<ReloadOutlined />} onClick={load}>Refresh</Button> */}
+        </div>
+      </div>
       {loading ? (
       <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
           <Spin size="large" />

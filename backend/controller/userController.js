@@ -1,46 +1,24 @@
 const dbconnect = require('../Middleware/Dbconnect');
 const jwt = require('jsonwebtoken');
+const {getAlluserService} = require('../Service/userSevice')
 //Get All user
-const getUsers = async (req, res) => {
-    const mysql =`
-            SELECT 
-            u.user_id,
-            u.email,
-            u.username,
-            u.password,
-            u.position
-            -- ro.role_option_name
-        FROM "User" u
-        LEFT JOIN "Role_Item" ri
-            ON u.user_id = ri.user_id
-        -- LEFT JOIN "Role_Option" ro
-        --   ON ri.role_item = ro.role_option_id
-        ORDER BY u.user_id
-    `
+const getAlluserController = async (req, res) =>{
     try {
-        dbconnect.query(mysql, (err, result) => {
-            if (err) {
-                res.status(500).json({
-                    success: false,
-                    msg: "ดึงข้อมูลผู้ใช้งานไม่สำเร็จ",
-                    data: err
-                });
-            } else {
-                res.status(200).json({
-                    success: true, // Changed from false to true to indicate success
-                    msg: "ดึงข้อมูลผู้ใช้งานได้สำเร็จ",
-                    data: result.rows // PostgreSQL query result has a 'rows' property
-                });
-            }
+        const result = await getAlluserService();
+        res.status(200).json({
+            success: true,
+            msg: 'Request No fetched successfully',
+            data: result
         });
     } catch (error) {
+        console.error(error);
         res.status(500).json({
-            success: false,
-            msg: "มีปัญาเกิดขึ้นระว่างการดึงข้อมูล",
-            data: error
+        success: false,
+        msg: 'An error occurred while fetching the Request No',
+        error: error.message
         });
     }
-};
+}
 
 //login
 const login = async (req, res) => {
@@ -106,6 +84,7 @@ const login = async (req, res) => {
 };
 
 module.exports ={
-    getUsers,
     login,
+    getAlluserController
 }
+

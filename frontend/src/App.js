@@ -19,13 +19,17 @@ import DrawingapproveNew from './Page/new/Drawingapprove.js/Drawingapprove'
 import DrawingsenderNew from './Page/new/sender/Drawingsender'
 
 import CreateDrawingRequest from './Page/new/Drawingrequest/CreatedrawingRequest'
+
+//import 
+import GlobalUpdateAlert from './component/GlobalUpdateAlert'
 function App() {
   const { user } = useAuthContext()
   const isAuthenticated = Boolean(user?.token)
-  console.log("User in App.js:", user?.token);
+  // console.log("User in App.js:", user?.data[0].email);
 
   return (
     <Router>
+        <GlobalUpdateAlert />
       <Routes>
         {/* Public routes (NO layout) */}
         <Route path="/login" element={<Loginpage />} />
@@ -47,8 +51,11 @@ function App() {
             <Route element={<ProtectedRoleRouteExit allowedRoles={['Requestor']} />}>
               <Route path="/exist/createdrawingrequest" element={<CreatedrawingRequest/>} />
             </Route>
-
+            {/* <Route element={<ProtectedRoleRouteExit allowedRoles={['Requestor', 'Responsor']} />}>
+              <Route path="/exist/drawingrequest/:request_id" element={<DrawingRequestPrint/>} />
+            </Route> */}
             <Route path="/exist/drawingrequest/:request_id" element={<DrawingRequestPrint/>} />
+
             {/* Reponse */}
             <Route element={<ProtectedRoleRouteExit allowedRoles={['Responsor']} />}>
               <Route path="/exist/createdrawingresponse/:request_id" element={<CreatedrawingResponse/>} />
@@ -59,8 +66,12 @@ function App() {
             {/* New*/}
             <Route path="/new/drawingrequest" element={<Drawingrequestnew/>} />
             <Route path="/new/createdrawingrequest" element={<CreateDrawingRequest/>} />
-            
+            <Route element={<ProtectedRoleRouteExit allowedRoles={['Requestor', 'Responsor']} />}>
+                 <Route path="/new/drawingrequest/:request_id" element={<DrawingNewRequestForm/>} />
+            </Route>
             <Route path="/new/drawingrequest/:request_id" element={<DrawingNewRequestForm/>} />
+
+            {/* <Route path="/new/drawingrequest/:request_id" element={<DrawingNewRequestForm/>} /> */}
             {/* New*/}
             <Route path="/new/drawingresponse" element={<DrawingresponseNew/>} />
             {/* <Route path="/new/drawingrequest/:request_id" element={<DrawingNewRequestForm/>} /> */}

@@ -32,9 +32,9 @@ export default function OverdueFormModal({
       isneed: values.isneed || false,
       Overdue_remark: values.Overdue_remark || ''
     };
-
+    setLoading(true);
     try {
-      setLoading(true);
+    //   setLoading(true);
       console.log('Submitting payload:', payload);
       const result = await postdrawingOverdueform(payload);
       message.success(result?.msg);
@@ -48,7 +48,7 @@ export default function OverdueFormModal({
     }
   };
 
-  if (loadingpage) return <Spin />;
+//   if (loadingpage) return <Spin />;
 
   return (
     <Modal

@@ -9,7 +9,7 @@ const drawingDocumenttypeItemService = require('../Service/drawingDocumenttypeIt
 const productTypeitemService = require('../Service/productTypeitem');
 const requestDateitemService = require('../Service/requestDateitem');
 const followService = require('../Service/follow');
-
+const urlService = require('../Service/urlService');
 const printRequestController = async (req, res) => {
     // const payload = req.body;
     // console.log('Received payload:', req.body);
@@ -29,7 +29,8 @@ const printRequestController = async (req, res) => {
         const productTypeitemData = await productTypeitemService.getSingleproductTypeitem(payload);
         const requestDateitemData = await requestDateitemService.getSinglerequestDateitem(payload);
         const historyLogData = await requestService.getHistorylog(payload);
-        console.log('Request Data:', requestData);
+        const urlData = await urlService.getUrlbyRequest_no(payload);
+        // console.log('Request Data:', requestData);
         res.status(200).json({
             success: true,
             msg: 'Print request processed successfully',
@@ -45,7 +46,8 @@ const printRequestController = async (req, res) => {
                 productTypeitemData : productTypeitemData,
                 requestDateitemData : requestDateitemData,
                 followData : followData,
-                historyLogData : historyLogData
+                historyLogData : historyLogData,
+                urlData: urlData
 
             }
         });

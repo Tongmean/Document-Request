@@ -20,6 +20,7 @@ const Sidebar = ({ collapsed, onCollapse }) => {
   const lastSegment = pathSegments[pathSegments.length - 1];
 
   const userInfo = user?.data?.[0];
+  console.log('user?.data?',user)
 
   const items = useMemo(() => {
     const baseItems = [
@@ -132,11 +133,27 @@ const Sidebar = ({ collapsed, onCollapse }) => {
 
         {!collapsed && (
           <div style={{ fontSize: 12, opacity: 0.75 }}>
-            <p>({userInfo?.role_option_name ?? ''})</p>
-            <p>({userInfo?.username ?? ''})</p>
-            <p>({userInfo?.email ?? ''})</p>
+            <div>
+              {user.data.map((item, index) => (
+                <p key={index}>({item.role_option_name})</p>
+              ))}
+            </div>
+            <div>
+              {/* {user.data.map((item, index) => (
+                <li key={index}>({item.email})</li>
+              ))} */}
+              {[...new Set(user.data.map(item => item.email))].map((email, index) => (
+                <p key={index}>({email})</p>
+              ))}
+            </div>
+            {/* <p>({userInfo?.role_option_name ?? ''})</p> */}
+            {/* <p>({userInfo?.username ?? ''})</p>
+            <p>({userInfo?.email ?? ''})</p> */}
           </div>
+          
         )}
+        
+
       </div>
 
       {/* 📌 Menu */}

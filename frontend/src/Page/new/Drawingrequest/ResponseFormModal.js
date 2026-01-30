@@ -93,13 +93,13 @@ export default function ResponseFormModal({
   };
 
   const loading = userLoading || loadingpage;
-  if (loading) {
-    return (
-      <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
-        <Spin size="large" />
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+  //       <Spin size="large" />
+  //     </div>
+  //   );
+  // }
 
   return (
     <Modal
