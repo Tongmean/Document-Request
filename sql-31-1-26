@@ -1,0 +1,2604 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 17.2
+-- Dumped by pg_dump version 17.0
+
+-- Started on 2026-01-31 12:37:05 +07
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 6 (class 2615 OID 24705)
+-- Name: newDrawingrequest; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA "newDrawingrequest";
+
+
+ALTER SCHEMA "newDrawingrequest" OWNER TO postgres;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 263 (class 1259 OID 24798)
+-- Name: Approve_Form; Type: TABLE; Schema: newDrawingrequest; Owner: postgres
+--
+
+CREATE TABLE "newDrawingrequest"."Approve_Form" (
+    id integer NOT NULL,
+    request_no character varying(255),
+    approve_status integer,
+    approve_by integer,
+    approve_at date
+);
+
+
+ALTER TABLE "newDrawingrequest"."Approve_Form" OWNER TO postgres;
+
+--
+-- TOC entry 262 (class 1259 OID 24797)
+-- Name: Approve_Form_id_seq; Type: SEQUENCE; Schema: newDrawingrequest; Owner: postgres
+--
+
+ALTER TABLE "newDrawingrequest"."Approve_Form" ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME "newDrawingrequest"."Approve_Form_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 279 (class 1259 OID 24952)
+-- Name: Check_Form; Type: TABLE; Schema: newDrawingrequest; Owner: postgres
+--
+
+CREATE TABLE "newDrawingrequest"."Check_Form" (
+    id integer NOT NULL,
+    request_no character varying(255),
+    check_by integer,
+    check_at date
+);
+
+
+ALTER TABLE "newDrawingrequest"."Check_Form" OWNER TO postgres;
+
+--
+-- TOC entry 278 (class 1259 OID 24951)
+-- Name: Check_Form_id_seq; Type: SEQUENCE; Schema: newDrawingrequest; Owner: postgres
+--
+
+ALTER TABLE "newDrawingrequest"."Check_Form" ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME "newDrawingrequest"."Check_Form_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 249 (class 1259 OID 24742)
+-- Name: Document_Type; Type: TABLE; Schema: newDrawingrequest; Owner: postgres
+--
+
+CREATE TABLE "newDrawingrequest"."Document_Type" (
+    document_type_id integer NOT NULL,
+    document_type character varying(255)
+);
+
+
+ALTER TABLE "newDrawingrequest"."Document_Type" OWNER TO postgres;
+
+--
+-- TOC entry 251 (class 1259 OID 24748)
+-- Name: Document_Type_Item; Type: TABLE; Schema: newDrawingrequest; Owner: postgres
+--
+
+CREATE TABLE "newDrawingrequest"."Document_Type_Item" (
+    id integer NOT NULL,
+    request_no character varying(55),
+    document_type_item_id character varying(255),
+    document_type integer
+);
+
+
+ALTER TABLE "newDrawingrequest"."Document_Type_Item" OWNER TO postgres;
+
+--
+-- TOC entry 250 (class 1259 OID 24747)
+-- Name: Document_Type_Item_id_seq; Type: SEQUENCE; Schema: newDrawingrequest; Owner: postgres
+--
+
+ALTER TABLE "newDrawingrequest"."Document_Type_Item" ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME "newDrawingrequest"."Document_Type_Item_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 248 (class 1259 OID 24741)
+-- Name: Document_Type_document_type_id_seq; Type: SEQUENCE; Schema: newDrawingrequest; Owner: postgres
+--
+
+ALTER TABLE "newDrawingrequest"."Document_Type" ALTER COLUMN document_type_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME "newDrawingrequest"."Document_Type_document_type_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 253 (class 1259 OID 24756)
+-- Name: Drawing_Ducument_Type; Type: TABLE; Schema: newDrawingrequest; Owner: postgres
+--
+
+CREATE TABLE "newDrawingrequest"."Drawing_Ducument_Type" (
+    drawing_document_type_id integer NOT NULL,
+    drawing_document_type character varying(255)
+);
+
+
+ALTER TABLE "newDrawingrequest"."Drawing_Ducument_Type" OWNER TO postgres;
+
+--
+-- TOC entry 255 (class 1259 OID 24762)
+-- Name: Drawing_Ducument_Type_Item; Type: TABLE; Schema: newDrawingrequest; Owner: postgres
+--
+
+CREATE TABLE "newDrawingrequest"."Drawing_Ducument_Type_Item" (
+    id integer NOT NULL,
+    request_no character varying(55),
+    drawing_document_type_id character varying(55),
+    drawing_document_type integer
+);
+
+
+ALTER TABLE "newDrawingrequest"."Drawing_Ducument_Type_Item" OWNER TO postgres;
+
+--
+-- TOC entry 254 (class 1259 OID 24761)
+-- Name: Drawing_Ducument_Type_Item_id_seq; Type: SEQUENCE; Schema: newDrawingrequest; Owner: postgres
+--
+
+ALTER TABLE "newDrawingrequest"."Drawing_Ducument_Type_Item" ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME "newDrawingrequest"."Drawing_Ducument_Type_Item_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 252 (class 1259 OID 24755)
+-- Name: Drawing_Ducument_Type_drawing_document_type_id_seq; Type: SEQUENCE; Schema: newDrawingrequest; Owner: postgres
+--
+
+ALTER TABLE "newDrawingrequest"."Drawing_Ducument_Type" ALTER COLUMN drawing_document_type_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME "newDrawingrequest"."Drawing_Ducument_Type_drawing_document_type_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 241 (class 1259 OID 24718)
+-- Name: Drawing_Type; Type: TABLE; Schema: newDrawingrequest; Owner: postgres
+--
+
+CREATE TABLE "newDrawingrequest"."Drawing_Type" (
+    drawing_type_id integer NOT NULL,
+    drawing_type character varying(255)
+);
+
+
+ALTER TABLE "newDrawingrequest"."Drawing_Type" OWNER TO postgres;
+
+--
+-- TOC entry 243 (class 1259 OID 24724)
+-- Name: Drawing_Type_Item; Type: TABLE; Schema: newDrawingrequest; Owner: postgres
+--
+
+CREATE TABLE "newDrawingrequest"."Drawing_Type_Item" (
+    id integer NOT NULL,
+    request_no character varying(55),
+    drawing_type_item_id character varying(55),
+    drawing_type_item integer
+);
+
+
+ALTER TABLE "newDrawingrequest"."Drawing_Type_Item" OWNER TO postgres;
+
+--
+-- TOC entry 242 (class 1259 OID 24723)
+-- Name: Drawing_Type_Item_id_seq; Type: SEQUENCE; Schema: newDrawingrequest; Owner: postgres
+--
+
+ALTER TABLE "newDrawingrequest"."Drawing_Type_Item" ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME "newDrawingrequest"."Drawing_Type_Item_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 240 (class 1259 OID 24717)
+-- Name: Drawing_Type_drawing_type_id_seq; Type: SEQUENCE; Schema: newDrawingrequest; Owner: postgres
+--
+
+ALTER TABLE "newDrawingrequest"."Drawing_Type" ALTER COLUMN drawing_type_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME "newDrawingrequest"."Drawing_Type_drawing_type_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 273 (class 1259 OID 24922)
+-- Name: Follow_Form; Type: TABLE; Schema: newDrawingrequest; Owner: postgres
+--
+
+CREATE TABLE "newDrawingrequest"."Follow_Form" (
+    id integer NOT NULL,
+    request_no character varying(255),
+    follow_by integer,
+    follow_at date
+);
+
+
+ALTER TABLE "newDrawingrequest"."Follow_Form" OWNER TO postgres;
+
+--
+-- TOC entry 272 (class 1259 OID 24921)
+-- Name: Follow_Form_id_seq; Type: SEQUENCE; Schema: newDrawingrequest; Owner: postgres
+--
+
+ALTER TABLE "newDrawingrequest"."Follow_Form" ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME "newDrawingrequest"."Follow_Form_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 269 (class 1259 OID 24822)
+-- Name: OverDue_Form; Type: TABLE; Schema: newDrawingrequest; Owner: postgres
+--
+
+CREATE TABLE "newDrawingrequest"."OverDue_Form" (
+    id integer NOT NULL,
+    request_no character varying(255),
+    expect_date date,
+    isneed boolean,
+    overdue_remark character varying(255),
+    follow_by integer,
+    follow_at date
+);
+
+
+ALTER TABLE "newDrawingrequest"."OverDue_Form" OWNER TO postgres;
+
+--
+-- TOC entry 268 (class 1259 OID 24821)
+-- Name: OverDue_Form_id_seq; Type: SEQUENCE; Schema: newDrawingrequest; Owner: postgres
+--
+
+ALTER TABLE "newDrawingrequest"."OverDue_Form" ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME "newDrawingrequest"."OverDue_Form_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 265 (class 1259 OID 24806)
+-- Name: Process_Form; Type: TABLE; Schema: newDrawingrequest; Owner: postgres
+--
+
+CREATE TABLE "newDrawingrequest"."Process_Form" (
+    id integer NOT NULL,
+    request_no character varying(255),
+    process_status integer,
+    process_by integer,
+    process_at date
+);
+
+
+ALTER TABLE "newDrawingrequest"."Process_Form" OWNER TO postgres;
+
+--
+-- TOC entry 264 (class 1259 OID 24805)
+-- Name: Process_Form_id_seq; Type: SEQUENCE; Schema: newDrawingrequest; Owner: postgres
+--
+
+ALTER TABLE "newDrawingrequest"."Process_Form" ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME "newDrawingrequest"."Process_Form_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 245 (class 1259 OID 24730)
+-- Name: Product_Type; Type: TABLE; Schema: newDrawingrequest; Owner: postgres
+--
+
+CREATE TABLE "newDrawingrequest"."Product_Type" (
+    product_type_id integer NOT NULL,
+    product_type character varying(255)
+);
+
+
+ALTER TABLE "newDrawingrequest"."Product_Type" OWNER TO postgres;
+
+--
+-- TOC entry 247 (class 1259 OID 24736)
+-- Name: Product_Type_Item; Type: TABLE; Schema: newDrawingrequest; Owner: postgres
+--
+
+CREATE TABLE "newDrawingrequest"."Product_Type_Item" (
+    id integer NOT NULL,
+    request_no character varying(55),
+    product_type_item_id character varying(55),
+    product_type_item integer
+);
+
+
+ALTER TABLE "newDrawingrequest"."Product_Type_Item" OWNER TO postgres;
+
+--
+-- TOC entry 246 (class 1259 OID 24735)
+-- Name: Product_Type_Item_id_seq; Type: SEQUENCE; Schema: newDrawingrequest; Owner: postgres
+--
+
+ALTER TABLE "newDrawingrequest"."Product_Type_Item" ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME "newDrawingrequest"."Product_Type_Item_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 244 (class 1259 OID 24729)
+-- Name: Product_Type_product_type_id_seq; Type: SEQUENCE; Schema: newDrawingrequest; Owner: postgres
+--
+
+ALTER TABLE "newDrawingrequest"."Product_Type" ALTER COLUMN product_type_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME "newDrawingrequest"."Product_Type_product_type_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 271 (class 1259 OID 24914)
+-- Name: Request_Date_Item; Type: TABLE; Schema: newDrawingrequest; Owner: postgres
+--
+
+CREATE TABLE "newDrawingrequest"."Request_Date_Item" (
+    id integer NOT NULL,
+    request_no character varying(255),
+    request_date_item_id character varying(255),
+    request_date date,
+    expected_date date
+);
+
+
+ALTER TABLE "newDrawingrequest"."Request_Date_Item" OWNER TO postgres;
+
+--
+-- TOC entry 270 (class 1259 OID 24913)
+-- Name: Request_Date_Item_id_seq; Type: SEQUENCE; Schema: newDrawingrequest; Owner: postgres
+--
+
+ALTER TABLE "newDrawingrequest"."Request_Date_Item" ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME "newDrawingrequest"."Request_Date_Item_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 259 (class 1259 OID 24782)
+-- Name: Request_Form; Type: TABLE; Schema: newDrawingrequest; Owner: postgres
+--
+
+CREATE TABLE "newDrawingrequest"."Request_Form" (
+    id integer NOT NULL,
+    request_no character varying(255),
+    department character varying(255),
+    customer_name character varying(255),
+    part_no character varying(255),
+    detail character varying(500),
+    request_remark character varying(555),
+    request_status integer,
+    request_by integer,
+    request_at date
+);
+
+
+ALTER TABLE "newDrawingrequest"."Request_Form" OWNER TO postgres;
+
+--
+-- TOC entry 258 (class 1259 OID 24781)
+-- Name: Request_Form_id_seq; Type: SEQUENCE; Schema: newDrawingrequest; Owner: postgres
+--
+
+ALTER TABLE "newDrawingrequest"."Request_Form" ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME "newDrawingrequest"."Request_Form_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 261 (class 1259 OID 24790)
+-- Name: Response_Form; Type: TABLE; Schema: newDrawingrequest; Owner: postgres
+--
+
+CREATE TABLE "newDrawingrequest"."Response_Form" (
+    id integer NOT NULL,
+    request_no character varying(255),
+    assign_to_proccessor integer,
+    assign_to_approver integer,
+    response_status integer,
+    response_by integer,
+    response_at date
+);
+
+
+ALTER TABLE "newDrawingrequest"."Response_Form" OWNER TO postgres;
+
+--
+-- TOC entry 260 (class 1259 OID 24789)
+-- Name: Response_Form_id_seq; Type: SEQUENCE; Schema: newDrawingrequest; Owner: postgres
+--
+
+ALTER TABLE "newDrawingrequest"."Response_Form" ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME "newDrawingrequest"."Response_Form_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 257 (class 1259 OID 24768)
+-- Name: Status; Type: TABLE; Schema: newDrawingrequest; Owner: postgres
+--
+
+CREATE TABLE "newDrawingrequest"."Status" (
+    status_id integer NOT NULL,
+    status_name character varying(255)
+);
+
+
+ALTER TABLE "newDrawingrequest"."Status" OWNER TO postgres;
+
+--
+-- TOC entry 256 (class 1259 OID 24767)
+-- Name: Status_status_id_seq; Type: SEQUENCE; Schema: newDrawingrequest; Owner: postgres
+--
+
+ALTER TABLE "newDrawingrequest"."Status" ALTER COLUMN status_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME "newDrawingrequest"."Status_status_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 267 (class 1259 OID 24814)
+-- Name: Url_Form; Type: TABLE; Schema: newDrawingrequest; Owner: postgres
+--
+
+CREATE TABLE "newDrawingrequest"."Url_Form" (
+    id integer NOT NULL,
+    request_no character varying(255),
+    path character varying(555)
+);
+
+
+ALTER TABLE "newDrawingrequest"."Url_Form" OWNER TO postgres;
+
+--
+-- TOC entry 266 (class 1259 OID 24813)
+-- Name: Url_Form_id_seq; Type: SEQUENCE; Schema: newDrawingrequest; Owner: postgres
+--
+
+ALTER TABLE "newDrawingrequest"."Url_Form" ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME "newDrawingrequest"."Url_Form_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 277 (class 1259 OID 24937)
+-- Name: update_log; Type: TABLE; Schema: newDrawingrequest; Owner: postgres
+--
+
+CREATE TABLE "newDrawingrequest".update_log (
+    id integer NOT NULL,
+    table_name character varying(50),
+    column_name character varying(50),
+    record_id text,
+    old_value character varying(255),
+    new_value character varying(255),
+    acion character varying(50),
+    action_by integer,
+    action_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE "newDrawingrequest".update_log OWNER TO postgres;
+
+--
+-- TOC entry 276 (class 1259 OID 24936)
+-- Name: update_log_id_seq; Type: SEQUENCE; Schema: newDrawingrequest; Owner: postgres
+--
+
+ALTER TABLE "newDrawingrequest".update_log ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME "newDrawingrequest".update_log_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 227 (class 1259 OID 16461)
+-- Name: Drawing_Document_Type; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Drawing_Document_Type" (
+    document_no integer NOT NULL,
+    document_name character varying(255)
+);
+
+
+ALTER TABLE public."Drawing_Document_Type" OWNER TO postgres;
+
+--
+-- TOC entry 226 (class 1259 OID 16460)
+-- Name: Drawing_Document_Type_document_no_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public."Drawing_Document_Type" ALTER COLUMN document_no ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public."Drawing_Document_Type_document_no_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 235 (class 1259 OID 16510)
+-- Name: File_Form; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."File_Form" (
+    file_id integer NOT NULL,
+    request_no character varying(255),
+    file_name character varying(500),
+    file_path character varying(500)
+);
+
+
+ALTER TABLE public."File_Form" OWNER TO postgres;
+
+--
+-- TOC entry 234 (class 1259 OID 16509)
+-- Name: File_Form_file_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public."File_Form" ALTER COLUMN file_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public."File_Form_file_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 239 (class 1259 OID 24710)
+-- Name: OverDue_Form; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."OverDue_Form" (
+    id integer NOT NULL,
+    request_no character varying(255),
+    expect_date character varying(555),
+    isneed boolean,
+    overdue_remark character varying(255),
+    follow_by character varying(255),
+    follow_at date
+);
+
+
+ALTER TABLE public."OverDue_Form" OWNER TO postgres;
+
+--
+-- TOC entry 238 (class 1259 OID 24709)
+-- Name: OverDue_Form_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public."OverDue_Form" ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public."OverDue_Form_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 225 (class 1259 OID 16453)
+-- Name: Request_Utility_Existing_Drawing_Document_Type_Item_Form; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Request_Utility_Existing_Drawing_Document_Type_Item_Form" (
+    request_item_id integer NOT NULL,
+    request_no character varying(255),
+    document_no integer,
+    request_at date,
+    request_by integer
+);
+
+
+ALTER TABLE public."Request_Utility_Existing_Drawing_Document_Type_Item_Form" OWNER TO postgres;
+
+--
+-- TOC entry 224 (class 1259 OID 16452)
+-- Name: Request_Utility_Existing_Drawing_Document_T_request_item_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public."Request_Utility_Existing_Drawing_Document_Type_Item_Form" ALTER COLUMN request_item_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public."Request_Utility_Existing_Drawing_Document_T_request_item_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 237 (class 1259 OID 16518)
+-- Name: Request_Utility_Existing_Drawing_Form; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Request_Utility_Existing_Drawing_Form" (
+    request_id integer NOT NULL,
+    request_no character varying(255),
+    department character varying(255),
+    detail character varying(1000),
+    reason character varying(1000),
+    status integer,
+    request_at date,
+    request_by integer
+);
+
+
+ALTER TABLE public."Request_Utility_Existing_Drawing_Form" OWNER TO postgres;
+
+--
+-- TOC entry 236 (class 1259 OID 16517)
+-- Name: Request_Utility_Existing_Drawing_Form_request_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public."Request_Utility_Existing_Drawing_Form" ALTER COLUMN request_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public."Request_Utility_Existing_Drawing_Form_request_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 221 (class 1259 OID 16407)
+-- Name: Role_Item; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Role_Item" (
+    role_id integer NOT NULL,
+    user_id integer NOT NULL,
+    role_item integer NOT NULL,
+    created_at date,
+    created_by character varying(255)
+);
+
+
+ALTER TABLE public."Role_Item" OWNER TO postgres;
+
+--
+-- TOC entry 220 (class 1259 OID 16406)
+-- Name: Role_Item_role_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public."Role_Item" ALTER COLUMN role_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public."Role_Item_role_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 223 (class 1259 OID 16435)
+-- Name: Role_Option; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Role_Option" (
+    role_option_id integer NOT NULL,
+    role_option_name character varying(255) NOT NULL,
+    created_at date,
+    created_by character varying(255)
+);
+
+
+ALTER TABLE public."Role_Option" OWNER TO postgres;
+
+--
+-- TOC entry 222 (class 1259 OID 16434)
+-- Name: Role_Option_role_option_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public."Role_Option" ALTER COLUMN role_option_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public."Role_Option_role_option_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 231 (class 1259 OID 16494)
+-- Name: Sender_Utility_Existing_Drawing_Form; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Sender_Utility_Existing_Drawing_Form" (
+    sender_id integer NOT NULL,
+    request_no character varying(255),
+    sender_person integer,
+    created_at_sender_person character varying(255),
+    status integer
+);
+
+
+ALTER TABLE public."Sender_Utility_Existing_Drawing_Form" OWNER TO postgres;
+
+--
+-- TOC entry 230 (class 1259 OID 16493)
+-- Name: Sender_Utility_Existing_Drawing_Form_sender_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public."Sender_Utility_Existing_Drawing_Form" ALTER COLUMN sender_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public."Sender_Utility_Existing_Drawing_Form_sender_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 229 (class 1259 OID 16467)
+-- Name: Status; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Status" (
+    status_no integer NOT NULL,
+    status_name character varying(255)
+);
+
+
+ALTER TABLE public."Status" OWNER TO postgres;
+
+--
+-- TOC entry 228 (class 1259 OID 16466)
+-- Name: Status_status_no_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public."Status" ALTER COLUMN status_no ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public."Status_status_no_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 233 (class 1259 OID 16502)
+-- Name: Url_Form; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Url_Form" (
+    url_id integer NOT NULL,
+    request_no character varying(255),
+    path character varying(500)
+);
+
+
+ALTER TABLE public."Url_Form" OWNER TO postgres;
+
+--
+-- TOC entry 232 (class 1259 OID 16501)
+-- Name: Url_Form_url_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public."Url_Form" ALTER COLUMN url_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public."Url_Form_url_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 219 (class 1259 OID 16399)
+-- Name: User; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."User" (
+    user_id integer NOT NULL,
+    email character varying(255),
+    username character varying(255),
+    password character varying(255),
+    "position" character varying(255),
+    created_at date,
+    created_by character varying(255)
+);
+
+
+ALTER TABLE public."User" OWNER TO postgres;
+
+--
+-- TOC entry 218 (class 1259 OID 16398)
+-- Name: User_user_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public."User" ALTER COLUMN user_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public."User_user_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 275 (class 1259 OID 24928)
+-- Name: update_log; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.update_log (
+    id integer NOT NULL,
+    table_name character varying(50),
+    column_name character varying(50),
+    record_id integer,
+    old_value character varying(255),
+    new_value character varying(255),
+    acion character varying(50),
+    action_by integer,
+    action_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.update_log OWNER TO postgres;
+
+--
+-- TOC entry 274 (class 1259 OID 24927)
+-- Name: update_log_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.update_log ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.update_log_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 5047 (class 0 OID 24798)
+-- Dependencies: 263
+-- Data for Name: Approve_Form; Type: TABLE DATA; Schema: newDrawingrequest; Owner: postgres
+--
+
+COPY "newDrawingrequest"."Approve_Form" (id, request_no, approve_status, approve_by, approve_at) FROM stdin;
+1	1/2026	4	5	2026-01-24
+2	8/2026	4	2	2026-01-28
+3	8/2026	4	2	2026-01-28
+4	16/2026	4	2	2026-01-28
+5	8/2026	4	2	2026-01-28
+6	8/2026	4	2	2026-01-28
+7	19/2026	4	2	2026-01-29
+8	19/2026	4	2	2026-01-29
+9	19/2026	4	2	2026-01-29
+10	20/2026	4	2	2026-01-29
+11	38/2026	4	8	2026-01-29
+\.
+
+
+--
+-- TOC entry 5063 (class 0 OID 24952)
+-- Dependencies: 279
+-- Data for Name: Check_Form; Type: TABLE DATA; Schema: newDrawingrequest; Owner: postgres
+--
+
+COPY "newDrawingrequest"."Check_Form" (id, request_no, check_by, check_at) FROM stdin;
+1	1/2026	2	\N
+2	19/2026	\N	2026-01-29
+3	19/2026	\N	2026-01-29
+4	19/2026	\N	2026-01-29
+5	19/2026	\N	2026-01-29
+6	19/2026	\N	2026-01-29
+7	19/2026	\N	2026-01-29
+8	19/2026	\N	2026-01-29
+9	19/2026	\N	2026-01-29
+10	19/2026	\N	2026-01-29
+11	19/2026	\N	2026-01-29
+12	19/2026	\N	2026-01-29
+13	19/2026	\N	2026-01-29
+14	19/2026	\N	2026-01-29
+15	19/2026	\N	2026-01-29
+16	19/2026	2	2026-01-29
+17	38/2026	7	2026-01-29
+\.
+
+
+--
+-- TOC entry 5033 (class 0 OID 24742)
+-- Dependencies: 249
+-- Data for Name: Document_Type; Type: TABLE DATA; Schema: newDrawingrequest; Owner: postgres
+--
+
+COPY "newDrawingrequest"."Document_Type" (document_type_id, document_type) FROM stdin;
+1	Drawing (New Model)
+2	Drawing (New Product)
+\.
+
+
+--
+-- TOC entry 5035 (class 0 OID 24748)
+-- Dependencies: 251
+-- Data for Name: Document_Type_Item; Type: TABLE DATA; Schema: newDrawingrequest; Owner: postgres
+--
+
+COPY "newDrawingrequest"."Document_Type_Item" (id, request_no, document_type_item_id, document_type) FROM stdin;
+1	1/2026	1/2026-1	1
+2	1/2026	1/2026-2	2
+21	2026/4	\N	1
+22	2026/4	\N	2
+23	5/2026	\N	1
+24	5/2026	\N	2
+28	5/2026	\N	\N
+33	6/2026	\N	\N
+34	7/2026	\N	\N
+35	7/2026	\N	\N
+36	8/2026	\N	\N
+37	8/2026	\N	\N
+38	9/2026	\N	\N
+39	9/2026	\N	\N
+44	10/2026	\N	1
+45	10/2026	\N	2
+46	11/2026	\N	1
+47	11/2026	\N	2
+48	12/2026	\N	1
+49	12/2026	\N	2
+50	13/2026	\N	1
+51	13/2026	\N	2
+52	14/2026	\N	1
+53	14/2026	\N	2
+54	15/2026	\N	1
+55	15/2026	\N	2
+56	16/2026	\N	1
+57	16/2026	\N	2
+58	17/2026	\N	1
+59	17/2026	\N	2
+62	18/2026	\N	1
+63	19/2026	\N	1
+64	20/2026	\N	1
+65	21/2026	\N	1
+66	22/2026	\N	1
+67	23/2026	\N	2
+68	24/2026	\N	1
+69	25/2026	\N	1
+70	26/2026	\N	1
+71	27/2026	\N	1
+72	28/2026	\N	1
+73	29/2026	\N	1
+74	30/2026	\N	1
+75	31/2026	\N	1
+76	32/2026	\N	1
+77	33/2026	\N	1
+78	34/2026	\N	1
+79	35/2026	\N	1
+80	36/2026	\N	1
+81	37/2026	\N	2
+82	38/2026	\N	1
+\.
+
+
+--
+-- TOC entry 5037 (class 0 OID 24756)
+-- Dependencies: 253
+-- Data for Name: Drawing_Ducument_Type; Type: TABLE DATA; Schema: newDrawingrequest; Owner: postgres
+--
+
+COPY "newDrawingrequest"."Drawing_Ducument_Type" (drawing_document_type_id, drawing_document_type) FROM stdin;
+1	Intensive 00
+2	Intensive 01
+3	Master
+\.
+
+
+--
+-- TOC entry 5039 (class 0 OID 24762)
+-- Dependencies: 255
+-- Data for Name: Drawing_Ducument_Type_Item; Type: TABLE DATA; Schema: newDrawingrequest; Owner: postgres
+--
+
+COPY "newDrawingrequest"."Drawing_Ducument_Type_Item" (id, request_no, drawing_document_type_id, drawing_document_type) FROM stdin;
+1	1/2026	1/2026-1	1
+2	1/2026	1/2026-2	2
+21	2026/4	\N	1
+22	2026/4	\N	2
+23	5/2026	\N	1
+24	5/2026	\N	2
+27	5/2026	\N	\N
+36	6/2026	\N	\N
+37	6/2026	\N	\N
+38	7/2026	\N	\N
+39	7/2026	\N	\N
+40	8/2026	\N	\N
+41	9/2026	\N	\N
+44	10/2026	\N	1
+45	11/2026	\N	1
+46	12/2026	\N	1
+47	13/2026	\N	1
+48	14/2026	\N	1
+49	15/2026	\N	1
+50	16/2026	\N	1
+51	17/2026	\N	1
+56	18/2026	\N	2
+57	18/2026	\N	3
+58	19/2026	\N	1
+59	19/2026	\N	2
+60	20/2026	\N	1
+61	21/2026	\N	1
+62	22/2026	\N	1
+63	23/2026	\N	3
+64	24/2026	\N	1
+65	25/2026	\N	1
+66	26/2026	\N	1
+67	27/2026	\N	1
+68	28/2026	\N	1
+69	29/2026	\N	1
+70	30/2026	\N	1
+71	31/2026	\N	1
+72	32/2026	\N	1
+73	33/2026	\N	1
+74	34/2026	\N	1
+75	35/2026	\N	2
+76	36/2026	\N	1
+77	37/2026	\N	3
+78	38/2026	\N	1
+\.
+
+
+--
+-- TOC entry 5025 (class 0 OID 24718)
+-- Dependencies: 241
+-- Data for Name: Drawing_Type; Type: TABLE DATA; Schema: newDrawingrequest; Owner: postgres
+--
+
+COPY "newDrawingrequest"."Drawing_Type" (drawing_type_id, drawing_type) FROM stdin;
+1	File CAD
+2	File PDF
+3	Paper File
+4	Catalog
+5	ฉบับ A3
+6	ฉบับ A4
+\.
+
+
+--
+-- TOC entry 5027 (class 0 OID 24724)
+-- Dependencies: 243
+-- Data for Name: Drawing_Type_Item; Type: TABLE DATA; Schema: newDrawingrequest; Owner: postgres
+--
+
+COPY "newDrawingrequest"."Drawing_Type_Item" (id, request_no, drawing_type_item_id, drawing_type_item) FROM stdin;
+1	1/2026	1/2026-1	1
+2	1/2026	\N	2
+21	2026/4	\N	\N
+22	2026/4	\N	\N
+23	5/2026	\N	\N
+24	5/2026	\N	\N
+27	5/2026	\N	\N
+28	5/2026	\N	\N
+37	6/2026	\N	\N
+38	6/2026	\N	\N
+39	7/2026	\N	\N
+40	7/2026	\N	\N
+41	8/2026	\N	\N
+42	8/2026	\N	\N
+43	9/2026	\N	\N
+44	9/2026	\N	\N
+47	10/2026	\N	\N
+48	10/2026	\N	\N
+49	11/2026	\N	\N
+50	11/2026	\N	\N
+51	12/2026	\N	1
+52	12/2026	\N	4
+53	13/2026	\N	1
+54	13/2026	\N	4
+55	14/2026	\N	1
+56	14/2026	\N	4
+57	15/2026	\N	1
+58	15/2026	\N	4
+59	16/2026	\N	1
+60	16/2026	\N	4
+61	17/2026	\N	1
+62	17/2026	\N	4
+65	18/2026	\N	1
+66	19/2026	\N	1
+67	19/2026	\N	4
+68	20/2026	\N	1
+69	20/2026	\N	2
+70	21/2026	\N	1
+71	21/2026	\N	4
+72	22/2026	\N	1
+73	22/2026	\N	4
+74	23/2026	\N	3
+75	23/2026	\N	6
+76	24/2026	\N	1
+77	24/2026	\N	4
+78	25/2026	\N	1
+79	26/2026	\N	1
+80	27/2026	\N	1
+81	28/2026	\N	1
+82	29/2026	\N	1
+83	30/2026	\N	1
+84	31/2026	\N	1
+85	32/2026	\N	1
+86	33/2026	\N	1
+87	34/2026	\N	1
+88	34/2026	\N	4
+89	35/2026	\N	1
+90	36/2026	\N	1
+91	36/2026	\N	4
+92	37/2026	\N	2
+93	38/2026	\N	3
+94	38/2026	\N	2
+\.
+
+
+--
+-- TOC entry 5057 (class 0 OID 24922)
+-- Dependencies: 273
+-- Data for Name: Follow_Form; Type: TABLE DATA; Schema: newDrawingrequest; Owner: postgres
+--
+
+COPY "newDrawingrequest"."Follow_Form" (id, request_no, follow_by, follow_at) FROM stdin;
+1	1/2026	2	2026-01-24
+2	17/2026	2	2026-01-28
+3	16/2026	2	2026-01-28
+4	20/2026	2	2026-01-29
+5	38/2026	7	2026-01-30
+6	38/2026	7	2026-01-30
+7	38/2026	7	2026-01-30
+\.
+
+
+--
+-- TOC entry 5053 (class 0 OID 24822)
+-- Dependencies: 269
+-- Data for Name: OverDue_Form; Type: TABLE DATA; Schema: newDrawingrequest; Owner: postgres
+--
+
+COPY "newDrawingrequest"."OverDue_Form" (id, request_no, expect_date, isneed, overdue_remark, follow_by, follow_at) FROM stdin;
+1	1/2026	2026-01-24	t	--	1	2026-01-24
+2	18/2026	2026-01-31	t	dsfsdfsd	2	2026-01-28
+3	16/2026	2026-01-30	t	-	2	2026-01-28
+4	20/2026	2026-01-31	f	No need	2	2026-01-29
+5	38/2026	2026-01-31	t	----	7	2026-01-30
+6	38/2026	2026-01-24	t	p[	7	2026-01-30
+7	38/2026	2026-01-24	t	p[	7	2026-01-30
+8	38/2026	2026-01-24	t	p[	7	2026-01-30
+9	38/2026	2026-01-31	t	--	7	2026-01-30
+10	38/2026	2026-01-17	t	++	7	2026-01-30
+\.
+
+
+--
+-- TOC entry 5049 (class 0 OID 24806)
+-- Dependencies: 265
+-- Data for Name: Process_Form; Type: TABLE DATA; Schema: newDrawingrequest; Owner: postgres
+--
+
+COPY "newDrawingrequest"."Process_Form" (id, request_no, process_status, process_by, process_at) FROM stdin;
+1	1/2026	3	4	\N
+2	8/2026	4	2	2026-01-28
+3	8/2026	4	2	2026-01-28
+4	8/2026	4	2	2026-01-28
+5	8/2026	3	2	2026-01-28
+6	16/2026	3	2	2026-01-28
+7	19/2026	3	2	2026-01-28
+8	19/2026	3	2	2026-01-28
+9	19/2026	3	2	2026-01-29
+10	19/2026	3	2	2026-01-29
+11	19/2026	3	2	2026-01-29
+12	19/2026	3	2	2026-01-29
+13	19/2026	3	2	2026-01-29
+14	19/2026	3	2	2026-01-29
+15	19/2026	3	2	2026-01-29
+16	20/2026	3	2	2026-01-29
+17	38/2026	3	4	2026-01-29
+18	38/2026	3	4	2026-01-29
+\.
+
+
+--
+-- TOC entry 5029 (class 0 OID 24730)
+-- Dependencies: 245
+-- Data for Name: Product_Type; Type: TABLE DATA; Schema: newDrawingrequest; Owner: postgres
+--
+
+COPY "newDrawingrequest"."Product_Type" (product_type_id, product_type) FROM stdin;
+1	ดิสเบรก
+2	ผ้าเบรก
+3	ก้ามเบรก
+\.
+
+
+--
+-- TOC entry 5031 (class 0 OID 24736)
+-- Dependencies: 247
+-- Data for Name: Product_Type_Item; Type: TABLE DATA; Schema: newDrawingrequest; Owner: postgres
+--
+
+COPY "newDrawingrequest"."Product_Type_Item" (id, request_no, product_type_item_id, product_type_item) FROM stdin;
+1	1/2026	1/2026-1	1
+2	1/2026	\N	2
+19	2026/4	\N	1
+20	2026/4	\N	1
+21	5/2026	\N	1
+22	5/2026	\N	1
+24	5/2026	\N	\N
+33	6/2026	\N	\N
+34	6/2026	\N	\N
+35	7/2026	\N	\N
+36	8/2026	\N	\N
+37	8/2026	\N	\N
+38	8/2026	\N	\N
+39	9/2026	\N	\N
+40	9/2026	\N	\N
+41	9/2026	\N	\N
+42	10/2026	\N	\N
+43	10/2026	\N	\N
+44	10/2026	\N	\N
+45	11/2026	\N	\N
+46	11/2026	\N	\N
+47	11/2026	\N	\N
+48	12/2026	\N	\N
+49	12/2026	\N	\N
+50	12/2026	\N	\N
+51	13/2026	\N	\N
+52	13/2026	\N	\N
+53	13/2026	\N	\N
+54	14/2026	\N	\N
+55	14/2026	\N	\N
+56	14/2026	\N	\N
+57	15/2026	\N	\N
+58	15/2026	\N	\N
+59	15/2026	\N	\N
+60	16/2026	\N	3
+61	16/2026	\N	2
+62	16/2026	\N	1
+63	17/2026	\N	3
+64	17/2026	\N	2
+65	17/2026	\N	1
+70	18/2026	\N	2
+71	18/2026	\N	3
+72	19/2026	\N	1
+73	19/2026	\N	2
+74	20/2026	\N	1
+75	21/2026	\N	1
+76	22/2026	\N	1
+77	23/2026	\N	3
+78	24/2026	\N	2
+79	25/2026	\N	1
+80	26/2026	\N	1
+81	27/2026	\N	1
+82	28/2026	\N	1
+83	29/2026	\N	1
+84	30/2026	\N	1
+85	31/2026	\N	1
+86	32/2026	\N	1
+87	33/2026	\N	1
+88	34/2026	\N	1
+89	35/2026	\N	1
+90	36/2026	\N	1
+91	37/2026	\N	3
+92	38/2026	\N	1
+\.
+
+
+--
+-- TOC entry 5055 (class 0 OID 24914)
+-- Dependencies: 271
+-- Data for Name: Request_Date_Item; Type: TABLE DATA; Schema: newDrawingrequest; Owner: postgres
+--
+
+COPY "newDrawingrequest"."Request_Date_Item" (id, request_no, request_date_item_id, request_date, expected_date) FROM stdin;
+1	1/2026	1/2026-1	2026-01-12	2026-02-12
+2	1/2026	\N	2026-01-23	\N
+13	2026/4	\N	2023-04-01	2023-04-05
+14	2026/4	\N	2023-04-01	2023-04-05
+15	5/2026	\N	2023-04-01	2023-04-05
+16	5/2026	\N	2023-04-01	2023-04-05
+17	6/2026	\N	2025-12-31	1970-01-01
+18	7/2026	\N	2026-01-14	1970-01-01
+20	9/2026	\N	2026-01-06	1970-01-01
+21	10/2026	\N	2026-01-06	1970-01-01
+22	11/2026	\N	2026-01-06	1970-01-01
+23	12/2026	\N	2026-01-06	1970-01-01
+24	13/2026	\N	2026-01-06	1970-01-01
+25	14/2026	\N	2026-01-06	1970-01-01
+26	15/2026	\N	2026-01-06	1970-01-01
+27	16/2026	\N	2026-01-06	1970-01-01
+28	17/2026	\N	2026-01-06	1970-01-01
+19	8/2026	\N	2026-01-06	2026-01-29
+29	18/2026	\N	2026-01-28	\N
+30	18/2026	\N	2026-01-28	\N
+31	19/2026	\N	2026-01-28	2026-01-10
+32	20/2026	\N	2026-01-30	2026-01-31
+33	21/2026	\N	2026-01-31	\N
+34	22/2026	\N	2026-01-31	\N
+35	23/2026	\N	2026-01-02	\N
+36	24/2026	\N	2026-01-31	\N
+37	25/2026	\N	2026-01-23	\N
+38	26/2026	\N	2026-01-23	\N
+39	27/2026	\N	2026-01-23	\N
+40	28/2026	\N	2026-01-23	\N
+41	29/2026	\N	2026-01-23	\N
+42	30/2026	\N	2026-01-23	\N
+43	31/2026	\N	2026-01-23	\N
+44	32/2026	\N	2026-01-23	\N
+45	33/2026	\N	2026-01-23	\N
+46	34/2026	\N	2025-12-31	\N
+47	35/2026	\N	2026-01-23	\N
+48	36/2026	\N	2026-02-07	\N
+49	37/2026	\N	2026-02-06	2026-01-31
+50	37/2026	\N	2026-01-16	2026-01-31
+51	38/2026	\N	2026-01-31	2026-01-31
+\.
+
+
+--
+-- TOC entry 5043 (class 0 OID 24782)
+-- Dependencies: 259
+-- Data for Name: Request_Form; Type: TABLE DATA; Schema: newDrawingrequest; Owner: postgres
+--
+
+COPY "newDrawingrequest"."Request_Form" (id, request_no, department, customer_name, part_no, detail, request_remark, request_status, request_by, request_at) FROM stdin;
+3	2/2026	APQP	TRIPETCH	PJ-999X	รายละเอียด	remark	1	1	2026-01-24
+2	3/2026	APQP	TRIPETCH	PJ-999X	รายละเอียด	remark	2	1	2026-01-24
+1	1/2026	APQP	TRIPETCH	SJ-443H	101	เพื่อจัดทำ Part No. ใหม่ให้กับลูกค้า TRIPETCH	4	1	2026-01-24
+14	5/2026	APQP	XYZ	12345	\N	\N	1	2	2026-01-27
+67	38/2026	-+	UI	+	--	--	8	3	2026-01-29
+19	5/2026	AQp	asd	asd	asd	sd	\N	3	2026-01-27
+24	6/2026	Aqpp	sdf	sdfsd	sdfs	sdf	1	3	2026-01-27
+27	7/2026	tyi	l''lp'p	p'lp	lp'	pl	1	3	2026-01-27
+29	9/2026	sdf	zxc	zxc	-	-	1	2	2026-01-27
+37	10/2026	sdf	zxc	zxc	-	-	1	2	2026-01-27
+38	11/2026	sdf	zxc	zxc	-	-	1	2	2026-01-27
+39	12/2026	sdf	zxc	zxc	-	-	1	2	2026-01-27
+40	13/2026	sdf	zxc	zxc	-	-	1	2	2026-01-27
+41	14/2026	sdf	zxc	zxc	-	-	1	2	2026-01-27
+42	15/2026	sdf	zxc	zxc	-	-	2	2	2026-01-27
+48	19/2026	--	--	--	-	-	6	2	2026-01-28
+44	17/2026	sdf	zxc	zxc	-	-	7	2	2026-01-27
+47	18/2026	-	]\\	]]\\	--	--	8	2	2026-01-28
+49	20/2026	APQP	U	728	-	-	5	2	2026-01-29
+50	21/2026	APQP	Compact	728	--	--	1	3	2026-01-29
+51	22/2026	APQP	Compact	728	--	--	1	3	2026-01-29
+28	8/2026	sdf	zxc	zxc	-	-	3	3	2026-01-27
+43	16/2026	sdf	zxc	zxc	-	-	3	2	2026-01-27
+52	23/2026	Apqp	sdf	sdfsd	sdf	sdf	1	3	2026-01-29
+53	24/2026	00	1	1	1	1	1	3	2026-01-29
+54	25/2026	AA	1	1	1	1	1	3	2026-01-29
+55	26/2026	AA	1	1	1	1	1	3	2026-01-29
+56	27/2026	AA	1	1	1	1	1	3	2026-01-29
+57	28/2026	AA	1	1	1	1	1	3	2026-01-29
+58	29/2026	AA	1	1	1	1	1	3	2026-01-29
+59	30/2026	AA	1	1	1	1	1	3	2026-01-29
+60	31/2026	AA	1	1	1	1	1	3	2026-01-29
+61	32/2026	AA	1	1	1	1	1	3	2026-01-29
+62	33/2026	AA	1	1	1	1	1	3	2026-01-29
+63	34/2026	--	-	-	-	-	1	3	2026-01-29
+64	35/2026	5		-	--	--	1	3	2026-01-29
+65	36/2026	dsad	sdasd	adsad	sdas	asdsa	1	3	2026-01-29
+66	37/2026	;knm	--	--	-	+	2	3	2026-01-29
+\.
+
+
+--
+-- TOC entry 5045 (class 0 OID 24790)
+-- Dependencies: 261
+-- Data for Name: Response_Form; Type: TABLE DATA; Schema: newDrawingrequest; Owner: postgres
+--
+
+COPY "newDrawingrequest"."Response_Form" (id, request_no, assign_to_proccessor, assign_to_approver, response_status, response_by, response_at) FROM stdin;
+1	1/2026	4	5	2	2	2026-01-24
+2	3/2026	4	5	2	2	\N
+3	15/2026	4	5	2	\N	2026-01-28
+4	15/2026	4	5	2	\N	2026-01-28
+5	15/2026	4	5	2	\N	2026-01-28
+6	17/2026	3	4	2	\N	2026-01-28
+7	16/2026	3	4	2	\N	2026-01-28
+8	8/2026	1	3	2	\N	2026-01-28
+9	8/2026	1	3	2	\N	2026-01-28
+10	19/2026	4	5	2	\N	2026-01-28
+11	19/2026	4	5	2	\N	2026-01-29
+12	20/2026	4	5	2	2	2026-01-29
+13	20/2026	1	1	2	2	2026-01-29
+14	20/2026	1	2	2	2	2026-01-29
+15	20/2026	2	2	2	2	2026-01-29
+16	20/2026	1	3	2	2	2026-01-29
+17	20/2026	1	2	2	2	2026-01-29
+32	37/2026	4	8	2	7	2026-01-29
+33	38/2026	4	8	2	7	2026-01-29
+\.
+
+
+--
+-- TOC entry 5041 (class 0 OID 24768)
+-- Dependencies: 257
+-- Data for Name: Status; Type: TABLE DATA; Schema: newDrawingrequest; Owner: postgres
+--
+
+COPY "newDrawingrequest"."Status" (status_id, status_name) FROM stdin;
+1	Submitted
+2	Accepted
+3	Processed
+4	Approved
+5	Cancelled
+6	Completed
+7	Overdue
+8	Isneed
+9	Checked
+\.
+
+
+--
+-- TOC entry 5051 (class 0 OID 24814)
+-- Dependencies: 267
+-- Data for Name: Url_Form; Type: TABLE DATA; Schema: newDrawingrequest; Owner: postgres
+--
+
+COPY "newDrawingrequest"."Url_Form" (id, request_no, path) FROM stdin;
+1	16/2026	result
+2	16/2026	setSenderopen(true);
+3	19/2026	setSenderopen(true);
+4	19/2026	setSenderopen(true);
+5	19/2026	setSenderopen(true);
+6	20/2026	setSenderopen(true);
+7	38/2026	http://localhost:4001/new/drawingsender
+8	38/2026	http://localhost:4001/new/drawingsender
+9	38/2026	http://localhost:4001/new/drawingsender
+10	38/2026	${   Array.isArray(payload.pathItems) && payload.pathItems.length > 0     ? `       <p>         <strong>File Path:</strong><br />         ${           payload.pathItems             .filter(i => i.path) // remove empty paths             .map((item, index) => `${index + 1}. ${item.path}`)             .join('<br />')         }       </p>     `     : '' }
+\.
+
+
+--
+-- TOC entry 5061 (class 0 OID 24937)
+-- Dependencies: 277
+-- Data for Name: update_log; Type: TABLE DATA; Schema: newDrawingrequest; Owner: postgres
+--
+
+COPY "newDrawingrequest".update_log (id, table_name, column_name, record_id, old_value, new_value, acion, action_by, action_at) FROM stdin;
+58	"newDrawingrequest"."Request_Form"	request_status	21/2026	\N	Submitted	updated	3	2026-01-29 13:11:04.197769
+1	"newDrawingrequest"."Request_Form"	request_status	2026/4	\N	Submitted	updated	2	2026-01-27 10:59:07.505314
+2	"newDrawingrequest"."Request_Form"	request_status	5/2026	\N	Submitted	updated	2	2026-01-27 11:03:17.237845
+3	"newDrawingrequest"."Request_Form"	request_status	5/2026	\N	\N	updated	3	2026-01-27 15:08:10.206456
+4	"newDrawingrequest"."Request_Form"	request_status	6/2026	\N	\N	updated	3	2026-01-27 15:14:39.862617
+5	"newDrawingrequest"."Request_Form"	request_status	7/2026	\N	\N	updated	3	2026-01-27 15:18:15.226927
+6	"newDrawingrequest"."Request_Form"	request_status	8/2026	\N	\N	updated	3	2026-01-27 15:18:34.933672
+7	"newDrawingrequest"."Request_Form"	request_status	7/2026	\N	\N	updated	3	2026-01-27 15:21:37.164492
+8	"newDrawingrequest"."Request_Form"	request_status	8/2026	\N	\N	updated	3	2026-01-27 15:24:42.518132
+9	"newDrawingrequest"."Request_Form"	request_status	9/2026	\N	\N	updated	2	2026-01-27 15:27:43.201206
+10	"newDrawingrequest"."Request_Form"	request_status	10/2026	\N	\N	updated	2	2026-01-27 15:35:16.305377
+11	"newDrawingrequest"."Request_Form"	request_status	11/2026	\N	\N	updated	2	2026-01-27 15:36:54.707239
+12	"newDrawingrequest"."Request_Form"	request_status	12/2026	\N	\N	updated	2	2026-01-27 15:44:51.406976
+13	"newDrawingrequest"."Request_Form"	request_status	13/2026	\N	\N	updated	2	2026-01-27 15:46:10.860949
+14	"newDrawingrequest"."Request_Form"	request_status	14/2026	\N	\N	updated	2	2026-01-27 15:47:42.813981
+15	"newDrawingrequest"."Request_Form"	request_status	15/2026	\N	\N	updated	2	2026-01-27 15:48:42.357458
+16	"newDrawingrequest"."Request_Form"	request_status	16/2026	\N	\N	updated	2	2026-01-27 15:49:19.332597
+17	"newDrawingrequest"."Request_Form"	request_status	17/2026	\N	Submitted	updated	2	2026-01-27 15:56:58.884918
+18	"newDrawingrequest"."Request_Form"	request_status	18/2026	\N	Submitted	updated	2	2026-01-28 15:55:31.816248
+19	"newDrawingrequest"."Request_Form"	request_status	19/2026	\N	Submitted	updated	2	2026-01-28 16:49:49.289609
+20	"newDrawingrequest"."Request_Form"	Processed	19/2026	\N	Overdue	updated	2	2026-01-29 09:12:46.211841
+21	"newDrawingrequest"."Request_Form"	Processed	19/2026	\N	Overdue	updated	2	2026-01-29 09:12:54.468168
+22	"newDrawingrequest"."Request_Form"	request_status	19/2026	\N	Checked	updated	2	2026-01-29 09:29:22.684247
+23	"newDrawingrequest"."Request_Form"	request_status	16/2026	\N	Completed	updated	2	2026-01-29 10:12:06.259535
+24	"newDrawingrequest"."Request_Form"	request_status	19/2026	\N	Accepted	updated	2	2026-01-29 10:12:46.680033
+25	"newDrawingrequest"."Request_Form"	request_status	19/2026	\N	Checked	updated	2	2026-01-29 10:12:54.486529
+26	"newDrawingrequest"."Request_Form"	request_status	19/2026	\N	Checked	updated	2	2026-01-29 10:12:57.969139
+27	"newDrawingrequest"."Request_Form"	request_status	19/2026	\N	Checked	updated	2	2026-01-29 10:13:01.433725
+28	"newDrawingrequest"."Request_Form"	request_status	16/2026	\N	Completed	updated	2	2026-01-29 10:13:12.394977
+29	"newDrawingrequest"."Request_Form"	request_status	19/2026	\N	Checked	updated	2	2026-01-29 10:13:50.294057
+30	"newDrawingrequest"."Request_Form"	request_status	19/2026	\N	Checked	updated	2	2026-01-29 10:14:02.307382
+31	"newDrawingrequest"."Request_Form"	request_status	19/2026	\N	Checked	updated	2	2026-01-29 10:14:24.712836
+32	"newDrawingrequest"."Request_Form"	request_status	19/2026	\N	Checked	updated	2	2026-01-29 10:16:32.602759
+33	"newDrawingrequest"."Request_Form"	request_status	19/2026	\N	Checked	updated	2	2026-01-29 10:17:42.533659
+34	"newDrawingrequest"."Request_Form"	request_status	19/2026	\N	Checked	updated	2	2026-01-29 10:18:22.590324
+35	"newDrawingrequest"."Request_Form"	request_status	19/2026	\N	Checked	updated	2	2026-01-29 10:19:42.622531
+36	"newDrawingrequest"."Request_Form"	request_status	19/2026	\N	Checked	updated	2	2026-01-29 10:20:18.198674
+37	"newDrawingrequest"."Request_Form"	request_status	19/2026	\N	Approved	updated	2	2026-01-29 10:34:08.608898
+38	"newDrawingrequest"."Request_Form"	Processed	19/2026	\N	Overdue	updated	2	2026-01-29 10:35:23.258539
+39	"newDrawingrequest"."Request_Form"	Processed	19/2026	\N	Overdue	updated	2	2026-01-29 10:36:14.260087
+40	"newDrawingrequest"."Request_Form"	Processed	19/2026	\N	Overdue	updated	2	2026-01-29 10:36:34.635412
+41	"newDrawingrequest"."Request_Form"	request_status	19/2026	\N	Checked	updated	2	2026-01-29 10:36:58.968914
+42	"newDrawingrequest"."Request_Form"	request_status	19/2026	\N	Approved	updated	2	2026-01-29 10:37:28.083466
+43	"newDrawingrequest"."Request_Form"	request_status	19/2026	\N	Completed	updated	2	2026-01-29 10:46:32.168161
+44	"newDrawingrequest"."Request_Form"	request_status	19/2026	\N	Completed	updated	2	2026-01-29 10:46:54.2036
+45	"newDrawingrequest"."Request_Form"	request_status	19/2026	\N	Completed	updated	2	2026-01-29 10:48:53.653206
+46	"newDrawingrequest"."Request_Form"	request_status	20/2026	\N	Submitted	updated	2	2026-01-29 10:49:53.911708
+47	"newDrawingrequest"."Request_Form"	request_status	20/2026	\N	Accepted	updated	2	2026-01-29 10:52:20.304751
+48	"newDrawingrequest"."Request_Form"	Processed	20/2026	\N	Overdue	updated	2	2026-01-29 10:52:33.538392
+49	"newDrawingrequest"."Request_Form"	request_status	20/2026	\N	Approved	updated	2	2026-01-29 10:52:36.64503
+50	"newDrawingrequest"."Request_Form"	request_status	20/2026	\N	Completed	updated	2	2026-01-29 10:52:46.218043
+51	"newDrawingrequest"."Request_Form"	request_status	20/2026	\N	Accepted	updated	2	2026-01-29 10:58:22.459826
+52	"newDrawingrequest"."Request_Form"	request_status	20/2026	\N	Accepted	updated	2	2026-01-29 10:59:43.685024
+53	"newDrawingrequest"."Request_Form"	request_status	20/2026	\N	Accepted	updated	2	2026-01-29 11:01:08.974796
+54	"newDrawingrequest"."Request_Form"	request_status	20/2026	\N	Accepted	updated	2	2026-01-29 11:02:31.218164
+55	"newDrawingrequest"."Request_Form"	request_status	20/2026	\N	Accepted	updated	2	2026-01-29 11:05:46.452745
+56	"newDrawingrequest"."Request_Form"	request_status	20/2026	\N	Overdue	updated	2	2026-01-29 11:11:55.390807
+57	"newDrawingrequest"."Request_Form"	request_status	20/2026	\N	Cancelled	updated	2	2026-01-29 11:12:25.283895
+59	"newDrawingrequest"."Request_Form"	request_status	22/2026	\N	Submitted	updated	3	2026-01-29 13:14:54.078978
+60	"newDrawingrequest"."Request_Form"	request_status	23/2026	\N	Submitted	updated	3	2026-01-29 13:17:55.165458
+61	"newDrawingrequest"."Request_Form"	request_status	24/2026	\N	Submitted	updated	3	2026-01-29 13:22:59.793883
+62	"newDrawingrequest"."Request_Form"	request_status	25/2026	\N	Submitted	updated	3	2026-01-29 13:44:47.035141
+63	"newDrawingrequest"."Request_Form"	request_status	26/2026	\N	Submitted	updated	3	2026-01-29 13:45:09.172548
+64	"newDrawingrequest"."Request_Form"	request_status	27/2026	\N	Submitted	updated	3	2026-01-29 13:45:58.151762
+65	"newDrawingrequest"."Request_Form"	request_status	28/2026	\N	Submitted	updated	3	2026-01-29 13:46:01.882343
+66	"newDrawingrequest"."Request_Form"	request_status	29/2026	\N	Submitted	updated	3	2026-01-29 13:47:29.80281
+67	"newDrawingrequest"."Request_Form"	request_status	30/2026	\N	Submitted	updated	3	2026-01-29 13:48:15.669854
+68	"newDrawingrequest"."Request_Form"	request_status	31/2026	\N	Submitted	updated	3	2026-01-29 13:48:59.032875
+69	"newDrawingrequest"."Request_Form"	request_status	32/2026	\N	Submitted	updated	3	2026-01-29 13:49:36.061169
+70	"newDrawingrequest"."Request_Form"	request_status	33/2026	\N	Submitted	updated	3	2026-01-29 13:49:57.700587
+71	"newDrawingrequest"."Request_Form"	request_status	34/2026	\N	Submitted	updated	3	2026-01-29 14:01:44.866444
+72	"newDrawingrequest"."Request_Form"	request_status	35/2026	\N	Submitted	updated	3	2026-01-29 14:03:41.42905
+73	"newDrawingrequest"."Request_Form"	request_status	36/2026	\N	Submitted	updated	3	2026-01-29 14:14:12.699872
+74	"newDrawingrequest"."Request_Form"	request_status	37/2026	\N	Submitted	updated	3	2026-01-29 14:19:49.590571
+89	"newDrawingrequest"."Request_Form"	request_status	37/2026	\N	Accepted	updated	7	2026-01-29 15:31:11.196046
+90	"newDrawingrequest"."Request_Form"	request_status	38/2026	\N	Submitted	updated	3	2026-01-29 15:48:20.60062
+91	"newDrawingrequest"."Request_Form"	request_status	38/2026	\N	Accepted	updated	7	2026-01-29 15:49:32.388899
+92	"newDrawingrequest"."Request_Form"	Processed	38/2026	\N	Overdue	updated	4	2026-01-29 16:02:24.753901
+93	"newDrawingrequest"."Request_Form"	Processed	38/2026	\N	Overdue	updated	4	2026-01-29 16:03:00.711011
+94	"newDrawingrequest"."Request_Form"	request_status	38/2026	\N	Checked	updated	7	2026-01-29 16:14:44.521673
+95	"newDrawingrequest"."Request_Form"	request_status	38/2026	\N	Approved	updated	8	2026-01-29 16:20:32.7749
+96	"newDrawingrequest"."Request_Form"	request_status	38/2026	\N	Completed	updated	7	2026-01-29 16:34:55.680109
+97	"newDrawingrequest"."Request_Form"	request_status	38/2026	\N	Completed	updated	7	2026-01-29 16:37:41.0812
+98	"newDrawingrequest"."Request_Form"	request_status	38/2026	\N	Completed	updated	7	2026-01-29 16:40:39.717353
+99	"newDrawingrequest"."Request_Form"	request_status	38/2026	\N	Completed	updated	7	2026-01-29 16:50:55.643188
+100	"newDrawingrequest"."Request_Form"	request_status	38/2026	\N	Overdue	updated	7	2026-01-30 08:56:52.401192
+101	"newDrawingrequest"."Request_Form"	request_status	38/2026	\N	Overdue	updated	7	2026-01-30 08:57:21.533581
+102	"newDrawingrequest"."Request_Form"	request_status	38/2026	\N	Overdue	updated	7	2026-01-30 08:57:40.560237
+103	"newDrawingrequest"."Request_Form"	request_status	38/2026	\N	Isneed	updated	7	2026-01-30 14:07:34.954227
+104	"newDrawingrequest"."Request_Form"	request_status	38/2026	\N	Isneed	updated	7	2026-01-30 14:31:11.072241
+105	"newDrawingrequest"."Request_Form"	request_status	38/2026	\N	Isneed	updated	7	2026-01-30 14:43:23.342412
+106	"newDrawingrequest"."Request_Form"	request_status	38/2026	\N	Isneed	updated	7	2026-01-30 14:46:10.691218
+\.
+
+
+--
+-- TOC entry 5011 (class 0 OID 16461)
+-- Dependencies: 227
+-- Data for Name: Drawing_Document_Type; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Drawing_Document_Type" (document_no, document_name) FROM stdin;
+1	ดิสเบรก
+2	หน้าสำเร็จรูป
+3	File CAD
+5	ก้ามเบรก
+6	หน้าแผนเหล็ก
+7	File PDF
+8	ตรายาง
+9	ผ้าเบรก
+10	หน้าอุปกรณ์เสริม
+11	File Catalog
+12	เพลทสรีน
+13	File AI
+14	ทั้งฉบับ
+15	Paper
+16	ฉื่นๆ
+4	บล็อกสกรีนขอบผ้า
+\.
+
+
+--
+-- TOC entry 5019 (class 0 OID 16510)
+-- Dependencies: 235
+-- Data for Name: File_Form; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."File_Form" (file_id, request_no, file_name, file_path) FROM stdin;
+\.
+
+
+--
+-- TOC entry 5023 (class 0 OID 24710)
+-- Dependencies: 239
+-- Data for Name: OverDue_Form; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."OverDue_Form" (id, request_no, expect_date, isneed, overdue_remark, follow_by, follow_at) FROM stdin;
+\.
+
+
+--
+-- TOC entry 5009 (class 0 OID 16453)
+-- Dependencies: 225
+-- Data for Name: Request_Utility_Existing_Drawing_Document_Type_Item_Form; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Request_Utility_Existing_Drawing_Document_Type_Item_Form" (request_item_id, request_no, document_no, request_at, request_by) FROM stdin;
+1	1/2026	1	\N	\N
+2	1/2026	4	\N	\N
+3	3/2026	1	\N	\N
+4	3/2026	2	\N	\N
+5	3/2026	1	\N	\N
+6	3/2026	2	\N	\N
+7	3/2026	1	\N	\N
+8	3/2026	2	\N	\N
+9	4/2026	1	\N	\N
+10	4/2026	5	\N	\N
+11	5/2026	1	\N	\N
+12	5/2026	5	\N	\N
+13	5/2026	13	\N	\N
+14	6/2026	1	\N	\N
+15	6/2026	5	\N	\N
+16	6/2026	9	\N	\N
+17	6/2026	13	\N	\N
+18	7/2026	1	\N	\N
+19	7/2026	5	\N	\N
+20	7/2026	9	\N	\N
+21	7/2026	13	\N	\N
+22	8/2026	3	\N	\N
+23	8/2026	7	\N	\N
+24	8/2026	11	\N	\N
+25	8/2026	15	\N	\N
+26	9/2026	13	\N	\N
+27	9/2026	14	\N	\N
+28	9/2026	15	\N	\N
+29	9/2026	16	\N	\N
+30	10/2026	9	\N	\N
+31	10/2026	10	\N	\N
+32	11/2026	9	\N	\N
+33	11/2026	10	\N	\N
+34	11/2026	9	\N	\N
+35	11/2026	10	\N	\N
+36	10/2026	9	\N	\N
+37	10/2026	10	\N	\N
+38	10/2026	9	\N	\N
+39	10/2026	10	\N	\N
+40	10/2026	9	\N	\N
+41	10/2026	10	\N	\N
+42	12/2026	2	\N	\N
+43	12/2026	3	\N	\N
+44	13/2026	7	\N	\N
+45	14/2026	2	\N	\N
+46	14/2026	3	\N	\N
+47	15/2026	2	\N	\N
+48	16/2026	10	\N	\N
+49	16/2026	12	\N	\N
+50	17/2026	5	\N	\N
+51	18/2026	7	\N	\N
+52	18/2026	7	\N	\N
+53	18/2026	7	\N	\N
+54	19/2026	11	\N	\N
+55	20/2026	1	\N	\N
+56	20/2026	3	\N	\N
+57	21/2026	7	\N	\N
+58	22/2026	11	\N	\N
+59	23/2026	13	\N	\N
+60	24/2026	11	\N	\N
+61	24/2026	14	\N	\N
+62	25/2026	8	\N	\N
+63	26/2026	11	\N	\N
+64	27/2026	2	\N	\N
+65	28/2026	1	\N	\N
+66	29/2026	11	\N	\N
+67	30/2026	2	\N	\N
+68	31/2026	2	\N	\N
+69	31/2026	3	\N	\N
+70	31/2026	4	\N	\N
+71	31/2026	8	\N	\N
+72	31/2026	6	\N	\N
+73	31/2026	10	\N	\N
+74	31/2026	11	\N	\N
+75	32/2026	10	\N	\N
+76	32/2026	11	\N	\N
+77	32/2026	12	\N	\N
+78	33/2026	3	\N	\N
+79	33/2026	8	\N	\N
+80	33/2026	12	\N	\N
+81	34/2026	10	\N	\N
+82	34/2026	11	\N	\N
+83	35/2026	4	\N	\N
+84	35/2026	3	\N	\N
+85	35/2026	2	\N	\N
+86	35/2026	5	\N	\N
+87	35/2026	6	\N	\N
+88	35/2026	7	\N	\N
+89	36/2026	9	\N	\N
+90	36/2026	10	\N	\N
+91	36/2026	11	\N	\N
+92	36/2026	12	\N	\N
+93	37/2026	9	\N	\N
+94	37/2026	10	\N	\N
+95	37/2026	11	\N	\N
+96	37/2026	12	\N	\N
+97	38/2026	10	\N	\N
+98	38/2026	11	\N	\N
+99	39/2026	1	\N	\N
+100	40/2026	10	\N	\N
+101	40/2026	11	\N	\N
+102	41/2026	10	\N	\N
+103	41/2026	11	\N	\N
+\.
+
+
+--
+-- TOC entry 5021 (class 0 OID 16518)
+-- Dependencies: 237
+-- Data for Name: Request_Utility_Existing_Drawing_Form; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Request_Utility_Existing_Drawing_Form" (request_id, request_no, department, detail, reason, status, request_at, request_by) FROM stdin;
+11	4/2026	APQP	o		1	2026-01-21	1
+12	5/2026	APQP	o		1	2026-01-21	1
+13	6/2026	APQP	q		1	2026-01-21	1
+14	7/2026	APQP	fdgs		1	2026-01-21	1
+15	8/2026	APQP	yukyg	gy	1	2026-01-21	1
+16	9/2026	APQP	yj		1	2026-01-21	1
+1	1/2026	APQP	Part No. SJ-443H : TRIPETCH Part no. 897020250T	เพื่อจัดทำPart No. ใหม่ให้กับลูกค้า TRIPETCH	2	2026-01-12	1
+2	2/2026	APQP	sd		2	2026-01-21	\N
+4	3/2026	APQP	qq		2	2026-01-21	1
+17	10/2026	Apqp	545		1	2026-01-22	3
+18	11/2026	APQP	yu	y	1	2026-01-22	1
+19	11/2026	APQP	yu	y	1	2026-01-22	1
+20	10/2026	Apqp	545		1	2026-01-22	3
+21	10/2026	Apqp	545		1	2026-01-22	3
+22	10/2026	Apqp	545		1	2026-01-22	3
+23	12/2026	Apqp	lkl		1	2026-01-22	3
+24	13/2026	e	e		1	2026-01-22	3
+25	14/2026	Apqp	wd	q	1	2026-01-22	3
+26	15/2026	Apqp	af	a	1	2026-01-22	3
+27	16/2026	Apqp	sd	s	1	2026-01-22	3
+28	17/2026	ฤยๆย	1		1	2026-01-22	3
+29	18/2026	ฤยๆย	s	s	1	2026-01-22	3
+30	18/2026	ฤยๆย	s	s	1	2026-01-22	3
+31	18/2026	ฤยๆย	s	s	1	2026-01-22	3
+32	19/2026	ฤยๆย	3		1	2026-01-22	3
+33	20/2026	ฤยๆย	;m	ml	1	2026-01-22	3
+34	21/2026	ฤยๆย	l		1	2026-01-22	3
+35	22/2026	ฤยๆย	,;l		1	2026-01-22	3
+36	23/2026	ฤยๆย	uu		1	2026-01-22	3
+37	24/2026	ฤยๆย	ghg		1	2026-01-22	3
+43	30/2026	Apqp	asd		2	2026-01-22	3
+42	29/2026	Apqp	s		2	2026-01-22	3
+41	28/2026	sdf	-		2	2026-01-22	3
+40	27/2026	sdf	o		2	2026-01-22	3
+39	26/2026	sdf	dsf	sd	2	2026-01-22	3
+38	25/2026	qw	we		2	2026-01-22	3
+45	32/2026	Apqp	ง		1	2026-01-22	3
+48	35/2026	Apqp	+		2	2026-01-22	3
+47	34/2026	ฤยๆย	+		2	2026-01-22	3
+46	33/2026	2e	e		2	2026-01-22	3
+44	31/2026	Apqp	ไำพ		2	2026-01-22	3
+49	36/2026	APQP	asd		1	2026-01-22	1
+51	38/2026	Apqp	fdsdf		2	2026-01-23	3
+52	39/2026	llll	1234		2	2026-01-23	3
+50	37/2026	APQP	asd		2	2026-01-22	1
+53	40/2026	APQP	asdsac		1	2026-01-23	3
+54	41/2026	APQP	asdsac		2	2026-01-23	3
+\.
+
+
+--
+-- TOC entry 5005 (class 0 OID 16407)
+-- Dependencies: 221
+-- Data for Name: Role_Item; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Role_Item" (role_id, user_id, role_item, created_at, created_by) FROM stdin;
+1	1	1	2026-01-12	System
+3	2	2	\N	\N
+4	3	1	\N	\N
+8	6	5	\N	\N
+6	4	4	\N	\N
+5	3	3	\N	\N
+9	5	3	\N	\N
+10	7	2	\N	\N
+11	8	3	\N	\N
+\.
+
+
+--
+-- TOC entry 5007 (class 0 OID 16435)
+-- Dependencies: 223
+-- Data for Name: Role_Option; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Role_Option" (role_option_id, role_option_name, created_at, created_by) FROM stdin;
+1	Requestor	2026-01-12	System
+2	Responsor	2026-01-12	System
+3	Approver	\N	\N
+4	Processor	\N	\N
+5	superadmin	\N	\N
+\.
+
+
+--
+-- TOC entry 5015 (class 0 OID 16494)
+-- Dependencies: 231
+-- Data for Name: Sender_Utility_Existing_Drawing_Form; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Sender_Utility_Existing_Drawing_Form" (sender_id, request_no, sender_person, created_at_sender_person, status) FROM stdin;
+1	1/2026	2	2026-01-12	2
+8	2/2026	1	2026-01-22T09:32:40.801+07:00	2
+9	3/2026	1	2026-01-22T09:33:25.106+07:00	2
+10	30/2026	3	2026-01-22T13:39:38.149+07:00	2
+11	29/2026	3	2026-01-22T13:42:38.166+07:00	2
+12	28/2026	3	2026-01-22T13:43:52.787+07:00	2
+13	27/2026	3	2026-01-22T13:46:49.393+07:00	2
+15	26/2026	3	2026-01-22T13:48:20.137+07:00	2
+16	25/2026	3	2026-01-22T14:19:27.811+07:00	2
+17	35/2026	3	2026-01-22T15:40:29.933+07:00	2
+24	34/2026	3	2026-01-22T16:06:28.228+07:00	2
+25	33/2026	3	2026-01-22T16:08:14.854+07:00	2
+26	31/2026	3	2026-01-22T16:10:12.199+07:00	2
+27	38/2026	3	2026-01-23T08:35:29.914+07:00	2
+28	39/2026	3	2026-01-23T13:10:28.471+07:00	2
+29	37/2026	3	2026-01-23T13:17:55.157+07:00	2
+30	41/2026	3	2026-01-23T15:59:24.736+07:00	2
+\.
+
+
+--
+-- TOC entry 5013 (class 0 OID 16467)
+-- Dependencies: 229
+-- Data for Name: Status; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Status" (status_no, status_name) FROM stdin;
+1	Submitted
+3	Reject
+4	Completefd
+2	Approved
+\.
+
+
+--
+-- TOC entry 5017 (class 0 OID 16502)
+-- Dependencies: 233
+-- Data for Name: Url_Form; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Url_Form" (url_id, request_no, path) FROM stdin;
+2	2/2026	\N
+3	3/2026	\N
+4	30/2026	\N
+5	29/2026	{}
+6	28/2026	{}
+7	27/2026	{"path":"http://192.168.5.92:4001/exist/createdrawingresponse/40"}
+8	26/2026	http://192.168.5.92:4001/exist/createdrawingresponse/40
+9	25/2026	http://192.168.5.92:4001/exist/createdrawingresponse/38
+10	25/2026	http://192.168.5.92:4001/exist/createdrawingresponse/37
+11	35/2026	http://192.168.5.92:4001/exist/createdrawingresponse/48
+12	35/2026	http://192.168.5.92:4001/exist/createdrawingresponse/48
+19	34/2026	const emailService = require('../Service/emailService');
+20	33/2026	-
+21	33/2026	-
+22	31/2026	w
+23	38/2026	-
+24	39/2026	-
+25	37/2026	https://drive.google.com/drive/folders/1rzbtdCAgbU9atuQdgyuMMHJiIokpJi65?usp=drive_link
+26	41/2026	-
+\.
+
+
+--
+-- TOC entry 5003 (class 0 OID 16399)
+-- Dependencies: 219
+-- Data for Name: User; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."User" (user_id, email, username, password, "position", created_at, created_by) FROM stdin;
+2	Warawan@compact-brake.com	Warawan	compact	ผู้จัดการฝ่ายออกแบบเพื่อการผลิต	\N	\N
+1	pmo_cpi02@asiacompact.com	Kanokporn	compact	วิศวกรประสานงานโครงการ	2026-01-12	system
+5	aoom@gmail.com	Aoom	compact	er	\N	\N
+6	superadmin@gmail.com	admin	compact	Superadmin	\N	\N
+3	pmo-cpi03@compact-brake.com	pmo-cpi03@compact-brake.com	compact	\N	\N	\N
+4	tongmeanfc@gmail.com	tongmeanfc@gmail.com	compact	g0hksohkmuj	\N	\N
+7	tongmeanlove15@gmail.com	tongmeanlove15@gmail.com	compact	-	\N	\N
+8	joy44800@gmail.com	joy44800@gmail.com	compact	-	\N	\N
+\.
+
+
+--
+-- TOC entry 5059 (class 0 OID 24928)
+-- Dependencies: 275
+-- Data for Name: update_log; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.update_log (id, table_name, column_name, record_id, old_value, new_value, acion, action_by, action_at) FROM stdin;
+\.
+
+
+--
+-- TOC entry 5069 (class 0 OID 0)
+-- Dependencies: 262
+-- Name: Approve_Form_id_seq; Type: SEQUENCE SET; Schema: newDrawingrequest; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"newDrawingrequest"."Approve_Form_id_seq"', 11, true);
+
+
+--
+-- TOC entry 5070 (class 0 OID 0)
+-- Dependencies: 278
+-- Name: Check_Form_id_seq; Type: SEQUENCE SET; Schema: newDrawingrequest; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"newDrawingrequest"."Check_Form_id_seq"', 17, true);
+
+
+--
+-- TOC entry 5071 (class 0 OID 0)
+-- Dependencies: 250
+-- Name: Document_Type_Item_id_seq; Type: SEQUENCE SET; Schema: newDrawingrequest; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"newDrawingrequest"."Document_Type_Item_id_seq"', 82, true);
+
+
+--
+-- TOC entry 5072 (class 0 OID 0)
+-- Dependencies: 248
+-- Name: Document_Type_document_type_id_seq; Type: SEQUENCE SET; Schema: newDrawingrequest; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"newDrawingrequest"."Document_Type_document_type_id_seq"', 8, true);
+
+
+--
+-- TOC entry 5073 (class 0 OID 0)
+-- Dependencies: 254
+-- Name: Drawing_Ducument_Type_Item_id_seq; Type: SEQUENCE SET; Schema: newDrawingrequest; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"newDrawingrequest"."Drawing_Ducument_Type_Item_id_seq"', 78, true);
+
+
+--
+-- TOC entry 5074 (class 0 OID 0)
+-- Dependencies: 252
+-- Name: Drawing_Ducument_Type_drawing_document_type_id_seq; Type: SEQUENCE SET; Schema: newDrawingrequest; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"newDrawingrequest"."Drawing_Ducument_Type_drawing_document_type_id_seq"', 3, true);
+
+
+--
+-- TOC entry 5075 (class 0 OID 0)
+-- Dependencies: 242
+-- Name: Drawing_Type_Item_id_seq; Type: SEQUENCE SET; Schema: newDrawingrequest; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"newDrawingrequest"."Drawing_Type_Item_id_seq"', 94, true);
+
+
+--
+-- TOC entry 5076 (class 0 OID 0)
+-- Dependencies: 240
+-- Name: Drawing_Type_drawing_type_id_seq; Type: SEQUENCE SET; Schema: newDrawingrequest; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"newDrawingrequest"."Drawing_Type_drawing_type_id_seq"', 6, true);
+
+
+--
+-- TOC entry 5077 (class 0 OID 0)
+-- Dependencies: 272
+-- Name: Follow_Form_id_seq; Type: SEQUENCE SET; Schema: newDrawingrequest; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"newDrawingrequest"."Follow_Form_id_seq"', 7, true);
+
+
+--
+-- TOC entry 5078 (class 0 OID 0)
+-- Dependencies: 268
+-- Name: OverDue_Form_id_seq; Type: SEQUENCE SET; Schema: newDrawingrequest; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"newDrawingrequest"."OverDue_Form_id_seq"', 10, true);
+
+
+--
+-- TOC entry 5079 (class 0 OID 0)
+-- Dependencies: 264
+-- Name: Process_Form_id_seq; Type: SEQUENCE SET; Schema: newDrawingrequest; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"newDrawingrequest"."Process_Form_id_seq"', 18, true);
+
+
+--
+-- TOC entry 5080 (class 0 OID 0)
+-- Dependencies: 246
+-- Name: Product_Type_Item_id_seq; Type: SEQUENCE SET; Schema: newDrawingrequest; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"newDrawingrequest"."Product_Type_Item_id_seq"', 92, true);
+
+
+--
+-- TOC entry 5081 (class 0 OID 0)
+-- Dependencies: 244
+-- Name: Product_Type_product_type_id_seq; Type: SEQUENCE SET; Schema: newDrawingrequest; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"newDrawingrequest"."Product_Type_product_type_id_seq"', 3, true);
+
+
+--
+-- TOC entry 5082 (class 0 OID 0)
+-- Dependencies: 270
+-- Name: Request_Date_Item_id_seq; Type: SEQUENCE SET; Schema: newDrawingrequest; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"newDrawingrequest"."Request_Date_Item_id_seq"', 51, true);
+
+
+--
+-- TOC entry 5083 (class 0 OID 0)
+-- Dependencies: 258
+-- Name: Request_Form_id_seq; Type: SEQUENCE SET; Schema: newDrawingrequest; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"newDrawingrequest"."Request_Form_id_seq"', 67, true);
+
+
+--
+-- TOC entry 5084 (class 0 OID 0)
+-- Dependencies: 260
+-- Name: Response_Form_id_seq; Type: SEQUENCE SET; Schema: newDrawingrequest; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"newDrawingrequest"."Response_Form_id_seq"', 33, true);
+
+
+--
+-- TOC entry 5085 (class 0 OID 0)
+-- Dependencies: 256
+-- Name: Status_status_id_seq; Type: SEQUENCE SET; Schema: newDrawingrequest; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"newDrawingrequest"."Status_status_id_seq"', 9, true);
+
+
+--
+-- TOC entry 5086 (class 0 OID 0)
+-- Dependencies: 266
+-- Name: Url_Form_id_seq; Type: SEQUENCE SET; Schema: newDrawingrequest; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"newDrawingrequest"."Url_Form_id_seq"', 10, true);
+
+
+--
+-- TOC entry 5087 (class 0 OID 0)
+-- Dependencies: 276
+-- Name: update_log_id_seq; Type: SEQUENCE SET; Schema: newDrawingrequest; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"newDrawingrequest".update_log_id_seq', 106, true);
+
+
+--
+-- TOC entry 5088 (class 0 OID 0)
+-- Dependencies: 226
+-- Name: Drawing_Document_Type_document_no_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Drawing_Document_Type_document_no_seq"', 16, true);
+
+
+--
+-- TOC entry 5089 (class 0 OID 0)
+-- Dependencies: 234
+-- Name: File_Form_file_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."File_Form_file_id_seq"', 1, false);
+
+
+--
+-- TOC entry 5090 (class 0 OID 0)
+-- Dependencies: 238
+-- Name: OverDue_Form_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."OverDue_Form_id_seq"', 1, false);
+
+
+--
+-- TOC entry 5091 (class 0 OID 0)
+-- Dependencies: 224
+-- Name: Request_Utility_Existing_Drawing_Document_T_request_item_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Request_Utility_Existing_Drawing_Document_T_request_item_id_seq"', 103, true);
+
+
+--
+-- TOC entry 5092 (class 0 OID 0)
+-- Dependencies: 236
+-- Name: Request_Utility_Existing_Drawing_Form_request_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Request_Utility_Existing_Drawing_Form_request_id_seq"', 54, true);
+
+
+--
+-- TOC entry 5093 (class 0 OID 0)
+-- Dependencies: 220
+-- Name: Role_Item_role_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Role_Item_role_id_seq"', 11, true);
+
+
+--
+-- TOC entry 5094 (class 0 OID 0)
+-- Dependencies: 222
+-- Name: Role_Option_role_option_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Role_Option_role_option_id_seq"', 5, true);
+
+
+--
+-- TOC entry 5095 (class 0 OID 0)
+-- Dependencies: 230
+-- Name: Sender_Utility_Existing_Drawing_Form_sender_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Sender_Utility_Existing_Drawing_Form_sender_id_seq"', 30, true);
+
+
+--
+-- TOC entry 5096 (class 0 OID 0)
+-- Dependencies: 228
+-- Name: Status_status_no_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Status_status_no_seq"', 4, true);
+
+
+--
+-- TOC entry 5097 (class 0 OID 0)
+-- Dependencies: 232
+-- Name: Url_Form_url_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Url_Form_url_id_seq"', 26, true);
+
+
+--
+-- TOC entry 5098 (class 0 OID 0)
+-- Dependencies: 218
+-- Name: User_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."User_user_id_seq"', 8, true);
+
+
+--
+-- TOC entry 5099 (class 0 OID 0)
+-- Dependencies: 274
+-- Name: update_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.update_log_id_seq', 1, false);
+
+
+--
+-- TOC entry 4839 (class 2606 OID 24804)
+-- Name: Approve_Form Approve_Form_pkey; Type: CONSTRAINT; Schema: newDrawingrequest; Owner: postgres
+--
+
+ALTER TABLE ONLY "newDrawingrequest"."Approve_Form"
+    ADD CONSTRAINT "Approve_Form_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4855 (class 2606 OID 24956)
+-- Name: Check_Form Check_Form_pkey; Type: CONSTRAINT; Schema: newDrawingrequest; Owner: postgres
+--
+
+ALTER TABLE ONLY "newDrawingrequest"."Check_Form"
+    ADD CONSTRAINT "Check_Form_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4827 (class 2606 OID 24754)
+-- Name: Document_Type_Item Document_Type_Item_pkey; Type: CONSTRAINT; Schema: newDrawingrequest; Owner: postgres
+--
+
+ALTER TABLE ONLY "newDrawingrequest"."Document_Type_Item"
+    ADD CONSTRAINT "Document_Type_Item_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4825 (class 2606 OID 24746)
+-- Name: Document_Type Document_Type_pkey; Type: CONSTRAINT; Schema: newDrawingrequest; Owner: postgres
+--
+
+ALTER TABLE ONLY "newDrawingrequest"."Document_Type"
+    ADD CONSTRAINT "Document_Type_pkey" PRIMARY KEY (document_type_id);
+
+
+--
+-- TOC entry 4831 (class 2606 OID 24766)
+-- Name: Drawing_Ducument_Type_Item Drawing_Ducument_Type_Item_pkey; Type: CONSTRAINT; Schema: newDrawingrequest; Owner: postgres
+--
+
+ALTER TABLE ONLY "newDrawingrequest"."Drawing_Ducument_Type_Item"
+    ADD CONSTRAINT "Drawing_Ducument_Type_Item_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4829 (class 2606 OID 24760)
+-- Name: Drawing_Ducument_Type Drawing_Ducument_Type_pkey; Type: CONSTRAINT; Schema: newDrawingrequest; Owner: postgres
+--
+
+ALTER TABLE ONLY "newDrawingrequest"."Drawing_Ducument_Type"
+    ADD CONSTRAINT "Drawing_Ducument_Type_pkey" PRIMARY KEY (drawing_document_type_id);
+
+
+--
+-- TOC entry 4819 (class 2606 OID 24728)
+-- Name: Drawing_Type_Item Drawing_Type_Item_pkey; Type: CONSTRAINT; Schema: newDrawingrequest; Owner: postgres
+--
+
+ALTER TABLE ONLY "newDrawingrequest"."Drawing_Type_Item"
+    ADD CONSTRAINT "Drawing_Type_Item_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4817 (class 2606 OID 24722)
+-- Name: Drawing_Type Drawing_Type_pkey; Type: CONSTRAINT; Schema: newDrawingrequest; Owner: postgres
+--
+
+ALTER TABLE ONLY "newDrawingrequest"."Drawing_Type"
+    ADD CONSTRAINT "Drawing_Type_pkey" PRIMARY KEY (drawing_type_id);
+
+
+--
+-- TOC entry 4849 (class 2606 OID 24926)
+-- Name: Follow_Form Follow_Form_pkey; Type: CONSTRAINT; Schema: newDrawingrequest; Owner: postgres
+--
+
+ALTER TABLE ONLY "newDrawingrequest"."Follow_Form"
+    ADD CONSTRAINT "Follow_Form_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4845 (class 2606 OID 24828)
+-- Name: OverDue_Form OverDue_Form_pkey; Type: CONSTRAINT; Schema: newDrawingrequest; Owner: postgres
+--
+
+ALTER TABLE ONLY "newDrawingrequest"."OverDue_Form"
+    ADD CONSTRAINT "OverDue_Form_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4841 (class 2606 OID 24812)
+-- Name: Process_Form Process_Form_pkey; Type: CONSTRAINT; Schema: newDrawingrequest; Owner: postgres
+--
+
+ALTER TABLE ONLY "newDrawingrequest"."Process_Form"
+    ADD CONSTRAINT "Process_Form_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4823 (class 2606 OID 24740)
+-- Name: Product_Type_Item Product_Type_Item_pkey; Type: CONSTRAINT; Schema: newDrawingrequest; Owner: postgres
+--
+
+ALTER TABLE ONLY "newDrawingrequest"."Product_Type_Item"
+    ADD CONSTRAINT "Product_Type_Item_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4821 (class 2606 OID 24734)
+-- Name: Product_Type Product_Type_pkey; Type: CONSTRAINT; Schema: newDrawingrequest; Owner: postgres
+--
+
+ALTER TABLE ONLY "newDrawingrequest"."Product_Type"
+    ADD CONSTRAINT "Product_Type_pkey" PRIMARY KEY (product_type_id);
+
+
+--
+-- TOC entry 4847 (class 2606 OID 24920)
+-- Name: Request_Date_Item Request_Date_Item_pkey; Type: CONSTRAINT; Schema: newDrawingrequest; Owner: postgres
+--
+
+ALTER TABLE ONLY "newDrawingrequest"."Request_Date_Item"
+    ADD CONSTRAINT "Request_Date_Item_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4835 (class 2606 OID 24788)
+-- Name: Request_Form Request_Form_pkey; Type: CONSTRAINT; Schema: newDrawingrequest; Owner: postgres
+--
+
+ALTER TABLE ONLY "newDrawingrequest"."Request_Form"
+    ADD CONSTRAINT "Request_Form_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4837 (class 2606 OID 24796)
+-- Name: Response_Form Response_Form_pkey; Type: CONSTRAINT; Schema: newDrawingrequest; Owner: postgres
+--
+
+ALTER TABLE ONLY "newDrawingrequest"."Response_Form"
+    ADD CONSTRAINT "Response_Form_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4833 (class 2606 OID 24772)
+-- Name: Status Status_pkey; Type: CONSTRAINT; Schema: newDrawingrequest; Owner: postgres
+--
+
+ALTER TABLE ONLY "newDrawingrequest"."Status"
+    ADD CONSTRAINT "Status_pkey" PRIMARY KEY (status_id);
+
+
+--
+-- TOC entry 4843 (class 2606 OID 24820)
+-- Name: Url_Form Url_Form_pkey; Type: CONSTRAINT; Schema: newDrawingrequest; Owner: postgres
+--
+
+ALTER TABLE ONLY "newDrawingrequest"."Url_Form"
+    ADD CONSTRAINT "Url_Form_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4853 (class 2606 OID 24944)
+-- Name: update_log update_log_pkey; Type: CONSTRAINT; Schema: newDrawingrequest; Owner: postgres
+--
+
+ALTER TABLE ONLY "newDrawingrequest".update_log
+    ADD CONSTRAINT update_log_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4803 (class 2606 OID 16465)
+-- Name: Drawing_Document_Type Drawing_Document_Type_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Drawing_Document_Type"
+    ADD CONSTRAINT "Drawing_Document_Type_pkey" PRIMARY KEY (document_no);
+
+
+--
+-- TOC entry 4811 (class 2606 OID 16516)
+-- Name: File_Form File_Form_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."File_Form"
+    ADD CONSTRAINT "File_Form_pkey" PRIMARY KEY (file_id);
+
+
+--
+-- TOC entry 4815 (class 2606 OID 24716)
+-- Name: OverDue_Form OverDue_Form_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."OverDue_Form"
+    ADD CONSTRAINT "OverDue_Form_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4801 (class 2606 OID 16459)
+-- Name: Request_Utility_Existing_Drawing_Document_Type_Item_Form Request_Utility_Existing_Drawing_Document_Type_Item_Form_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Request_Utility_Existing_Drawing_Document_Type_Item_Form"
+    ADD CONSTRAINT "Request_Utility_Existing_Drawing_Document_Type_Item_Form_pkey" PRIMARY KEY (request_item_id);
+
+
+--
+-- TOC entry 4813 (class 2606 OID 16524)
+-- Name: Request_Utility_Existing_Drawing_Form Request_Utility_Existing_Drawing_Form_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Request_Utility_Existing_Drawing_Form"
+    ADD CONSTRAINT "Request_Utility_Existing_Drawing_Form_pkey" PRIMARY KEY (request_id);
+
+
+--
+-- TOC entry 4797 (class 2606 OID 16411)
+-- Name: Role_Item Role_Item_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Role_Item"
+    ADD CONSTRAINT "Role_Item_pkey" PRIMARY KEY (role_id);
+
+
+--
+-- TOC entry 4799 (class 2606 OID 16441)
+-- Name: Role_Option Role_Option_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Role_Option"
+    ADD CONSTRAINT "Role_Option_pkey" PRIMARY KEY (role_option_id);
+
+
+--
+-- TOC entry 4807 (class 2606 OID 16500)
+-- Name: Sender_Utility_Existing_Drawing_Form Sender_Utility_Existing_Drawing_Form_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Sender_Utility_Existing_Drawing_Form"
+    ADD CONSTRAINT "Sender_Utility_Existing_Drawing_Form_pkey" PRIMARY KEY (sender_id);
+
+
+--
+-- TOC entry 4805 (class 2606 OID 16471)
+-- Name: Status Status_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Status"
+    ADD CONSTRAINT "Status_pkey" PRIMARY KEY (status_no);
+
+
+--
+-- TOC entry 4809 (class 2606 OID 16508)
+-- Name: Url_Form Url_Form_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Url_Form"
+    ADD CONSTRAINT "Url_Form_pkey" PRIMARY KEY (url_id);
+
+
+--
+-- TOC entry 4795 (class 2606 OID 16405)
+-- Name: User User_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."User"
+    ADD CONSTRAINT "User_pkey" PRIMARY KEY (user_id);
+
+
+--
+-- TOC entry 4851 (class 2606 OID 24935)
+-- Name: update_log update_log_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.update_log
+    ADD CONSTRAINT update_log_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4856 (class 2606 OID 16412)
+-- Name: Role_Item fk_role_user; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Role_Item"
+    ADD CONSTRAINT fk_role_user FOREIGN KEY (user_id) REFERENCES public."User"(user_id) ON DELETE CASCADE;
+
+
+-- Completed on 2026-01-31 12:37:21 +07
+
+--
+-- PostgreSQL database dump complete
+--
+
