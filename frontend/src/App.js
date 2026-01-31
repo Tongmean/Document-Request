@@ -22,6 +22,7 @@ import CreateDrawingRequest from './Page/new/Drawingrequest/CreatedrawingRequest
 
 //import 
 import GlobalUpdateAlert from './component/GlobalUpdateAlert'
+import User from './Page/user/User'
 function App() {
   const { user } = useAuthContext()
   const isAuthenticated = Boolean(user?.token)
@@ -81,7 +82,9 @@ function App() {
             <Route path="/new/drawingsender" element={<DrawingsenderNew/>} />
             {/* <Route path="/new/drawingrequest/:request_id" element={<DrawingNewRequestForm/>} /> */}
 
-
+            <Route element={<ProtectedRoleRouteExit allowedRoles={['superadmin']} />}>
+              <Route path="/user" element={<User/>} />
+            </Route>
           </Route>
         )}
 

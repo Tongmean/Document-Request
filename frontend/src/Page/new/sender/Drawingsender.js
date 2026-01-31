@@ -90,7 +90,7 @@ const DrawingsenderNew = () => {
           }
           
     }
-  ]
+    ]
 
   const load = async () =>{
     try {

@@ -17,6 +17,7 @@ const DrawingresponseNew = () => {
     const approver = UsePermission('Approver');
     const processor = UsePermission('Processor');
     const responsor = UsePermission('Responsor');
+    // console.log('approver',approver)
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true); 
     const [error, setError] = useState('');

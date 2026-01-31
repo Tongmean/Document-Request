@@ -13,7 +13,7 @@ const Tablecomponent = ({
         filter: true,
         editable: true,
         flex: 1,
-        minWidth: 120,
+        // minWidth: 100,
         filter: 'agSetColumnFilter',
     },
     onGridReady,

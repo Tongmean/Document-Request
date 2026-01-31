@@ -20,7 +20,7 @@ const Sidebar = ({ collapsed, onCollapse }) => {
   const lastSegment = pathSegments[pathSegments.length - 1];
 
   const userInfo = user?.data?.[0];
-  console.log('user?.data?',user)
+  // console.log('user?.data?',user)
 
   const items = useMemo(() => {
     const baseItems = [

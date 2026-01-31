@@ -7,7 +7,7 @@ const socket = io(baseURL,{ transports: ['websocket']}); // Adjust as needed
 
 export const SocketProvider = ({ children }) => {
     const [lastEvent, setLastEvent] = useState(null); // Store the latest broadcast
-    console.log("SocketProvider rendered", lastEvent);
+    // console.log("SocketProvider rendered", lastEvent);
     useEffect(() => {
         socket.on('api_broadcast', ({ type, route, data, userEmail, time }) => {
             setLastEvent({ type, route, data, userEmail, time });

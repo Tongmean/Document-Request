@@ -21,7 +21,7 @@ const ConfirmationPopup = ({
     
     try {
         const result  = await postdrawingFollowup({request_no: requestNo});
-        console.log('Submitting request number:', requestNo);
+        // console.log('Submitting request number:', requestNo);
       
         message.success(result.data.msg || 'Submitted successfully');
             //   onSubmitSuccess?.(data); // Call parent callback if provided
