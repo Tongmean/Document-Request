@@ -1,5 +1,5 @@
 import React, {useEffect, useState } from 'react';
-import { Spin, Button } from 'antd';
+import { Spin, Button , Input} from 'antd';
 import Tablecomponent from './../../../component/Talecomponent';
 import { fetchdrawingResponse } from '../../../๊Ultility/new/responseApi';
 import { useNavigate  } from 'react-router-dom';
@@ -25,6 +25,8 @@ const DrawingresponseNew = () => {
     // Add these states with your other useState declarations
     const [confirmOpen, setConfirmOpen] = useState(false);
     const [confirmType, setConfirmType] = useState(null);
+    //search
+    const [quickFilter, setQuickFilter] = useState('');
     // const [selectedRequestNo, setSelectedRequestNo] = useState(null);
     const columnDefs = [
       { headerName: 'No', field: 'id', checkboxSelection: true, headerCheckboxSelection: true, cellDataType: 'number', width: 50 },
@@ -173,6 +175,13 @@ const DrawingresponseNew = () => {
         <div>
           {/* example */}
           {/* <Button icon={<ReloadOutlined />} onClick={load}>Refresh</Button> */}
+          <Input
+              placeholder="Search all..."
+              allowClear
+              value={quickFilter}
+              onChange={(e) => setQuickFilter(e.target.value)}
+              style={{ width: 250 }}
+          />
         </div>
       </div>
       {loading ? (
@@ -189,6 +198,7 @@ const DrawingresponseNew = () => {
             // onSelectionChanged={onSelectionChanged}
             // // getRowClass={getRowClass}
             // getRowId={(params) => params.data.No.toString()} // 👈 important
+            quickFilterText={quickFilter}
         />
       )}
       <DrawingRequestModal

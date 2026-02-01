@@ -1,5 +1,5 @@
 import React, {useEffect, useState } from 'react';
-import { Spin, Button } from 'antd';
+import { Spin, Button, Input } from 'antd';
 import Tablecomponent from './../../../component/Talecomponent';
 import { fetchdrawingSender } from '../../../๊Ultility/new/senderApi';
 import { useNavigate  } from 'react-router-dom';
@@ -18,6 +18,9 @@ const DrawingsenderNew = () => {
     const [loading, setLoading] = useState(true); 
     const [error, setError] = useState('');
     const [rowData, setRowData] = useState([]);
+    //search
+    const [quickFilter, setQuickFilter] = useState('');
+
     const columnDefs = [
       { headerName: 'No', field: 'id', checkboxSelection: true, headerCheckboxSelection: true, cellDataType: 'number', width: 50 },
       { headerName: 'Request No', field: 'request_no'},
@@ -150,6 +153,13 @@ const DrawingsenderNew = () => {
         <div>
           {/* example */}
           {/* <Button icon={<ReloadOutlined />} onClick={load}>Refresh</Button> */}
+           <Input
+              placeholder="Search all..."
+              allowClear
+              value={quickFilter}
+              onChange={(e) => setQuickFilter(e.target.value)}
+              style={{ width: 250 }}
+          />
         </div>
       </div>
       {loading ? (
@@ -166,6 +176,7 @@ const DrawingsenderNew = () => {
             // onSelectionChanged={onSelectionChanged}
             // // getRowClass={getRowClass}
             // getRowId={(params) => params.data.No.toString()} // 👈 important
+            quickFilterText={quickFilter}
         />
       )}
         <DrawingRequestModal

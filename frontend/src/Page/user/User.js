@@ -1,11 +1,13 @@
 import { Usefetch } from '../../๊Ultility/new/Usefetch'
 import React, {useEffect, useState } from 'react';
-import { Spin, Button } from 'antd';
+import { Spin, Button, Input } from 'antd';
 import Tablecomponent from './../../component/Talecomponent';
 import UserModal from './UserModal';
 const User = () =>{
     const [open, setOpen] = useState(false);
     const {data, loading, error, refetch} = Usefetch('/user')
+    const [quickFilter, setQuickFilter] = useState('');
+
     // console.log('data, loading, error}',data, loading, error)
     const columnDefs = [
         { headerName: 'No', field: 'user_id', checkboxSelection: true, headerCheckboxSelection: true, cellDataType: 'number', width: 30 },
@@ -60,9 +62,28 @@ const User = () =>{
     ]
     return(
         <>
-            <Button type="primary" onClick={() => setOpen(true)}>
-                Create User
-            </Button>
+            <div
+                style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginBottom: '10px',
+                }}
+                >
+                <Button type="primary" onClick={() => setOpen(true)}>
+                    Create User
+                </Button>
+
+                <Input
+                    placeholder="Search all..."
+                    allowClear
+                    value={quickFilter}
+                    onChange={(e) => setQuickFilter(e.target.value)}
+                    style={{ width: 250 }}
+                />
+            </div>
+
+
             {loading ? (
             <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
                 <Spin size="large" />
@@ -77,6 +98,7 @@ const User = () =>{
                     // onSelectionChanged={onSelectionChanged}
                     // // getRowClass={getRowClass}
                     // getRowId={(params) => params.data.No.toString()} // 👈 important
+                    quickFilterText={quickFilter}
                 />
             )}
             <UserModal

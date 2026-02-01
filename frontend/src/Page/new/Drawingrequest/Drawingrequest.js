@@ -1,5 +1,5 @@
 import React, {useEffect, useState } from 'react';
-import { Spin, Button } from 'antd';
+import { Spin, Button, Input } from 'antd';
 import Tablecomponent from './../../../component/Talecomponent';
 import { fetchdrawingRequest } from '../../../๊Ultility/new/requestApi';
 import { useNavigate  } from 'react-router-dom';
@@ -24,6 +24,9 @@ const Drawingrequestnew = () => {
     const [selectedId, setSelectedId] = useState(null);
     // Add these states with your other useState declarations
     const [confirmOpen, setConfirmOpen] = useState(false);
+    //search
+    const [quickFilter, setQuickFilter] = useState('');
+
     // const [selectedRequestNo, setSelectedRequestNo] = useState(null);
 
     const columnDefs = [
@@ -179,6 +182,13 @@ const Drawingrequestnew = () => {
         <div>
           {/* example */}
           {/* <Button icon={<ReloadOutlined />} onClick={load}>Refresh</Button> */}
+          <Input
+              placeholder="Search all..."
+              allowClear
+              value={quickFilter}
+              onChange={(e) => setQuickFilter(e.target.value)}
+              style={{ width: 250 }}
+          />
         </div>
       </div>
 
@@ -199,6 +209,7 @@ const Drawingrequestnew = () => {
             // onSelectionChanged={onSelectionChanged}
             // // getRowClass={getRowClass}
             // getRowId={(params) => params.data.No.toString()} // 👈 important
+            quickFilterText={quickFilter}
         />
       )}
       <DrawingRequestModal
