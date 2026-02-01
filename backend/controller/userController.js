@@ -1,10 +1,90 @@
 const dbconnect = require('../Middleware/Dbconnect');
 const jwt = require('jsonwebtoken');
-const {getAlluserService} = require('../Service/userSevice')
+const {getAlluserService, postUserservice} = require('../Service/userSevice')
+const { getUserroleItemsService, postRoleitemsService, getRoleoptionService} = require('../Service/roleItemsservice')
 //Get All user
 const getAlluserController = async (req, res) =>{
+    const payload = req.body
     try {
-        const result = await getAlluserService();
+        const result = await getAlluserService(payload);
+        res.status(200).json({
+            success: true,
+            msg: 'Request No fetched successfully',
+            data: result
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+        success: false,
+        msg: 'An error occurred while fetching the Request No',
+        error: error.message
+        });
+    }
+}
+const getUserroleItemsController = async (req, res) =>{
+    try {
+        const result = await  getRoleoptionService();
+        res.status(200).json({
+            success: true,
+            msg: 'Request No fetched successfully',
+            data: result
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+        success: false,
+        msg: 'An error occurred while fetching the Request No',
+        error: error.message
+        });
+    }
+}
+
+const postUser = async (req, res) =>{
+    const payload = req.body
+    const {user_id, email, position} = req.user[0];
+    // console.log('payload', payload)
+    // console.log('req.user[0]',req.user[0])
+     try {
+        await dbconnect.query('BEGIN');
+        //01 post user
+        const postUserresult = await postUserservice(payload, req.user[0].user_id);
+        // console.log('postUserresult', postUserresult)
+        const user_id = postUserresult[0].user_id;
+
+        //02 post role Items
+        const insertRoleitems = []
+        for (const item of payload.roleItems){
+            const roleItem = {
+                user_id: user_id,
+                role_item: item.role_id
+            }
+            result = await postRoleitemsService(roleItem)
+            insertRoleitems.push(result[0])
+        }
+
+        await dbconnect.query('COMMIT');
+        res.status(200).json({
+            success: true,
+            msg: `คุณได้ลงทะเบียน  ${payload.email} สำเร็จแล้ว ครับบบบ`,
+            data: {
+                postUserresult: postUserresult,
+                insertRoleitems: insertRoleitems
+            }
+        });
+    } catch (error) {
+        await dbconnect.query('ROLLBACK');
+        console.error(error);
+        res.status(500).json({
+        success: false,
+        msg: `คุณได้ลงทะเบียน  ${payload.email} ไม่สำเร็จแล้ว ครับบบบ`,
+        error: error.message
+        });
+    }
+}
+
+const getRoleOptioncontroller = async (req, res) =>{
+    try {
+        const result = await getRoleoptionService(payload);
         res.status(200).json({
             success: true,
             msg: 'Request No fetched successfully',
@@ -85,6 +165,9 @@ const login = async (req, res) => {
 
 module.exports ={
     login,
-    getAlluserController
+    getAlluserController,
+    getUserroleItemsController,
+    postUser,
+    getRoleOptioncontroller
 }
 

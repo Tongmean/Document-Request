@@ -2,16 +2,17 @@ import { Usefetch } from '../../๊Ultility/new/Usefetch'
 import React, {useEffect, useState } from 'react';
 import { Spin, Button } from 'antd';
 import Tablecomponent from './../../component/Talecomponent';
+import UserModal from './UserModal';
 const User = () =>{
-    const {data, loading, error} = Usefetch('/user')
-    const [rowData, setRowData] = useState([]);
+    const [open, setOpen] = useState(false);
+    const {data, loading, error, refetch} = Usefetch('/user')
+    // console.log('data, loading, error}',data, loading, error)
     const columnDefs = [
         { headerName: 'No', field: 'user_id', checkboxSelection: true, headerCheckboxSelection: true, cellDataType: 'number', width: 30 },
         { headerName: 'email', field: 'email'},
-        
+        { headerName: 'Username', field: 'username'},
         { headerName: 'password', field: 'password'},
         { headerName: 'position', field: 'position'},
-        { headerName: 'Username', field: 'customer_name'},
         {
             headerName: 'Created Date',
             field: 'created_at',
@@ -59,6 +60,9 @@ const User = () =>{
     ]
     return(
         <>
+            <Button type="primary" onClick={() => setOpen(true)}>
+                Create User
+            </Button>
             {loading ? (
             <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
                 <Spin size="large" />
@@ -75,6 +79,14 @@ const User = () =>{
                     // getRowId={(params) => params.data.No.toString()} // 👈 important
                 />
             )}
+            <UserModal
+                open={open}
+                onCancel={() => setOpen(false)}
+                onSuccess={() => {
+                    setOpen(false);
+                    refetch()
+                }}
+            />
         </>
     )
 }

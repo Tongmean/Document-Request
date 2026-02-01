@@ -1,7 +1,8 @@
 const dbconnect = require('../Middleware/Dbconnect');
-const getAlluserService = async (req, res) =>{
+const getAlluserService = async () =>{
     const mysql =`
-            SELECT 
+        SELECT 
+            DISTINCT
             u.user_id,
             u.email,
             u.username,
@@ -22,7 +23,7 @@ const getAlluserService = async (req, res) =>{
     return result.rows
      
 }
-const postUserservice = async (payload) =>{
+const postUserservice = async (payload, user_id) =>{
     const query = `
       INSERT INTO public."User"
       (email, username, password, "position", created_at, created_by)
