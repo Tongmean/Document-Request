@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useContext  } from 'react';
-import { Spin , message} from 'antd';
+import { Spin , message, Input} from 'antd';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from "react-bootstrap/Button";
 import Tablecomponent from './../../../component/Talecomponent';
@@ -13,6 +13,8 @@ const Drawingrequestexist = () => {
       const [loading, setLoading] = useState(true); 
       const [error, setError] = useState('');
       const [rowData, setRowData] = useState([]);
+      //search
+      const [quickFilter, setQuickFilter] = useState('');
       const columnDefs = [
         { headerName: 'No', field: 'request_id', checkboxSelection: true, headerCheckboxSelection: true, cellDataType: 'number', width: 50 },
         { headerName: 'Request No', field: 'request_no'},
@@ -127,8 +129,40 @@ const Drawingrequestexist = () => {
     };
     return (
     <div>
-      <h1>Drawing Request Existing Page</h1>
-      <p>This is the Drawing Request Existing page content.</p>
+
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 16,
+        padding: '16px 20px',
+        background: '#fff',
+        borderRadius: 8,
+        boxShadow: '0 1px 3px rgba(0,0,0,0.08)'
+      }}>
+        <div>
+          <h1 style={{ margin: 0, fontSize: 22, fontWeight: 600 }}>
+            รายการคำขอใช้งาน Drawing
+          </h1>
+          <p style={{ margin: '4px 0 0', color: '#666', fontSize: 14 }}>
+            ติดตามสถานะคำขอ มอบหมายงาน และจัดการ Drawing
+          </p>
+        </div>
+
+        {/* Optional actions */}
+        <div>
+          {/* example */}
+          {/* <Button icon={<ReloadOutlined />} onClick={load}>Refresh</Button> */}
+          <Input
+              placeholder="Search all..."
+              allowClear
+              value={quickFilter}
+              onChange={(e) => setQuickFilter(e.target.value)}
+              style={{ width: 250 }}
+          />
+        </div>
+      </div>
+
       <div>
           <button className='btn btn-success btn-sm' style={{ marginBottom: '10px' }} onClick={handleOnClick}>เพิ่มรายการ</button>
       </div>
@@ -145,7 +179,9 @@ const Drawingrequestexist = () => {
             // onGridReady={onGridReady}
             // onSelectionChanged={onSelectionChanged}
             // // getRowClass={getRowClass}
-            // getRowId={(params) => params.data.No.toString()} // 👈 important
+            // getRowId={(params) => params.data.No.toString()} // 👈 important,
+            quickFilterText={quickFilter}
+
         />
       )}
       {/* <Modaldrawingrequest
