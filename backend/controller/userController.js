@@ -104,7 +104,7 @@ const getRoleOptioncontroller = async (req, res) =>{
 const login = async (req, res) => {
     try {
         const { email, password } = req.body;
-        console.log('Login attempt:', email, password);
+        // console.log('Login attempt:', email, password);
         // Validate input
         if (!email || !password) {
             return res.status(401).json({ msg: 'Email and password are required' });
@@ -142,7 +142,7 @@ const login = async (req, res) => {
             // Get user from database
             const user = result.rows[0];
             const users = result.rows;
-            console.log('User found:', user);
+            // console.log('User found:', user);
 
             // Compare passwords (assuming no hashing, raw password comparison)
             if (password !== user.password) {

@@ -34,7 +34,7 @@ const GlobalUpdateAlert = () => {
     };
 
     useEffect(() => {
-        console.log('GlobalUpdateAlert lastEvent:', lastEvent);
+        // console.log('GlobalUpdateAlert lastEvent:', lastEvent);
         if (lastEvent && lastEvent !== seen) {
             const { type, route, userEmail, time } = lastEvent;
             const rawData = lastEvent.data; 
@@ -145,7 +145,7 @@ const GlobalUpdateAlert = () => {
     // return <>{contextHolder}</>;
     return (
         <>
-            {contextHolder}
+            {/* {contextHolder} */}
             {/* <div style={{ position: 'fixed', overflow: 'visible' , top: 10, center: 10, background: '#fff', padding: 8, borderRadius: 6 , marginTop: 30}}>
                 🔔 Notifications: {notificationCount}
             </div> */}
