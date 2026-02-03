@@ -30,6 +30,7 @@ const printRequestController = async (req, res) => {
         const requestDateitemData = await requestDateitemService.getSinglerequestDateitem(payload);
         const historyLogData = await requestService.getHistorylog(payload);
         const urlData = await urlService.getUrlbyRequest_no(payload);
+        const requestFileData = await urlService.getRequestfilebyrequest_no(payload);
         // console.log('Request Data:', requestData);
         res.status(200).json({
             success: true,
@@ -47,7 +48,8 @@ const printRequestController = async (req, res) => {
                 requestDateitemData : requestDateitemData,
                 followData : followData,
                 historyLogData : historyLogData,
-                urlData: urlData
+                urlData: urlData,
+                requestFileData: requestFileData
 
             }
         });

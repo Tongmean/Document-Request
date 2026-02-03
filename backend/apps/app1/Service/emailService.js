@@ -27,7 +27,7 @@ const sendRequesterNotification = async (requesterEmail, postTitle, payload, ins
     // console.log('payload', payload);
     const toReciver = [requesterEmail];
     // Reponser
-    // toReciver.push("Warawan@compact-brake.com")
+    toReciver.push("worawan@compact-brake.com")
     const mailOptions = {
       from: `"Drawing System Notification" <noreply@yourdomain.com>`,
       to: [toReciver],
@@ -108,10 +108,10 @@ const sendRequesterNotification = async (requesterEmail, postTitle, payload, ins
     return transporter.sendMail(mailOptions);
 };
 // Function for Approver
-const sendApproverNotification = async (requesterEmail, postTitle, payload, position, username) => {
+const sendApproverNotification = async (requesterEmail, postTitle, payload, position, username, getRequestemail) => {
     const toReciver = [requesterEmail];
     // Reponser
-    // toReciver.push("Warawan@compact-brake.com")
+    toReciver.push("worawan@compact-brake.com", getRequestemail[0].email)
     const mailOptions = {
       from: `"Drawing System Notification" <noreply@yourdomain.com>`,
       to: [toReciver],

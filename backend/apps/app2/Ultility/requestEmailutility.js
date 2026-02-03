@@ -5,14 +5,14 @@ const sendRequestNotification = async (payload, postTitle, emailData, documentty
     // console.log('payload', payload);
     const {user_id, email, username, position} = user;
     const {request_no, request_remark, department, customer_name, part_no, details, id} = emailData[0];
-    const requestDateitems = payload.requestDateitems;
+    // const requestDateitems = payload.requestDateitems;
+    const requestDateitems = JSON.parse(payload.requestDateitems);
     const toReciver = [email];
     // console.log('toReciver', documenttypeitemData);
     // console.log('emailData', emailData);
     // console.log('payload', payload);
     // Reponser///
-    // toReciver.push("Warawan@compact-brake.com")
-    // toReciver.push(responsorEmail)
+    toReciver.push(responsorEmail)
     const mailOptions = {
       from: `"Drawing Request System Notification ${postTitle}" <noreply@yourdomain.com>`,
       to: [toReciver],

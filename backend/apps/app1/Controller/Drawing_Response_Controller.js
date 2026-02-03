@@ -65,20 +65,24 @@ const createDrawingresponse = async (req, res) => {
         }
         //3 change request status to Approved
         const updateStatus = await drawingService.changeStatusrequest_existing(payload);
-        const emailNotification = await emailService.sendApproverNotification(email, 'ใบขอ Drawing เพื่อใช้งาน', payload, position, username);
+        const getRequestemail = await drawingService.getalldrawingrequest_existingbyid({request_id: payload.request_id});
+        const emailNotification = await emailService.sendApproverNotification(email, 'ใบขอ Drawing เพื่อใช้งาน', payload, position, username, getRequestemail);
 
         await dbconnect.query('COMMIT');
 
         res.status(200).json({
+            
             success: true,
             msg: 'สร้างคำขอใหม่สำเร็จ + ส่งอีเมลแจ้งเตือนไปยังผู้ขอเรียบร้อยแล้ว',
-            data :{
+            data : {
                 respone: response,
                 urlItem: insertedItems,
-                statusRequest: updateStatus.rows
+                statusRequest: updateStatus,
+                emailNotification: emailNotification
             }
             
         });
+       
     } catch (error) {
         await dbconnect.query('ROLLBACK');
         console.error(error);

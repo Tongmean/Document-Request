@@ -8,7 +8,7 @@ const sendResponseNotification = async (postTitle, requestData, responseData, us
     const responseItems = responseData[0];
     // console.log('requestItems', requestItems);
     // console.log('responseItems', responseItems);
-    const toReciver = [email];
+    const toReciver = [];
     // const requestDateitems = payload.requestDateitems
     // console.log('postTitle', postTitle);
     // console.log('payload', payload);

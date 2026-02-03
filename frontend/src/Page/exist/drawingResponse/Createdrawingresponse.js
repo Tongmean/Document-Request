@@ -5,8 +5,7 @@ import {fetchDrawingrequestitem} from '../../../๊Ultility/exist/drawingRequest
 import { fetchDrawingresponsebyid, createDrawingresponse } from '../../../๊Ultility/exist/drawingResponse';
 import { fetchDocumentitems } from '../../../๊Ultility/exist/documentItems';
 import { useNavigate  } from 'react-router-dom';
-import { Spin } from 'antd';
-import { convertToUTCPlus7 } from '../../../๊Ultility/Moment-timezone';
+import { Spin, message } from 'antd';
 import Notification from '../../../component/Notification';
 
 const CreatedrawingResponse = () => {
@@ -120,12 +119,12 @@ const CreatedrawingResponse = () => {
             request_no 
           });
     
-          showNotification(result.msg || 'บันทึกสำเร็จ', 'success');
+          message.success(result.msg)
           console.log('Create Drawing Response Result:', result);
           // Refresh data and reset form
           await load(); 
           handleReset();
-          setTimeout(() => navigate('/exist/drawingresponse', 3000));
+          setTimeout(() => navigate('/exist/drawingresponse', 5000));
         } catch (error) {
           showNotification(error.message || 'เกิดข้อผิดพลาดในการบันทึก', 'warning');
         } finally {

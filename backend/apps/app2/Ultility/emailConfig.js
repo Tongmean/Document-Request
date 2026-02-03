@@ -4,7 +4,7 @@ const nodemailer = require('nodemailer');
 const baseUrl = 'http://192.168.5.92:4001/new/drawingrequest/';
 // VM
 // const baseUrl = 'http://192.168.4.239:4001/new/drawingrequest/';
-const responsorEmail = "Warawan@compact-brake.com"
+const responsorEmail = "worawan@compact-brake.com"
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {

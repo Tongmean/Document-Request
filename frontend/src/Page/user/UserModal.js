@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { Modal, Form, Input, Select, Checkbox, Button, message } from 'antd';
+import { Modal, Form, Input, Checkbox, Button, message } from 'antd';
 import { Usefetch } from '../../๊Ultility/new/Usefetch'
 import { postUserapi } from '../../๊Ultility/userApi';
-const { Option } = Select;
 
 const UserModal = ({ open, onCancel, onSuccess }) => {
   const [form] = Form.useForm();
@@ -35,8 +34,8 @@ const UserModal = ({ open, onCancel, onSuccess }) => {
       form.resetFields();
       onSuccess(); // close modal
     } catch (error) {
-      message.error('Failed to create user');
-      console.error(error);
+      message.error(error.message);
+      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -106,7 +105,7 @@ const UserModal = ({ open, onCancel, onSuccess }) => {
             type="primary"
             htmlType="submit"
             block
-            loading={loading}
+            loading={loading || loadingRole}
           >
             Submit
           </Button>

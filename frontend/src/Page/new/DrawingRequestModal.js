@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Spin } from 'antd';
 import { printdrawingRequest } from '../../๊Ultility/new/printDrawingrequestApi';
-
+import { baseURL } from '../../๊Ultility/apiClient';
 export default function DrawingRequestModal({ open, requestId, onClose }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -13,7 +13,7 @@ export default function DrawingRequestModal({ open, requestId, onClose }) {
     try {
       setLoading(true);
       const data = await printdrawingRequest({ id: requestId });
-    //   console.log('Fetched request data:', data);
+      // console.log('Fetched request data:', data);
       setRequestData(data);
     } catch (err) {
       setError('Failed to load request data.');
@@ -51,7 +51,7 @@ export default function DrawingRequestModal({ open, requestId, onClose }) {
   const intoArraydrawing =
     requestData?.data?.documenttypeitemData?.map(i => i.document_type) || [];
 
-  const typeOptions = ["ดิสเบรก", "ก้ามเบรก", "ผ้าเบรก"];
+  const typeOptions = ["ดิสเบรก", "ก้ามเบรก", "ผ้าเบรก", "จานเบรก", "ดรัมเบรก"];
   const intoArrayproductType =
     requestData?.data?.productTypeitemData?.map(i => i.product_type) || [];
 
@@ -97,7 +97,8 @@ export default function DrawingRequestModal({ open, requestId, onClose }) {
   const followApi = requestData?.data?.followData?.[0];
   const historyLogapi = requestData?.data?.historyLogData || [];
   const urlapi = requestData?.data?.urlData || [];
-  // console.log('historyLogapi', historyLogapi);
+  const fileapi = requestData?.data?.requestFileData || [];
+  // console.log('fileapi', fileapi);
 
   const isneed = overdueApi?.isneed;
 
@@ -414,6 +415,70 @@ export default function DrawingRequestModal({ open, requestId, onClose }) {
           {/* <div className="text-center mt-2">
             sjds
           </div> */}
+            {loading ? (
+                <div className="text-center py-4">
+                    <Spin size="large" />
+                    <p className="mt-3 text-muted">Loading items...</p>
+                </div>
+                ) : fileapi && fileapi.length > 0 ? (
+                <>
+                    <h5 className="border-bottom pb-2 mb-3">
+                    <i className="bi bi-list-ul me-2"></i>
+                        Request File
+                  </h5>
+                    <div className="table-responsive">
+                    <table className="table table-striped table-bordered table-hover">
+                        <thead className="table-dark">
+                        <tr>
+                            <th style={{ width: '60px' }} className="text-center">No.</th>
+                            <th>Path</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {fileapi.map((item, index) => (
+                            <tr key={index}>
+                                <td className="text-center">
+                                    <span className="badge bg-secondary">{index + 1}</span>
+                                </td>
+                              
+                                <td>
+                                  {item.file_path ? (
+                                    // <a href={item.file_path} target="_blank" rel="noopener noreferrer">
+                                    //   {baseURL}/app/app2/Assets/{item.file_path}
+                                    // </a>
+                                      <a
+                                        href={`${baseURL}/apps/app2/Assets/${item.file_path}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        {item.file_path}
+                                      </a>
+                                  ) : (
+                                    'N/A'
+                                  )}
+                                </td>
+
+                                
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
+                    </div>
+                    
+                    {/* Summary */}
+                    <div className="d-flex justify-content-between align-items-center mt-3 p-3 bg-light rounded">
+                    <div>
+                        <strong>Total Items:</strong>
+                        <span className="badge bg-info ms-2">{fileapi.length}</span>
+                    </div>
+                    </div>
+                </>
+                ) : (
+                <div className="text-center text-muted py-5 bg-light rounded">
+                    <div style={{ fontSize: '3rem' }}>📋</div>
+                    <p className="mt-3 mb-0">No items found for this request</p>
+                </div>
+            )}
             {loading ? (
                 <div className="text-center py-4">
                     <Spin size="large" />

@@ -1,7 +1,7 @@
 const dbconnect = require('../Middleware/Dbconnect');
 const jwt = require('jsonwebtoken');
-const {getAlluserService, postUserservice} = require('../Service/userSevice')
-const { getUserroleItemsService, postRoleitemsService, getRoleoptionService} = require('../Service/roleItemsservice')
+const {getAlluserService, postUserservice, getSingleuserService , updatedUserservice} = require('../Service/userSevice')
+const {deleteRoleitemsService, getUserroleItemsService, postRoleitemsService, getRoleoptionService, getSingleroleitemService, updatedRoleitemsService} = require('../Service/roleItemsservice')
 //Get All user
 const getAlluserController = async (req, res) =>{
     const payload = req.body
@@ -163,11 +163,103 @@ const login = async (req, res) => {
     }
 };
 
+
+//get user // role item by user_id
+const getUserandroleitemsbyuser_id = async (req, res) => {
+    const payload = req.body
+    try {
+        const userResult = await getSingleuserService(payload);
+        const roleitemResult = await getSingleroleitemService(payload);
+        res.status(200).json({
+            success: true,
+            msg: 'Request No fetched successfully',
+            data: {
+                user: userResult,
+                roleItems: roleitemResult
+            }
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+        success: false,
+        msg: 'An error occurred while fetching the Request No',
+        error: error.message
+        });
+    }
+}
+
+const updatedUsercontroller = async (req, res) =>{
+    const payload = req.body
+    console.log('payload', payload)
+    try {
+        await dbconnect.query('BEGIN');
+        //01 update user
+        const updateUserresult = await updatedUserservice(payload);
+        const user_id = updateUserresult[0].user_id;
+        //02 get role items by user_id
+        const getRoleitems = await getSingleroleitemService({user_id: user_id});
+        const exitRoleid = getRoleitems.map((item) => item.role_id);
+        //03 incomming role items(new)
+        const incomingRoleitems = payload.roleItems.map((item) => item.role_id);
+        //04 delete role items 
+        const toDelete = exitRoleid.filter((role_id) => !incomingRoleitems.includes(role_id));
+        const insertDeleted = []
+        if(toDelete.length > 0){
+            for(const item of toDelete){
+                const result = await deleteRoleitemsService({role_id: item.role_id});
+                insertDeleted.push(result[0].role_id)
+            }
+        }
+        //05 add new role items
+        const insertpostRoleitems = []
+        const insertupateRoleitems = []
+        for(const item of payload.roleItems){
+            if(!exitRoleid.includes(item.role_id)){
+                const roleItem = {
+                    user_id: user_id,
+                    role_item: item.role_id
+                }
+                const result = await postRoleitemsService(roleItem)
+                insertpostRoleitems.push(result[0].role_id)
+            } else {
+                //update role items if needed
+                const result = await updatedRoleitemsService({
+                    user_id: user_id,
+                    role_item: item.role_id,
+                    role_id: item.role_id
+                })
+                insertupateRoleitems.push(result[0].role_id)
+            }
+        }
+        await dbconnect.query('COMMIT');
+             res.status(200).json({
+            success: true,
+            msg: `Ur user ${payload.email} has been updated successfully`,
+            data: {
+                updateUserresult: updateUserresult,
+                insertDeleted:insertDeleted,
+                insertupateRoleitems: insertupateRoleitems,
+                insertpostRoleitems: insertpostRoleitems
+            }
+        });
+        console.log('data', data)
+    } catch (error) {
+        console.log('error', error);
+        await dbconnect.query('ROLLBACK')
+        res.status(500).json({
+            success: false,
+            msg: 'An error occurred while fetching the Request No',
+            error: error.message
+        });
+    }
+}
 module.exports ={
     login,
     getAlluserController,
     getUserroleItemsController,
     postUser,
-    getRoleOptioncontroller
+    getRoleOptioncontroller,
+    getUserandroleitemsbyuser_id,
+    updatedUsercontroller
 }
 

@@ -3,11 +3,16 @@ import React, {useEffect, useState } from 'react';
 import { Spin, Button, Input } from 'antd';
 import Tablecomponent from './../../component/Talecomponent';
 import UserModal from './UserModal';
+import UserViewModal from './UserViewModal';
+import UpdateUserModal from './UpdatedUserModal';
 const User = () =>{
     const [open, setOpen] = useState(false);
+    const [openUserview, setOpenuserView] = useState(false);
+    const [openUserupdated, setOpenuserUpdated] = useState(false);
+    const [sellectedUserId, setSellectedUserId] = useState(null);
     const {data, loading, error, refetch} = Usefetch('/user')
     const [quickFilter, setQuickFilter] = useState('');
-
+    const [modalVisible, setModalVisible] = useState(false);
     // console.log('data, loading, error}',data, loading, error)
     const columnDefs = [
         { headerName: 'No', field: 'user_id', checkboxSelection: true, headerCheckboxSelection: true, cellDataType: 'number', width: 30 },
@@ -32,33 +37,41 @@ const User = () =>{
                 }
         },
         { headerName: 'Created BY', field: 'created_by'},
-        // { headerName: 'Remark', field: 'request_remark'},
-        // { headerName: 'Status', field: 'status_name'},
-        // { headerName: 'Request BY', field: 'username'},
-        // {
-        // headerName: 'Actions',
-        // field: 'actions',
-        // pinned: 'right',
-        // width: 250,
-        // cellRenderer: (params) => {
+        {
+        headerName: 'Actions',
+        field: 'actions',
+        pinned: 'right',
+        width: 250,
+        cellRenderer: (params) => {
+            return (
+                <div>
+                    <Button className="btn btn-warning btn-sm" style={{ marginRight: 5 }}
+                        // onClick={() => handleOpen(params.data.id)}
+                        onClick={() => {
+                            setSellectedUserId(params.data.user_id);
+                            setOpenuserView(true);
+                        }}
+                    >
+                        
+                        D
+                    </Button>
+                    <Button className="btn btn-danger btn-sm" style={{ marginRight: 5 }}
+                        // onClick={() => handleOpen(params.data.id)}
+                        onClick={() => {
+                            setSellectedUserId(params.data.user_id);
+                            setOpenuserUpdated(true);
+                            setModalVisible(true);
+                            console.log('params.data.user_id', params.data.user_id);
+                        }}
+                    >
+                        
+                        Edit
+                    </Button>
+                </div>
+            );
+            }
             
-
-        //     return (
-        //         <div>
-        //         <Button className="btn btn-warning btn-sm" style={{ marginRight: 5 }}
-        //             // onClick={() => handleOpen(params.data.id)}
-        //         >
-                    
-        //             D
-        //         </Button>
-            
-                
-            
-        //         </div>
-        //     );
-        //     }
-            
-        // }
+        }
     ]
     return(
         <>
@@ -94,10 +107,6 @@ const User = () =>{
                 <Tablecomponent
                     columnDefs={columnDefs}
                     rowData={data}
-                    // onGridReady={onGridReady}
-                    // onSelectionChanged={onSelectionChanged}
-                    // // getRowClass={getRowClass}
-                    // getRowId={(params) => params.data.No.toString()} // 👈 important
                     quickFilterText={quickFilter}
                 />
             )}
@@ -108,6 +117,30 @@ const User = () =>{
                     setOpen(false);
                     refetch()
                 }}
+            />
+            <UserViewModal
+                open={openUserview}
+                onCancel={() => setOpenuserView(false)}
+                onSuccess={() => {
+                    setOpenuserView(false);
+                    refetch()
+                }}
+                userId = {sellectedUserId}
+            />
+            <UpdateUserModal
+                // open={openUserupdated}
+                userId={sellectedUserId}
+                onClose={() => {
+                    setOpenuserUpdated(false)
+                    setSellectedUserId(null)
+                    setModalVisible(false);
+                }}
+                onSuccess={() => {
+                    setOpenuserUpdated(false);
+                    refetch()
+                    setModalVisible(false);
+                }}
+                visible={modalVisible}
             />
         </>
     )

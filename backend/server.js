@@ -9,7 +9,12 @@ const cors = require('cors');
 //Body Parser
 const bodyParser = require('body-parser');
 const http = require('http');
-
+const path = require('path');
+// Serve static files for app2 Rwquests
+app.use(
+    '/apps/app2/Assets',
+    express.static(path.join(process.cwd(), 'apps/app2/Assets'))
+);
 const fs = require('fs');
 const { Server } = require('socket.io');
 // const socketIo = require('socket.io');

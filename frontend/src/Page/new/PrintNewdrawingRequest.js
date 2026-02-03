@@ -59,6 +59,8 @@ export default function DrawingRequestForm() {
     { id: 1, label: "ดิสเบรก" },
     { id: 2, label: "ก้ามเบรก" },
     { id: 3, label: "ผ้าเบรก" },
+    { id: 4, label: "จานเบรก" },
+    { id: 5, label: "ดรัมเบรก" },
   ];
   const selectedtype = requestData ? (requestData.data.productTypeitemData) : null;
   const intoArrayproductType = selectedDrawings ? [selectedtype.map(i=>i.product_type)].flat() :[];

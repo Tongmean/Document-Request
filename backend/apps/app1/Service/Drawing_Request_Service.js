@@ -129,6 +129,24 @@ const changeStatusrequest_existing = async (payload) => {
 
     return result.rows;
 };
+
+
+// const requestFileservice = async (payload, request_no) => {
+//     const mysql = `
+//         INSERT INTO public."Request_Utility_Existing_Drawing_Form_URL"
+//         (request_no, path, created_at, created_by)
+//         VALUES ($1, $2, $3, $4)
+//         RETURNING *
+//     `;
+//     const values = [
+//         request_no,
+//         payload.path,
+//         new Date(),
+//         payload.created_by
+//     ]
+//     const result = await dbconnect.query(mysql, values)
+//     return result.rows
+// }
 module.exports = {
     getalldrawingrequest_existing,
     getalldrawingrequest_existingbyid,

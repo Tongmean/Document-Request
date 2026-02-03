@@ -7,6 +7,9 @@ const drawingTypeitemService = require('../Service/drawingTypeitem');
 const productTypeitemService = require('../Service/productTypeitem');
 const dateItemService = require('../Service/requestDateitem');
 const requestDateitemService = require('../Service/requestDateitem');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
 // const {printRequestController} = require('./printRequestcontroller');
 const { sendRequestNotification } = require('../Ultility/requestEmailutility');
 const getRequest_no = async (req, rees) => {
@@ -45,11 +48,56 @@ const requestController = async (req, res) => {
         });
     }
 }
+//Middleware upload file use multer
+
+// Ensure the upload directory exists
+const uploadDir = path.join(__dirname, '../Assets/RequestFiles');
+fs.mkdirSync(uploadDir, { recursive: true });
+
+// Configure Multer for file storage
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, uploadDir); // Save files to 'Assets/Drawing' folder
+    },
+    filename: (req, file, cb) => {
+        const sanitizedFilename = Buffer.from(file.originalname, 'latin1').toString('utf8').replace(/\s+/g, '_').replace(/[^\w\-_.ก-๙]/g, '');        
+        // const uniqueSuffix = `${Date.now()}`;
+        cb(null, `${sanitizedFilename}`);
+    }
+});
+
+
+// Multer configuration
+const upload = multer({
+    storage: storage,
+    limits: { fileSize: 10 * 1024 * 1024 } // Limit file size to 10MB
+}).array('files', 10); // Accept up to 10 files
+
+// Middleware for handling single file upload
+// const uploadDrawingMiddleware = upload.single('file');
+const uploadDrawingMiddleware = (req, res, next) => {
+    upload(req, res, (err) => {
+        if (err) {
+            if (err.code === 'LIMIT_FILE_SIZE') {
+                return res.status(400).json({ msg: 'File size exceeds 10MB limit.' });
+            }
+            if (file.mimetype !== "application/pdf") {
+                cb(new Error("Only PDF files allowed"));
+              }
+            return res.status(400).json({ msg: 'File upload failed.', error: err.message });
+        }
+        next(); // Proceed to the next middleware or route handler
+    });
+};
+
 const postRequest = async (req, res) => {  
     const {user_id, email, position} = req.user[0];
-    const payload = req.body;
+    const payload = req.body
+    const files = req.files;
     // console.log('Payload:', payload);
-    const requestPayload = payload.requestItems[0]
+    // console.log('typeof:', typeof(payload));
+    // console.log('req.files:', req.files);
+    const requestPayload = JSON.parse(payload.requestItems)[0]
     try {
         await dbconnect.query('BEGIN');
         //01 Get next request no
@@ -58,9 +106,10 @@ const postRequest = async (req, res) => {
         const next_request_no = next_request_no_result[0].next_request_no;
         //02 Insert into request table
         const insert_request_result = await requestService.postRequest(requestPayload, next_request_no, user_id);
+        console.log('insert_request_result', insert_request_result)
         //03 Insert into document type item table
         const insert_documenttypeitems = []
-        for (const item of (payload.documenttypeitems)) {
+        for (const item of JSON.parse(payload.documenttypeitems)) {
             const documenttypeitemPayload = {
                 request_no: next_request_no,
                 document_type: item.document_type_id
@@ -73,7 +122,7 @@ const postRequest = async (req, res) => {
         }
         //04 Insert into drawing document type item table
         const insert_drawingdocumenttypeitems = []
-        for (const item of (payload.drawingDocumenttypeitems)) {
+        for (const item of JSON.parse(payload.drawingDocumenttypeitems)) {
             const drawingdocumenttypeitemPayload = {
                 request_no: next_request_no,
                 drawing_document_type: item.drawing_document_type_id
@@ -86,7 +135,7 @@ const postRequest = async (req, res) => {
         }
         //05 Insert into drawing type item table
         const inserted_drawingtypeitems = []
-        for (const item of (payload.drawingtypeitems)) {
+        for (const item of JSON.parse(payload.drawingtypeitems)) {
             const drawingtypeitemPayload = {
                 request_no: next_request_no,
                 drawing_type: item.drawing_type_id
@@ -100,7 +149,7 @@ const postRequest = async (req, res) => {
         //06 Insert into product type item table
         const inserted_producttypeitems = []
         // console.log('payload.productTypeitems', payload.productTypeitems)
-        for(const item of payload.productTypeitems){
+        for(const item of JSON.parse(payload.productTypeitems)){
             const producttypeitemPayload = {
                 request_no: next_request_no,
                 product_type_item: item.product_type_id
@@ -112,11 +161,11 @@ const postRequest = async (req, res) => {
         }
         //07 Insert into date item table
         const inserted_dateitems = [];
-        for(const item of (payload.requestDateitems)){
+        for(const item of JSON.parse(payload.requestDateitems)){
             const requestdateitemPayload = {
                 request_no: next_request_no,
                 request_date: item.request_date,
-                expected_date: item.expected_date
+                // expected_date: item.expected_date
             };
             const dateitemResult =
                 await dateItemService.postDateitem(requestdateitemPayload);
@@ -129,6 +178,20 @@ const postRequest = async (req, res) => {
         const oldValue = null;
         const newValue = "Submitted"
         const update_log_result =  await logUpdate(table_name, column, id, oldValue, newValue, "updated" , user_id)
+        //File post
+        const insertFiles =[]
+        for (const file of files) {
+            const { filename, originalname, path } = file;
+            // const uniqueSuffix = `${Date.now()}-${originalname}`;
+            const relativeFilePath = `RequestFiles/${filename}`
+            // const FilePath = path.join(__dirname, '../app/app2/Assets', relativeFilePath);
+            const result = await dbconnect.query(
+                `INSERT INTO "newDrawingrequest".request_uploaded_files (request_no, original_name, file_path)
+                VALUES ($1, $2, $3)`,
+                [next_request_no, originalname, relativeFilePath]
+            )
+            insertFiles.push(result.rows[0]);
+        }
         //Query Detail for mail
         const emailData = await requestService.getSinglerequest({id: insert_request_result[0].id});
         const documenttypeitemData = await documentItemService.getsingledocumenttypeitem({request_no: next_request_no});
@@ -153,7 +216,8 @@ const postRequest = async (req, res) => {
                 inserted_producttypeitems: inserted_producttypeitems,
                 inserted_dateitems: inserted_dateitems,
                 update_log_result: update_log_result,
-                emailResult: emailResult
+                emailResult: emailResult,
+                insertFiles: insertFiles
             }
         });
         
@@ -188,8 +252,10 @@ const getRequestdateItems = async (req, res) => {
     }
 }
 module.exports = {
+    uploadDrawingMiddleware,
     requestController,
     postRequest,
     getRequest_no,
-    getRequestdateItems
+    getRequestdateItems,
+    
 };
