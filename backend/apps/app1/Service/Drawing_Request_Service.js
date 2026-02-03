@@ -53,33 +53,15 @@ const getalldrawingrequest_existingbyid = async (payload) => {
 }
 const getrquestno_existing = async () => {  
     const mysql =`
-        WITH last_no AS (
-            SELECT
-                EXTRACT(YEAR FROM request_at)::int AS year,
-                MAX(split_part(request_no, '/', 1)::int) AS max_no
+        SELECT 
+            COALESCE(MAX(next_val), 1) AS "nextRequest",
+            COALESCE(MAX(next_val), 1) || '/' || EXTRACT(YEAR FROM CURRENT_DATE) AS "next_request_no"
+        FROM (
+            SELECT COUNT(*) + 1 AS next_val
             FROM "Request_Utility_Existing_Drawing_Form"
-            GROUP BY EXTRACT(YEAR FROM request_at)
-        ),
-        numbered AS (
-            SELECT
-                r.request_at,
-                r.request_no,
-                ROW_NUMBER() OVER (
-                    PARTITION BY EXTRACT(YEAR FROM r.request_at)
-                    ORDER BY r.request_at
-                ) AS rn
-            FROM "Request_Utility_Existing_Drawing_Form" r
-        )
-        SELECT
-            n.request_at,
-            (COALESCE(l.max_no, 0) + n.rn)::text
-            || '/' ||
-            EXTRACT(YEAR FROM n.request_at)::text AS next_request_no
-        FROM numbered n
-        LEFT JOIN last_no l
-            ON l.year = EXTRACT(YEAR FROM n.request_at)
-        ORDER BY n.request_at;
-    
+            WHERE EXTRACT(YEAR FROM request_at) = EXTRACT(YEAR FROM CURRENT_DATE)
+        ) AS current_year_data;
+        
     `
     const result = await dbconnect.query(mysql);
     return result.rows

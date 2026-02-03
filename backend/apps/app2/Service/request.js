@@ -4,20 +4,14 @@ const dbconnect = require('../../../Middleware/Dbconnect');
 // console.log("user_id from request service:", user_id);
 const getNextRequest_no = async () =>{
     const mysql =
-    `
-        WITH YearlyCounts AS (
-            SELECT 
-                EXTRACT(YEAR FROM request_at) AS request_year,
-                COUNT(*) + 1 AS next_val
+    `   SELECT 
+            COALESCE(MAX(next_val), 1) AS "nextRequest",
+            COALESCE(MAX(next_val), 1) || '/' || EXTRACT(YEAR FROM CURRENT_DATE) AS "next_request_no"
+        FROM (
+            SELECT COUNT(*) + 1 AS next_val
             FROM "newDrawingrequest"."Request_Form"
-            GROUP BY EXTRACT(YEAR FROM request_at)
-        )
-        SELECT 
-            request_year,
-            next_val AS "nextRequest",
-            next_val || '/' || request_year AS "next_request_no"
-        FROM YearlyCounts
-        ORDER BY request_year;
+            WHERE EXTRACT(YEAR FROM request_at) = EXTRACT(YEAR FROM CURRENT_DATE)
+        ) AS current_year_data;
     `;
     const result = await dbconnect.query(mysql);
     return result.rows
