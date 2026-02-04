@@ -6,9 +6,9 @@ const nodemailer = require('nodemailer');
  */
 
 //Loptop
-const baseUrl  = 'http://192.168.5.92:4001/exist/drawingrequest/';
+// const baseUrl  = 'http://192.168.5.92:4001/exist/drawingrequest/';
 //vm
-// const baseUrl  = 'http://192.168.4.239:4001/exist/drawingrequest/';
+const baseUrl  = 'http://192.168.4.239:4001/exist/drawingrequest/';
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
