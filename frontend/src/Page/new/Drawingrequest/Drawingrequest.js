@@ -33,8 +33,40 @@ const Drawingrequestnew = () => {
       { headerName: 'No', field: 'id', checkboxSelection: true, headerCheckboxSelection: true, cellDataType: 'number', width: 50 },
       { headerName: 'Request No', field: 'request_no'},
       {
-        headerName: 'Request Date',
+        headerName: 'วันที่ยื่นขอ',
         field: 'request_at',
+        valueFormatter: (params) => {
+          if (!params.value) return '';
+      
+          const date = new Date(params.value);
+      
+          return date.toLocaleString('en-GB', {
+            timeZone: 'Asia/Bangkok', // UTC+7
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+          });
+        }
+      },
+      {
+        headerName: 'วันที่ขอ',
+        field: 'request_date',
+        valueFormatter: (params) => {
+          if (!params.value) return '';
+      
+          const date = new Date(params.value);
+      
+          return date.toLocaleString('en-GB', {
+            timeZone: 'Asia/Bangkok', // UTC+7
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+          });
+        }
+      },
+      {
+        headerName: 'Expexted Date',
+        field: 'expected_date',
         valueFormatter: (params) => {
           if (!params.value) return '';
       
@@ -108,10 +140,27 @@ const Drawingrequestnew = () => {
 
   const load = async () =>{
     try {
-      const data = (await fetchdrawingRequest()).data;
-      // console.log(data, 'data print');
+      const response = (await fetchdrawingRequest());
+      // console.log(response, 'data print');
       // console.log(data.data.requestData[0], 'data print requestData');
-      setRowData(data);
+      const requestDateMap = {};
+      (response.requestDatedata).forEach(item => {
+        if (!requestDateMap[item.request_no]) {
+          requestDateMap[item.request_no] = item;
+        }
+      });
+      const mergedData = (response.data).map(req => {
+        const dateInfo = requestDateMap[req.request_no];
+      
+        return {
+          ...req,
+          request_date: dateInfo?.request_date || null,
+          expected_date: dateInfo?.expected_date || null,
+        };
+      });
+      // console.log(mergedData, 'mergedData');
+      setRowData(mergedData);
+      // setRowData((response.data));
     } catch (err) {
       setError('Failed to load request data.');
     } finally {

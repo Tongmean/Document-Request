@@ -33,10 +33,12 @@ const getRequest_no = async (req, rees) => {
 const requestController = async (req, res) => {
     try {
         const result = await requestService.getAllrequest();
+        const requestDate = await requestDateitemService.getAllrequestDateitem();
         res.status(200).json({
             success: true,
             msg: 'Request processed successfully',
-            data: result
+            data: result,
+            requestDatedata: requestDate
         });
     } catch (error) {
         console.error(error);

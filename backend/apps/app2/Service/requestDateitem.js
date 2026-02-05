@@ -8,6 +8,14 @@ const getSinglerequestDateitem = async (payload) => {
         const result = await dbconnect.query(mysql, [payload.request_no]);
         return result.rows
 }
+const getAllrequestDateitem = async () => {
+    const mysql =`
+    SELECT * FROM "newDrawingrequest"."Request_Date_Item"
+    ORDER BY id ASC 
+    `
+    const result = await dbconnect.query(mysql);
+    return result.rows
+}
 
 // const postDateitem = async (payload) => {
 //     const mysql = `
@@ -93,6 +101,7 @@ const postDateitem = async (payload) => {
 };
 
 module.exports = {
+    getAllrequestDateitem,
     getSinglerequestDateitem,
     postDateitem,
     updateDateitems
