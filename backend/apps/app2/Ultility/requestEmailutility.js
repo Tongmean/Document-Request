@@ -12,7 +12,7 @@ const sendRequestNotification = async (payload, postTitle, emailData, documentty
     // console.log('emailData', emailData);
     // console.log('payload', payload);
     // Reponser///
-    toReciver.push(responsorEmail)
+    // toReciver.push(responsorEmail)
     const mailOptions = {
       from: `"Drawing Request System Notification ${postTitle}" <noreply@yourdomain.com>`,
       to: [toReciver],

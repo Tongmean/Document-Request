@@ -9,6 +9,7 @@ import DrawingRequestModal from '../DrawingRequestModal';
 import ResponseFormModal from './ResponseFormModal';
 import ConfirmationPopup from './ConfirmationPopup';
 import OverdueFormModal from './OverdueFormModal';
+import RemovePopup from './RemovePopup';
 const Drawingrequestnew = () => {
     
     const canRequest = UsePermission('Responsor');
@@ -21,6 +22,7 @@ const Drawingrequestnew = () => {
     const [open, setOpen] = useState(false); // Modal print open state
     const [responseOpen, setResponseOpen] = useState(false); //modal response open state
     const [overdueOpen, setOverdueopen] = useState(false); //modal response open state
+    const [removeOpen, setRemoveopen] = useState(false); //modal response open state
     const [selectedId, setSelectedId] = useState(null);
     // Add these states with your other useState declarations
     const [confirmOpen, setConfirmOpen] = useState(false);
@@ -110,6 +112,14 @@ const Drawingrequestnew = () => {
                     Print
                 </Button>
                 <Button
+                  className="btn btn-danger btn-sm"
+                  onClick={() => openRemovePopup(params.data.request_no)}
+                  disabled={!(!(params.data.status_name === 'Completed' || params.data.status_name === 'Cancelled') && canRequest)}
+                  style={{ marginRight: '5px' }}
+                >
+                  ยกเลิก
+                </Button>
+                <Button
                   className="btn btn-primary btn-sm"
                   onClick={() => openResponseModal(params.data.request_no)}
                   disabled={!(params.data.status_name === 'Submitted' && canRequest)}
@@ -197,6 +207,10 @@ const Drawingrequestnew = () => {
     setSelectedId(request_no);
     setConfirmOpen(true);
   };
+  const openRemovePopup = (request_no) => {
+    setSelectedId(request_no);
+    setRemoveopen(true);
+  }
 
   const handleConfirmClose = () => {
     setConfirmOpen(false);
@@ -275,6 +289,19 @@ const Drawingrequestnew = () => {
       <ConfirmationPopup
         open={confirmOpen}
         onClose={handleConfirmClose}
+        requestNo={selectedId}
+        onSubmitSuccess={load}
+      />
+      <RemovePopup
+        open={removeOpen}
+        // open={(request_no)=>{
+        //   setRemoveopen(true);
+        //   setSelectedId(request_no);
+        // }}
+        onClose={()=>{
+          setRemoveopen(false);
+          setSelectedId(null);
+        }}
         requestNo={selectedId}
         onSubmitSuccess={load}
       />

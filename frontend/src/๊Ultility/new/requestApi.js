@@ -33,23 +33,24 @@ export const fetchNexrequest_no = async () => {
       throw new Error(error.response?.data?.msg);
     }
 };
-// export const postRequest = async (payload) => {
-//     try {
-//       const response = await apiClient.post(`new/postdrawingRequest/`, payload); // Send the GET request to the server
+export const removeRequest = async (payload) => {
+    try {
+      
+      const response = await apiClient.post(`new/drawingRequest/remove`, payload); // Send the GET request to the server
   
-//       // Check the response's 'success' field to determine if the request was successful
-//       if (response.data.success) {
-//         // If successful, return the 'data' part of the response
-//         return response.data; // Assuming 'data' contains the users
-//       } else {
-//         // If success is false, throw an error with the server message
-//         throw new Error(response.data.msg);
-//       }
-//     } catch (error) {
-//       // Catch and rethrow the error with a message from the server or a generic one
-//       throw new Error(error.response?.data?.msg);
-//     }
-// };
+      // Check the response's 'success' field to determine if the request was successful
+      if (response.data.success) {
+        // If successful, return the 'data' part of the response
+        return response.data; // Assuming 'data' contains the users
+      } else {
+        // If success is false, throw an error with the server message
+        throw new Error(response.data.msg);
+      }
+    } catch (error) {
+      // Catch and rethrow the error with a message from the server or a generic one
+      throw new Error(error.response?.data?.msg);
+    }
+};
 export const fetchRequestdateItems = async (payload) => {
     try {
       const response = await apiClient.post(`new/drawingRequestdateItems/`, payload); // Send the GET request to the server

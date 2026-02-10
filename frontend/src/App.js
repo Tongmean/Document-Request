@@ -23,6 +23,7 @@ import CreateDrawingRequest from './Page/new/Drawingrequest/CreatedrawingRequest
 //import 
 import GlobalUpdateAlert from './component/GlobalUpdateAlert'
 import User from './Page/user/User'
+import RequestCalendar from './Page/new/Home/RequestCalendar'
 function App() {
   const { user } = useAuthContext()
   const isAuthenticated = Boolean(user?.token)
@@ -74,6 +75,7 @@ function App() {
 
             {/* <Route path="/new/drawingrequest/:request_id" element={<DrawingNewRequestForm/>} /> */}
             {/* New*/}
+            <Route path="/new/home" element={<RequestCalendar/>} />
             <Route path="/new/drawingresponse" element={<DrawingresponseNew/>} />
             {/* <Route path="/new/drawingrequest/:request_id" element={<DrawingNewRequestForm/>} /> */}
             {/* New*/}

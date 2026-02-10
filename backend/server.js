@@ -11,10 +11,21 @@ const bodyParser = require('body-parser');
 const http = require('http');
 const path = require('path');
 // Serve static files for app2 Rwquests
+// app.use(
+//     '/apps/app2/Assets',
+//     express.static(path.join(process.cwd(), 'apps/app2/Assets'))
+// );
 app.use(
-    '/apps/app2/Assets',
-    express.static(path.join(process.cwd(), 'apps/app2/Assets'))
+    '/files',
+    express.static(
+      path.resolve(
+        'X:/RD/RDGROUP/115. Tongmean/000 Sytem Assets/Drawing Request/ขอจัดทำ Drawing/'
+      )
+    )
 );
+// http://localhost:3040/files/ALTIS_1.6_LIMO_2019-F_.pdf
+
+  
 const fs = require('fs');
 const { Server } = require('socket.io');
 // const socketIo = require('socket.io');

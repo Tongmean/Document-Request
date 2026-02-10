@@ -4,21 +4,39 @@ const sendpopupNotification = async (postTitle, requestData, responseData, user 
     // console.log('postTitle', postTitle);
     // console.log('payload', payload);
     const {user_id, email, username, position} = user;
-    const requestItems = requestData[0];
-    const responseItems = responseData[0];
+    // const requestItems = requestData[0];
+    // const responseItems = responseData[0];
+    const requestItems = requestData?.[0];
+    const responseItems = responseData?.[0] || null;
+
     // console.log('requestItems', requestItems);
     // console.log('responseItems', responseItems);
     const toReciver = [email];
+
+    // only push response-related emails if response exists
+    if (responseItems) {
+      toReciver.push(
+        responseItems.response_by,
+        responseItems.assign_processor_email,
+        responseItems.assign_approver_email,
+        responseItems.email
+      );
+    }
+
+    // always include requester
+    toReciver.push(requestItems.email);
+
+    // remove empty / duplicate emails
+    const uniqueReceivers = [...new Set(toReciver.filter(Boolean))];
+
     // const pathItems = payload.pathItems
     // const requestDateitems = payload.requestDateitems
     // console.log('postTitle', postTitle);
     // console.log('payload', payload);
     // Reponser///
-    // toReciver.push("Warawan@compact-brake.com")
-    toReciver.push(responseItems.response_by, responseItems.assign_processor_email, responseItems.assign_approver_email, responseItems.email, requestItems.email)
     const mailOptions = {
       from: `"Drawing Request System Notification ${postTitle}" <noreply@yourdomain.com>`,
-      to: [toReciver],
+      to: [uniqueReceivers],
       subject: `Your Drawing Request ${postTitle} Has Been ${requestItems.status_name}`,
       
       text: `Your drawing request for "${postTitle}"  has been successfully ${requestItems.status_name}`,
@@ -40,12 +58,18 @@ const sendpopupNotification = async (postTitle, requestData, responseData, user 
             
             <!-- Request Details Box -->
             <div style="background-color: #ffffff; border-left: 4px solid #004a99; padding: 15px; margin: 20px 0;">
-              <p style="margin: 5px 0;"><strong>เลขที่ขอ:</strong> ${responseItems.request_no}</p>
+              <p style="margin: 5px 0;"><strong>เลขที่ขอ:</strong> ${requestItems.request_no}</p>
               <p style="margin: 5px 0;"><strong>คำขอของคุณได้รับแล้ว:</strong> </p>
-              <p style="margin: 5px 0;"><strong>คำขอของคุณได้รับแล้วและได้  Assign โคย:</strong> ${responseItems.response_by} </p>
-              <p style="margin: 5px 0;"><strong>รายละเอียดผู้ดำเนินการ:</strong> </p>
-              <p style="margin: 5px 0;"><strong>ผู้ดำเนินการ:</strong> ${responseItems.assign_processor_email} </p>
-              <p style="margin: 5px 0;"><strong>ผู้อนุมัติ:</strong> ${responseItems.assign_approver_email}</p>
+              ${responseItems ? `
+                <p><strong>Assign โดย:</strong> ${responseItems.response_by}</p>
+                <p><strong>ผู้ดำเนินการ:</strong> ${responseItems.assign_processor_email}</p>
+                <p><strong>ผู้อนุมัติ:</strong> ${responseItems.assign_approver_email}</p>
+              ` : `
+                <p style="color:#ff9800;">
+                  <strong>สถานะ:</strong> รอการมอบหมายผู้ดำเนินการ
+                </p>
+              `}
+
               <p style="margin: 5px 0;"><strong>ผู้ขอ:</strong> ${requestItems.email}</p>
               <p style="margin: 5px 0;">
                 <strong>ประเภทที่ขอ:</strong>

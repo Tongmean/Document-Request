@@ -7,10 +7,12 @@ const drawingTypeitemService = require('../Service/drawingTypeitem');
 const productTypeitemService = require('../Service/productTypeitem');
 const dateItemService = require('../Service/requestDateitem');
 const requestDateitemService = require('../Service/requestDateitem');
+const responseService = require('../Service/response');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 // const {printRequestController} = require('./printRequestcontroller');
+const { sendpopupNotification } = require('../Ultility/popupEmailultility');
 const { sendRequestNotification } = require('../Ultility/requestEmailutility');
 const getRequest_no = async (req, rees) => {
     try {
@@ -53,7 +55,17 @@ const requestController = async (req, res) => {
 //Middleware upload file use multer
 
 // Ensure the upload directory exists
-const uploadDir = path.join(__dirname, '../Assets/RequestFiles');
+// const uploadDir = path.join(__dirname, '../Assets/RequestFiles');
+const uploadDir = path.join(
+    'X:',
+    'RD',
+    'RDGROUP',
+    '115. Tongmean',
+    '000 Sytem Assets',
+    'Drawing Request',
+    'ขอจัดทำ Drawing',
+    'RequestFiles'
+);
 fs.mkdirSync(uploadDir, { recursive: true });
 
 // Configure Multer for file storage
@@ -108,7 +120,7 @@ const postRequest = async (req, res) => {
         const next_request_no = next_request_no_result[0].next_request_no;
         //02 Insert into request table
         const insert_request_result = await requestService.postRequest(requestPayload, next_request_no, user_id);
-        console.log('insert_request_result', insert_request_result)
+        // console.log('insert_request_result', insert_request_result)
         //03 Insert into document type item table
         const insert_documenttypeitems = []
         for (const item of JSON.parse(payload.documenttypeitems)) {
@@ -255,12 +267,70 @@ const getRequestdateItems = async (req, res) => {
 }
 
 
+const removeRequestController = async (req, res) => {
+    const payload = req.body;
+    console.log('Payload received in removeRequestController:', payload);
+    const request_status = 5
+    const {user_id} = req.user[0];
+    try {
+        const result = await requestService.updateStatusrequest(payload.request_no, request_status);
+        //08 update log
+        const table_name = '"newDrawingrequest"."Request_Form"';
+        const column = 'request_status';
+        const id = payload.request_no
+        const oldValue = null;
+        const newValue = "Cancelled"
+        const update_log_result =  await logUpdate(table_name, column, id, oldValue, newValue, "updated" , user_id)
 
+        //email section
+        const postTitle = `คำขอจัดทำ Drawing: ${payload.request_no}`;
+        const requestData = await requestService.getSinglerequestbyrequest_no({request_no: payload.request_no});
+        const responseData = await responseService.getSingleresponse({request_no: payload.request_no});
+        const requestDateitemData = await requestDateitemService.getSinglerequestDateitem({request_no: payload.request_no});
+        let sendEmailResult = null;
+        if (!responseData) {
+            sendEmailResult = await sendpopupNotification(
+                postTitle,
+                requestData,
+                null,
+                req.user[0],
+                payload,
+                requestDateitemData
+            );
+        } else {
+            sendEmailResult = await sendpopupNotification(
+                postTitle,
+                requestData,
+                responseData,
+                req.user[0],
+                payload,
+                requestDateitemData
+            );
+        }
+        res.status(200).json({
+            success: true,
+            msg: `คำขอเลขที่ ${payload.request_no} ถูกยกเลิกเรียบร้อยแล้ว + ส่งอีเมลแจ้งเตือนไปยังผู้ขอเรียบร้อยแล้ว`,
+            data: {
+                updateRequestStatus: result,
+                update_log_result: update_log_result,
+                sendEmailResult: sendEmailResult
+            }
+        });
+    } catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+        success: false,
+        msg: 'An error occurred while removing the request',
+        error: error.message
+        });
+    }
+}
 module.exports = {
     uploadDrawingMiddleware,
     requestController,
     postRequest,
     getRequest_no,
     getRequestdateItems,
-    
+    removeRequestController
 };

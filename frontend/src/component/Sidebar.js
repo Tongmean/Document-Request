@@ -218,7 +218,7 @@ const Sidebar = ({ collapsed, onCollapse }) => {
             {
               key: 'home',
               icon: <HomeOutlined />,
-              label: <Link to="/home">Home</Link>,
+              label: <Link to="/new/home">Home</Link>,
             },
             {
               key: 'drawingrequest',
