@@ -2,7 +2,8 @@
 import React, { useState } from 'react';
 import { Modal, Button, message } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
-import { postdrawingFollowup } from '../../../๊Ultility/new/overdueApi';
+// import { postdrawingFollowup } from '../../../๊Ultility/new/overdueApi';
+import {Requestapprove} from '../../../๊Ultility/exist/drawingResponse';
 const ConfirmationPopup = ({ 
   open, 
   onClose, 
@@ -20,11 +21,11 @@ const ConfirmationPopup = ({
     setLoading(true);
     
     try {
-        const result  = await postdrawingFollowup({request_no: requestNo});
+        const result  = await Requestapprove({request_no: requestNo});
         // console.log('Submitting request number:', requestNo);
       
-        message.success(result.data.msg || 'Submitted successfully');
-        //   onSubmitSuccess?.(data); // Call parent callback if provided
+        message.success(result.msg || 'Submitted successfully');
+            //   onSubmitSuccess?.(data); // Call parent callback if provided
         onClose(); // Close modal
         onSubmitSuccess()
     } catch (error) {
@@ -61,7 +62,7 @@ const ConfirmationPopup = ({
       width={400}
     >
       <div style={{ padding: '20px 0' }}>
-        <p>Are you sure you want to Alert to Overdue Date?</p>
+        <p>Are you sure you want to Alert to Approve Confirm?</p>
         <p><strong>Request No:</strong> {requestNo}</p>
       </div>
     </Modal>

@@ -85,7 +85,7 @@ const createdrawingresponse_existing = async (payload, user_id) => {
     const result = await dbconnect.query(sql, [
         payload.request_no,
         user_id,
-        payload.status,
+        2,
         (new Date())
     ]);
 

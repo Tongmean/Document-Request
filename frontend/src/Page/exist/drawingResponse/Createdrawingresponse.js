@@ -356,9 +356,10 @@ const CreatedrawingResponse = () => {
                 value={status}
                 onChange={handleStatusChange}
                 className="border rounded px-3 py-2 text-[13px] min-w-[200px]"
+                readOnly
               >
                 <option value="2">อนุมัติ / Approved</option>
-                <option value="3">ไม่อนุมัติ / Reject</option>
+                {/* <option value="3">ไม่อนุมัติ / Reject</option> */}
               </select>
             </div>
 

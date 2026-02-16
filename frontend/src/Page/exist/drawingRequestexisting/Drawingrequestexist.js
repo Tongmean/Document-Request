@@ -5,16 +5,19 @@ import Button from "react-bootstrap/Button";
 import Tablecomponent from './../../../component/Talecomponent';
 // import Modaldrawingrequest from './Modaldrawingrequest';
 import { fetchDrawingrequest } from '../../../๊Ultility/exist/drawingRequest';
-import { fetchDrawingrequestitem } from '../../../๊Ultility/exist/drawingRequestitem';
 import { useNavigate  } from 'react-router-dom';
+import ConfirmationPopup from './ConfirmationPopup';
+import { UsePermission } from '../../new/hookUserpermission';
 
 const Drawingrequestexist = () => {
+      const approver = UsePermission('Approver');
       const navigate = useNavigate();
       const [loading, setLoading] = useState(true); 
       const [error, setError] = useState('');
       const [rowData, setRowData] = useState([]);
       //search
       const [quickFilter, setQuickFilter] = useState('');
+      const [confirmOpen, setConfirmOpen] = useState(false);
       const columnDefs = [
         { headerName: 'No', field: 'request_id', checkboxSelection: true, headerCheckboxSelection: true, cellDataType: 'number', width: 50 },
         { headerName: 'Request No', field: 'request_no'},
@@ -61,43 +64,54 @@ const Drawingrequestexist = () => {
                   >
                       Print
                   </Button>
-                  {params.data.status_name === 'Submitted' && (
-                    <Button
-                      className="btn btn-success btn-sm"
-                      onClick={() => handleCheck(params.data)}
-                      style={{ marginRight: '5px' }}
-                    >
-                      ตรวจสอบ
-                    </Button>
-                  )}
-
-
+                    {/* {params.data.status_name === 'Submitted' && approver &&( */}
+                      <Button
+                        disabled={params.data.status_name !== 'Submitted' || !approver}
+                        className="btn btn-danger btn-sm"
+                        onClick={() => {
+                          setSelectedId(params.data.request_no);
+                          setConfirmOpen(true);
+                        }}
+                        style={{ marginRight: '5px' }}
+                      >
+                        อนุมัติ
+                      </Button>
+                    {/* )} */}
+                      <Button
+                        className="btn btn-success btn-sm"
+                        disabled={params.data.status_name !== 'Approved'}
+                        onClick={() => handleCheck(params.data)}
+                        style={{ marginRight: '5px' }}
+                      >
+                        ตรวจสอบ
+                      </Button>
               </div>
           ),
       }
     ];
     //MOdal
     const [requestItem, setRequestitem] = useState([]);
-    const [showModal, setShowModal] = useState(false);
+    // const [showModal, setShowModal] = useState(false);
     const [selectedData, setSelectedData] = useState(null);
+    const [selectedId, setSelectedId] = useState(null);
 
-    const handleShowDetails = async (data) => {
-      setSelectedData(data);
-      try {
-          const requestItem = await fetchDrawingrequestitem({ request_no: data.request_no });
-          setRequestitem(requestItem.data);
-          console.log("requestItem",requestItem.data);
-      } catch (err) {
-          console.error('Failed to fetch history log:', err.message);
-          setError(err.message);
-      }
-      setShowModal(true);
-    };
-    const handleCloseModal = () => {
-      setShowModal(false);
-      setSelectedData(null);
-      setRequestitem([]);
-    };
+    // const handleShowDetails = async (data) => {
+    //   setSelectedData(data);
+    //   try {
+    //       const requestItem = await fetchDrawingrequestitem({ request_no: data.request_no });
+    //       setRequestitem(requestItem.data);
+    //       // console.log("requestItem",requestItem.data);
+    //   } catch (err) {
+    //       // console.error('Failed to fetch history log:', err.message);
+    //       setError(err.message);
+    //   }
+    //   setShowModal(true);
+    // };
+    // const handleCloseModal = () => {
+    //   setShowModal(false);
+    //   setSelectedData(null);
+    //   setRequestitem([]);
+    // };
 
     const load = async () => {
         setLoading(true);
@@ -191,7 +205,15 @@ const Drawingrequestexist = () => {
         requestItem={requestItem}
         Tablename = 'Product-Register'
       /> */}
-      
+      <ConfirmationPopup
+        open={confirmOpen}
+        onClose={()=>{
+          setConfirmOpen(false);
+          setSelectedId(null);
+        }}
+        requestNo={selectedId}
+        onSubmitSuccess={load}
+      />
       
     </div>
   );

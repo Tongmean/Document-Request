@@ -27,7 +27,7 @@ const sendRequesterNotification = async (requesterEmail, postTitle, payload, ins
     // console.log('payload', payload);
     const toReciver = [requesterEmail];
     // Reponser
-    toReciver.push("worawan@compact-brake.com")
+    // toReciver.push("worawan@compact-brake.com")
     const mailOptions = {
       from: `"Drawing System Notification" <noreply@yourdomain.com>`,
       to: [toReciver],
@@ -110,14 +110,17 @@ const sendRequesterNotification = async (requesterEmail, postTitle, payload, ins
 // Function for Approver
 const sendApproverNotification = async (requesterEmail, postTitle, payload, position, username, getRequestemail) => {
     const toReciver = [requesterEmail];
+    // toReciver.push("worawan@compact-brake.com")
     // Reponser
-    toReciver.push("worawan@compact-brake.com", getRequestemail[0].email)
+    if (getRequestemail?.[0]?.email) {
+      toReciver.push(getRequestemail[0].email);
+    }    
     const mailOptions = {
       from: `"Drawing System Notification" <noreply@yourdomain.com>`,
       to: [toReciver],
-      subject: `Your Drawing Request ${payload.request_no} Has Been Approved`,
+      subject: `Your Drawing Request ${payload.request_no} Has Been ${getRequestemail[0].status_name}`,
       
-      text: `Your drawing request for "${postTitle}" (Request #${payload.request_no}) has been Approved`,
+      text: `Your drawing request for "${postTitle}" (Request #${payload.request_no}) has been ${getRequestemail[0].status_name}`,
       
       html: `
         <div style="max-width: 600px; margin: 0 auto; font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
@@ -128,11 +131,11 @@ const sendApproverNotification = async (requesterEmail, postTitle, payload, posi
           
           <!-- Main Content -->
           <div style="padding: 30px; background-color: #f9f9f9;">
-            <h2 style="color: #004a99; margin-top: 0;">Request have been Approved</h2>
+            <h2 style="color: #004a99; margin-top: 0;">Request have been ${getRequestemail[0].status_name}</h2>
             
             <p>Dear Requester,</p>
             
-            <p>Your drawing request has been successfully submitted.</p>
+            <p>Your drawing request has been successfully ${getRequestemail[0].status_name}.</p>
             <p>Please see bellow detail.</p>
             
             <!-- Request Details Box -->
@@ -141,13 +144,17 @@ const sendApproverNotification = async (requesterEmail, postTitle, payload, posi
               <p style="margin: 5px 0;"><strong>เลขที่ขอ:</strong> ${payload.request_no}</p>
                 <p>
                     <strong>File Path:</strong><br />
-                    ${payload.urls.join('<br />')}
+                    ${Array.isArray(payload?.urls)
+                      ? payload.urls.map(url => `<a href="${url}">${url}</a>`).join('<br />')
+                      : ''
+                    }
+                    
                 </p>
 
 
               <p style="margin: 5px 0;"><strong>ตำแหน่ง:</strong> <span style="color: #28a745;">${position}</span></p>
               <p style="margin: 5px 0;"><strong>ชื่อ:</strong> <span style="color: #28a745;">${username}</span></p>
-              <p style="margin: 5px 0;"><strong>สถานะ:</strong> <span style="color: #28a745;">Approved</span></p>
+              <p style="margin: 5px 0;"><strong>สถานะ:</strong> <span style="color: #28a745;">${getRequestemail[0].status_name}</span></p>
             </div>
             
             <p>คำขอของคุณได้ถูกส่งไปยังผู้อนุมัติเรียบร้อยแล้ว</p>
