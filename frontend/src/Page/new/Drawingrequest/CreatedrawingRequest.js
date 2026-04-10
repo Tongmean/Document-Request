@@ -877,8 +877,8 @@ export default function DrawingRequestForm() {
 
   const typeOptions = [
     { id: 1, label: "ดิสเบรก" },
-    { id: 2, label: "ก้ามเบรก" },
-    { id: 3, label: "ผ้าเบรก" },
+    { id: 2, label: "ผ้าเบรก" },
+    { id: 3, label: "ก้ามเบรก" },
     { id: 4, label: "จานเบรก" },
     { id: 5, label: "ดรัมเบรก" },
   ];

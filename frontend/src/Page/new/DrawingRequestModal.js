@@ -447,7 +447,7 @@ export default function DrawingRequestModal({ open, requestId, onClose }) {
                                     //   {baseURL}/app/app2/Assets/{item.file_path}
                                     // </a>
                                       <a
-                                        href={`${baseURL}/apps/app2/Assets/${item.file_path}`}
+                                        href={`${baseURL}/files/${item.file_path}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                       >

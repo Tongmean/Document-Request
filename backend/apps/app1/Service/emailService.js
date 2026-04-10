@@ -27,7 +27,7 @@ const sendRequesterNotification = async (requesterEmail, postTitle, payload, ins
     // console.log('payload', payload);
     const toReciver = [requesterEmail];
     // Reponser
-    // toReciver.push("worawan@compact-brake.com")
+    toReciver.push("worawan@compact-brake.com", "Kritsana@asiacompact.com")
     const mailOptions = {
       from: `"Drawing System Notification" <noreply@yourdomain.com>`,
       to: [toReciver],

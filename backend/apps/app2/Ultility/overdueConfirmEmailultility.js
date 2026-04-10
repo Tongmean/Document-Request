@@ -8,7 +8,7 @@ const overdueConfirmEmailultility = async (postTitle, requestData, responseData,
     const responseItems = responseData[0];
     // console.log('requestItems', requestItems);
     // console.log('responseItems', responseItems);
-    const toReciver = [email];
+    const toReciver = [email, "Kritsana@asiacompact.com"];
     // const pathItems = payload.pathItems
     // const requestDateitems = payload.requestDateitems
     // console.log('postTitle', postTitle);

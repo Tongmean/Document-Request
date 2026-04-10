@@ -11,7 +11,7 @@ const sendpopupNotification = async (postTitle, requestData, responseData, user 
 
     // console.log('requestItems', requestItems);
     // console.log('responseItems', responseItems);
-    const toReciver = [email];
+    const toReciver = [email, "Kritsana@asiacompact.com"];
 
     // only push response-related emails if response exists
     if (responseItems) {

@@ -22,11 +22,11 @@ const DrawingRequestPrint = () => {
     try {
         // Simulate data fetching
         const request = await fetchDrawingrequestbyid({request_id : request_id}); // Replace with actual data fetching logic
-        // console.log("request",request.data[0]);
+        console.log("request",request.data[0]);
         setRequestData(request.data[0]);
         // Simulate data fetching
         const response = await fetchDrawingresponsebyid({request_id : request_id}); // Replace with actual data fetching logic
-        console.log("response.data[0]",response.data[0]);
+        // console.log("response.data[0]",response.data[0]);
         setResponseData(response.data[0]);
         const requestitem = await fetchDrawingrequestitem({request_no : request.data[0].request_no}); // Replace with actual data fetching logic
         // console.log("requestitem",requestitem.data);
@@ -249,7 +249,7 @@ const DrawingRequestPrint = () => {
               หมายเหตุ / Remark
             </div>
             <div className="border h-[200px] p-2 text-[13px]">
-              {/* {requestData ? requestData.reason : ''} */}
+              {requestData ? requestData.reason : ''}
             </div>
           </div>
 
